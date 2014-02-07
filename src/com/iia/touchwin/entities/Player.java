@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Player implements Serializable, Parcelable {
+public class Player implements Serializable {
 
 	private int id;
 	private String login;
@@ -126,18 +126,6 @@ public class Player implements Serializable, Parcelable {
 	 */
 	public void setBirthdate(final Date value) {
 		this.birthdate = value;
-	}
-
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

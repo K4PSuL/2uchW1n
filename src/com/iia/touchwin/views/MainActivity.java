@@ -33,24 +33,31 @@ public class MainActivity extends Activity {
 		final EditText editLogin = (EditText) findViewById(R.id.editLogin);
 		final EditText editPassword = (EditText) findViewById(R.id.editPassword);
 
-		SharedPreferences oSetting = this.getSharedPreferences(
-				Const.PREFERENCES_CONNECTION, Context.MODE_PRIVATE);
+		final SharedPreferences oSettings = this.getSharedPreferences(
+				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
+		
+		// On popule le formulaire si un Login est enregistré
+		editLogin.setText(oSettings.getString(Const.PREFERENCES_LOGIN, ""));
 
 		btnConnection.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-						MainActivity.this, "touchwin", null, 1);
+						MainActivity.this, Const.DATABASE, null, 1);
 
+				// Récupération de la BDD
 				SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
 
+				// Argument pour la condition de la requête SQL
 				String[] whereArg = { editLogin.getText().toString(),
 						editPassword.getText().toString() };
 
+				// Requête sur la BDD
 				Cursor oCursor = dataBase.query(PlayerContract.TABLE,
 						PlayerContract.COLS, "login=? and password=?", whereArg,
 						null, null, null);
 
+				// Si au moin un résultat...
 				if (oCursor.moveToFirst()) {
 					
 					@SuppressWarnings("deprecation")
@@ -79,13 +86,14 @@ public class MainActivity extends Activity {
 					Intent intentOpenHome = new Intent(MainActivity.this,
 							HomeActivity.class);
 					
+					// On envoie le Player à l'autre vue
 					intentOpenHome.putExtras(dataBundle);
 					
 					startActivity(intentOpenHome);
 					
 				} else {
 					Toast.makeText(MainActivity.this,
-							"Erreur, login incorrect", Toast.LENGTH_LONG)
+							Const.ERREUR_LOGIN, Toast.LENGTH_LONG)
 							.show();
 				}
 			}
@@ -94,9 +102,8 @@ public class MainActivity extends Activity {
 		btnAddData.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
 				TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-						MainActivity.this, "touchwin", null, 1);
+						MainActivity.this, Const.DATABASE, null, 1);
 				
 				SQLiteDatabase dataBase = oDbHelper.getWritableDatabase();
 

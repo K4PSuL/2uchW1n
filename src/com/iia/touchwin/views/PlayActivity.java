@@ -19,10 +19,12 @@ public class PlayActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_play);
 
-//		final Button btnJouer = (Button) findViewById(R.id.btnPlay);
+		final Button editPlayer1 = (Button) findViewById(R.id.editPlayer1);
 //		final Button btnStats = (Button) findViewById(R.id.btnStats);
 //		final Button btnSettings = (Button) findViewById(R.id.btnSettings);
+		
+		final Player thePlayer = (Player) getIntent().getExtras().getSerializable(Const.BUNDLE_PLAYER);
 
-
+		editPlayer1.setText(thePlayer.getLogin());
 	}
 }

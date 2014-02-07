@@ -1,6 +1,8 @@
 package com.iia.touchwin.views;
 
 import com.iia.touchwin.R;
+import com.iia.touchwin.entities.Player;
+import com.iia.touchwin.utils.Const;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ public class StatsActivity extends Activity {
 //		final Button btnStats = (Button) findViewById(R.id.btnStats);
 //		final Button btnSettings = (Button) findViewById(R.id.btnSettings);
 
+		// On récupére le Player
+		final Player thePlayer = (Player) getIntent().getExtras().getSerializable(Const.BUNDLE_PLAYER);
 
 	}
 }
