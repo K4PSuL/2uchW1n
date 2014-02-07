@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TouchWin</string>
+    <string name="action_settings">Settings</string>
+    <string name="img_logo">Logo</string>
+    
+    <!-- activity_main -->
+    <string name="btn_play">Jouer</string>
+    <string name="btn_stats">Statistiques</string>
+    <string name="btn_settings">Paramètres</string>
+    
+    <!-- activity_connection -->
+    <string name="login">Login</string>
+	<string name="pwd">Password</string>
+	<string name="btn_connection">Connexion</string>
+	<string name="btn_addData">AddData</string>
+	
+	<!-- activity_settings -->
+	<string name="title_settings">Paramètres</string>
+	<string name="checkBoxSound">Activer les sons</string>
+	<string name="lb_login">Login :</string>
+	<string name="lb_pwd">Mot de passe :</string>
+	<string name="btn_valid">Valider</string>
+	
+	<!-- activity_stats -->
+	<string name="title_stats">Statistiques</string>
+	<string name="lb_wins">Victoires</string>
+	<string name="lb_looses">Défaites</string>
+	<string name="lb_results">Historique :</string>
+	
+	<!-- activity_play -->
+	<string name="title_play">Jouer</string>
+	<string name="vs">VS</string>
+	<string name="lb_game">Sélectionner un jeu :</string>
+	<string name="lb_time">Temps :</string>
+	<string name="btn_playGo">Jouer</string>
+	
+</resources>

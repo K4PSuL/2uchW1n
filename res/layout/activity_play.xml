@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background" >
+    
+    <ImageView
+        android:id="@+id/imgHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/header3"
+        android:contentDescription="@string/title_play" />
+
+    <TextView
+        android:id="@+id/lbPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/title_play"
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:textColor="@color/white"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/lbGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imgVS"
+        android:layout_below="@+id/editPlayer2"
+        android:layout_marginTop="34dp"
+        android:text="@string/lb_game"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white"
+        android:typeface="monospace" />
+
+    <EditText
+        android:id="@+id/editGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbGame"
+        android:layout_below="@+id/lbGame"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editPlayer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/imgHeader"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="text" />
+
+    <ImageView
+        android:id="@+id/imgVS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editPlayer1"
+        android:layout_marginRight="18dp"
+        android:layout_toLeftOf="@+id/editPlayer2"
+        android:contentDescription="@string/vs"
+        android:src="@drawable/vs" />
+
+    <EditText
+        android:id="@+id/editPlayer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editPlayer1"
+        android:layout_below="@+id/imgVS"
+        android:ems="10"
+        android:inputType="none" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editGame"
+        android:layout_below="@+id/editGame"
+        android:layout_marginTop="33dp"
+        android:text="@string/lb_time"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white"
+        android:typeface="monospace" />
+
+    <EditText
+        android:id="@+id/editTime"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignLeft="@+id/lbPlay"
+        android:ems="10"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/editPlayer2"
+        android:layout_marginBottom="28dp"
+        android:text="@string/btn_playGo"
+        android:textColor="@color/white"
+        android:typeface="monospace" />
+
+</RelativeLayout>
