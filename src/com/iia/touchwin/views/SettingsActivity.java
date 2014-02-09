@@ -32,7 +32,9 @@ public class SettingsActivity extends Activity {
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
 		
-		checkBoxSound.setChecked(oSettings.getBoolean(Const.PREFERENCES_SOUND, new Boolean(true)));
+		final Boolean trueBool = true;
+		final Boolean falseBool = false;
+		checkBoxSound.setChecked(oSettings.getBoolean(Const.PREFERENCES_SOUND, true));
 
 		checkBoxSound.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -41,9 +43,9 @@ public class SettingsActivity extends Activity {
 				SharedPreferences.Editor oEditor = oSettings.edit();
 
 				if (checkBoxSound.isChecked()) {
-					oEditor.putBoolean(Const.PREFERENCES_SOUND, new Boolean(true));
+					oEditor.putBoolean(Const.PREFERENCES_SOUND, true);
 				} else {
-					oEditor.putBoolean(Const.PREFERENCES_SOUND, new Boolean(false));
+					oEditor.putBoolean(Const.PREFERENCES_SOUND, false);
 				}
 				oEditor.commit();
 			}

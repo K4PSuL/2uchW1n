@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_connection);
-		
+
 		final Button btnConnection = (Button) findViewById(R.id.btnConnection);
 		final Button btnAddData = (Button) findViewById(R.id.btnAddData);
 		final EditText editLogin = (EditText) findViewById(R.id.editLogin);
@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
 
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
-		
+
 		// On popule le formulaire si un Login est enregistré
 		editLogin.setText(oSettings.getString(Const.PREFERENCES_LOGIN, ""));
 
@@ -54,20 +54,21 @@ public class MainActivity extends Activity {
 
 				// Requête sur la BDD
 				Cursor oCursor = dataBase.query(PlayerContract.TABLE,
-						PlayerContract.COLS, "login=? and password=?", whereArg,
+						PlayerContract.COLS, PlayerContract.COL_LOGIN + "=?"
+								+ PlayerContract.COL_PASSWORD + "=?", whereArg,
 						null, null, null);
 
 				// Si au moin un résultat...
 				if (oCursor.moveToFirst()) {
-					
+
 					@SuppressWarnings("deprecation")
 					Date dateCreate = new Date(oCursor.getString((oCursor
 							.getColumnIndex(PlayerContract.COL_DATECREATE))));
-					
+
 					@SuppressWarnings("deprecation")
 					Date dateBirth = new Date(oCursor.getString((oCursor
 							.getColumnIndex(PlayerContract.COL_BIRTHDATE))));
-					
+
 					Player thePlayer = new Player();
 					thePlayer.setId(oCursor.getInt((oCursor
 							.getColumnIndex(PlayerContract.COL_ID))));
@@ -79,54 +80,56 @@ public class MainActivity extends Activity {
 					thePlayer.setAvatar(oCursor.getString((oCursor
 							.getColumnIndex(PlayerContract.COL_AVATAR))));
 					thePlayer.setBirthdate(dateBirth);
-					
+
 					Bundle dataBundle = new Bundle();
-					dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
+					dataBundle.putSerializable(Const.BUNDLE_PLAYER,
+							(Player) thePlayer);
 
 					Intent intentOpenHome = new Intent(MainActivity.this,
 							HomeActivity.class);
-					
+
 					// On envoie le Player à l'autre vue
 					intentOpenHome.putExtras(dataBundle);
-					
+
 					startActivity(intentOpenHome);
-					
+
 				} else {
-					Toast.makeText(MainActivity.this,
-							Const.ERREUR_LOGIN, Toast.LENGTH_LONG)
-							.show();
+					Toast.makeText(MainActivity.this, Const.ERREUR_LOGIN,
+							Toast.LENGTH_LONG).show();
 				}
 			}
 		});
-		
+
 		btnAddData.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
 						MainActivity.this, Const.DATABASE, null, 1);
-				
+
 				SQLiteDatabase dataBase = oDbHelper.getWritableDatabase();
 
 				ContentValues myValues = new ContentValues();
 				myValues.put(PlayerContract.COL_LOGIN, "Lokoi");
 				myValues.put(PlayerContract.COL_PASSWORD, "azqqza");
-				myValues.put(PlayerContract.COL_DATECREATE, new Date().toString());
+				myValues.put(PlayerContract.COL_DATECREATE,
+						new Date().toString());
 				myValues.put(PlayerContract.COL_AVATAR, "/img/lokoi.png");
 				myValues.put(PlayerContract.COL_ENABLE, true);
 				myValues.put(PlayerContract.COL_BIRTHDATE, "17/07/1992");
-				
+
 				dataBase.insert(PlayerContract.TABLE, null, myValues);
-				
+
 				ContentValues myValues2 = new ContentValues();
 				myValues2.put(PlayerContract.COL_LOGIN, "Chouk");
 				myValues2.put(PlayerContract.COL_PASSWORD, "aze");
-				myValues2.put(PlayerContract.COL_DATECREATE, new Date().toString());
+				myValues2.put(PlayerContract.COL_DATECREATE,
+						new Date().toString());
 				myValues2.put(PlayerContract.COL_AVATAR, "/img/chouk.png");
 				myValues2.put(PlayerContract.COL_ENABLE, true);
 				myValues2.put(PlayerContract.COL_BIRTHDATE, "23/05/1993");
-				
+
 				dataBase.insert(PlayerContract.TABLE, null, myValues2);
-			}	
+			}
 		});
 	}
 

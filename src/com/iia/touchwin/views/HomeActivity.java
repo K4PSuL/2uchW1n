@@ -6,6 +6,7 @@ import com.iia.touchwin.R;
 import com.iia.touchwin.contracts.PlayerContract;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
+import com.iia.touchwin.utils.TouchWinMediaPlayer;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
 import android.app.Activity;
 import android.content.ContentValues;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -32,13 +34,16 @@ public class HomeActivity extends Activity {
 		// On récupére le Player
 		final Player thePlayer = (Player) getIntent().getExtras().getSerializable(Const.BUNDLE_PLAYER);
 
-		SharedPreferences oSetting = this.getSharedPreferences(
+		SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
 		
 		// On enregistre son Login pour populer le formulaire de connexion
-		SharedPreferences.Editor oEditor = oSetting.edit();
+		SharedPreferences.Editor oEditor = oSettings.edit();
 		oEditor.putString(Const.PREFERENCES_LOGIN, thePlayer.getLogin());
 		oEditor.commit();
+		
+		// On joue un son d'entré
+
 		
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER,
 				(Player) thePlayer);
