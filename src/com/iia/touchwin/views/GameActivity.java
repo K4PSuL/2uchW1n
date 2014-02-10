@@ -14,12 +14,13 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 
-//		final Button btnJouer = (Button) findViewById(R.id.btnPlay);
-//		final Button btnStats = (Button) findViewById(R.id.btnStats);
-//		final Button btnSettings = (Button) findViewById(R.id.btnSettings);
-		
+		// final Button btnJouer = (Button) findViewById(R.id.btnPlay);
+		// final Button btnStats = (Button) findViewById(R.id.btnStats);
+		// final Button btnSettings = (Button) findViewById(R.id.btnSettings);
+
 		// On récupére le Player
-		final Player thePlayer = (Player) getIntent().getExtras().getSerializable(Const.BUNDLE_PLAYER);
+		final Player thePlayer = (Player) getIntent().getExtras()
+				.getSerializable(Const.BUNDLE_PLAYER);
 
 	}
 }

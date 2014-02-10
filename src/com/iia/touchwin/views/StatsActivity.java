@@ -60,7 +60,8 @@ public class StatsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_stats);
 
-		final ListView myResultList = (ListView) findViewById(R.id.listView1);
+		// final ListView myResultList = (ListView)
+		// findViewById(R.id.listView1);
 
 		// On récupére le Player
 		final Player thePlayer = (Player) getIntent().getExtras()
@@ -108,11 +109,12 @@ public class StatsActivity extends Activity {
 				aResults.add(oResult);
 
 			} while (oCursor.moveToNext());
-			
-			myResultAdapter oAdapter = new myResultAdapter(this, R.layout.row_score, aResults);
 
-			myResultList.setAdapter(oAdapter);
-			
+			myResultAdapter oAdapter = new myResultAdapter(this,
+					R.layout.row_score, aResults);
+
+			// myResultList.setAdapter(oAdapter);
+
 		}
 	}
 

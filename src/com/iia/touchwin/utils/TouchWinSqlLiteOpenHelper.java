@@ -9,7 +9,6 @@ import com.iia.touchwin.contracts.*;
 
 public class TouchWinSqlLiteOpenHelper extends SQLiteOpenHelper {
 
-	
 	public TouchWinSqlLiteOpenHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
@@ -19,9 +18,10 @@ public class TouchWinSqlLiteOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		
-		// on execute la requete de creation de base de donnée si elle n'existe pas !
-		
+
+		// on execute la requete de creation de base de donnée si elle n'existe
+		// pas !
+
 		db.execSQL(GameContract.SCHEMA);
 		db.execSQL(PlayerContract.SCHEMA);
 		db.execSQL(ResultContract.SCHEMA);
@@ -30,11 +30,11 @@ public class TouchWinSqlLiteOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO Auto-generated method stub
-//		if (oldVersion < newVersion) {
-//			db.delete(UserContract.SCHEMA, null, null);
-//			db.delete(PostContract.SCHEMA, null, null);
-//			db.delete(CommentContract.SCHEMA, null, null);
-//		}
+		// if (oldVersion < newVersion) {
+		// db.delete(UserContract.SCHEMA, null, null);
+		// db.delete(PostContract.SCHEMA, null, null);
+		// db.delete(CommentContract.SCHEMA, null, null);
+		// }
 	}
 
 }

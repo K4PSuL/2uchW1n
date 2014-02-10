@@ -27,19 +27,20 @@ public class SettingsActivity extends Activity {
 		setContentView(R.layout.activity_settings);
 
 		final CheckBox checkBoxSound = (CheckBox) findViewById(R.id.checkBoxSound);
-		final Player thePlayer = (Player) getIntent().getExtras().getSerializable(Const.BUNDLE_PLAYER);
+		final Player thePlayer = (Player) getIntent().getExtras()
+				.getSerializable(Const.BUNDLE_PLAYER);
 
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
-		
-		final Boolean trueBool = true;
-		final Boolean falseBool = false;
-		checkBoxSound.setChecked(oSettings.getBoolean(Const.PREFERENCES_SOUND, true));
+
+		checkBoxSound.setChecked(oSettings.getBoolean(Const.PREFERENCES_SOUND,
+				true));
 
 		checkBoxSound.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// On enregistre le nouveau parametre de son dans le SharedPreferences
+				// On enregistre le nouveau parametre de son dans le
+				// SharedPreferences
 				SharedPreferences.Editor oEditor = oSettings.edit();
 
 				if (checkBoxSound.isChecked()) {

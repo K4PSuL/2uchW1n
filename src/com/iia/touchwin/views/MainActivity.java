@@ -54,9 +54,9 @@ public class MainActivity extends Activity {
 
 				// Requête sur la BDD
 				Cursor oCursor = dataBase.query(PlayerContract.TABLE,
-						PlayerContract.COLS, PlayerContract.COL_LOGIN + "=?"
-								+ PlayerContract.COL_PASSWORD + "=?", whereArg,
-						null, null, null);
+						PlayerContract.COLS, PlayerContract.COL_LOGIN
+								+ "=? and " + PlayerContract.COL_PASSWORD
+								+ "=?", whereArg, null, null, null);
 
 				// Si au moin un résultat...
 				if (oCursor.moveToFirst()) {

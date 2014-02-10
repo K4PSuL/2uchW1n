@@ -17,18 +17,16 @@ public class NotificationUtils {
 	private Context context;
 	private Integer actualNotificationId = 0;
 
-	
 	public NotificationUtils(Context context) {
 		this.context = context;
 	}
-	
-	
+
 	/**
 	 * Create a notification on the device
 	 * 
 	 * @param context
 	 *            Context of my activity
-	 @param notificationTicker
+	 * @param notificationTicker
 	 *            Short text on actionBar
 	 * @param notificationTitle
 	 *            Title of notification
@@ -39,8 +37,8 @@ public class NotificationUtils {
 			String notificationTitle, String notificationText) {
 
 		// Standby intent usely to go on new activity
-		PendingIntent pendingIntent = PendingIntent.getActivity(this.context, 0,
-				new Intent(this.context, Const.NOTIFICATION_ACTIVITY),
+		PendingIntent pendingIntent = PendingIntent.getActivity(this.context,
+				0, new Intent(this.context, Const.NOTIFICATION_ACTIVITY),
 				PendingIntent.FLAG_ONE_SHOT);
 
 		// Create notification
@@ -55,18 +53,21 @@ public class NotificationUtils {
 		// Push notification on the device
 		pushNotification(builder.build());
 	}
-	
+
 	/**
 	 * Push notification on the device
-	 * @param context Context of actuel activity or service
-	 * @param notification Notification to push on the device
+	 * 
+	 * @param context
+	 *            Context of actuel activity or service
+	 * @param notification
+	 *            Notification to push on the device
 	 */
-	private void pushNotification(Notification notification){
-	
+	private void pushNotification(Notification notification) {
+
 		// Get NotificationManager by context
 		NotificationManager notifManager = (NotificationManager) this.context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		
+
 		// Send Notification on the device by NotificationManager
 		notifManager.notify(actualNotificationId++, notification);
 	}
