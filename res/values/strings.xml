@@ -39,5 +39,13 @@
 	<string name="lb_game">Sélectionner un jeu :</string>
 	<string name="lb_time">Temps :</string>
 	<string name="btn_playGo">Jouer</string>
+	<string name="title_dialog_game">Sélectionner un jeu</string>
+	<string name="title_dialog_time">Sélectionner un temps</string>
+	
+	<!-- activity_game -->
+	<string name="btn_player1">Player 1</string>
+	<string name="btn_player2">Player 2</string>
+	<string name="img_color">Image couleur</string>
+	<string name="title_dialog_stop">Pause</string>
 	
 </resources>

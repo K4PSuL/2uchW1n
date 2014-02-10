@@ -38,7 +38,7 @@ public class HomeActivity extends Activity {
 		oEditor.putString(Const.PREFERENCES_LOGIN, thePlayer.getLogin());
 		oEditor.commit();
 
-		// On joue un son d'entré
+		// On joue un son d'entrée
 		Utils.playSound(this.getApplicationContext(), this, R.raw.home);
 
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);

@@ -3,6 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background" >
-    
+
+    <Button
+        android:id="@+id/btnP1"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/btn_player1"
+        android:rotation="180" />
+
+    <Button
+        android:id="@+id/btnP2"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/btn_player2" />
+
+    <ImageView
+        android:id="@+id/imgColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/img_color"
+        android:src="@drawable/img_black" />
 
 </RelativeLayout>

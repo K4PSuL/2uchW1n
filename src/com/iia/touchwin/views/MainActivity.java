@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
 								+ "=? and " + PlayerContract.COL_PASSWORD
 								+ "=?", whereArg, null, null, null);
 
-				// Si au moin un résultat...
+				// Si au moins un résultat...
 				if (oCursor.moveToFirst()) {
 
 					@SuppressWarnings("deprecation")
