@@ -1,8 +1,6 @@
 package com.iia.touchwin.entities;
 
 import java.io.Serializable;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 public class Game implements Serializable {
 

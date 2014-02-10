@@ -150,7 +150,7 @@ public class MainActivity extends Activity {
 				/* RESULT */
 				
 				ContentValues myValuesResult1 = new ContentValues();
-				myValuesResult1.put(ResultContract.COL_PLAYDATE, new DateTime().toString());
+				myValuesResult1.put(ResultContract.COL_PLAYDATE, new Date().toString());
 				myValuesResult1.put(ResultContract.COL_ID_GAME, 1);
 				myValuesResult1.put(ResultContract.COL_PLAYER1,1);
 				myValuesResult1.put(ResultContract.COL_PLAYER2, 2);
@@ -160,7 +160,7 @@ public class MainActivity extends Activity {
 				dataBase.insert(ResultContract.TABLE, null, myValuesResult1);
 				
 				ContentValues myValuesResult2 = new ContentValues();
-				myValuesResult2.put(ResultContract.COL_PLAYDATE, new DateTime().toString());
+				myValuesResult2.put(ResultContract.COL_PLAYDATE, new Date().toString());
 				myValuesResult2.put(ResultContract.COL_ID_GAME, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER1, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER2, 2);

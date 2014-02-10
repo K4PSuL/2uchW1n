@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 import com.iia.touchwin.R;
-import com.iia.touchwin.contracts.PlayerContract;
 import com.iia.touchwin.contracts.ResultContract;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.entities.Result;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
 
-import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -23,10 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class StatsActivity extends Activity {
@@ -36,18 +32,18 @@ public class StatsActivity extends Activity {
 		private Context context;
 		private int resource;
 		private LayoutInflater monInflateur;
-
+		private Player thePlayer;
+		
 		// On créer un adapater pour la listView
 		public myResultAdapter(Context context, int resource,
-				List<Result> objects) {
+				List<Result> objects, Player thePlayer) {
 			super(context, resource, objects);
 
 			this.context = context;
 			this.resource = resource;
 			this.monInflateur = LayoutInflater.from(this.context);
+			this.thePlayer = thePlayer;
 		}
-		
-		
 
 		@SuppressLint("ResourceAsColor")
 		@Override
@@ -57,22 +53,34 @@ public class StatsActivity extends Activity {
 			TextView lbPlayer = (TextView) oView.findViewById(R.id.lbPlayer);
 			TextView lbDate = (TextView) oView.findViewById(R.id.lbDate);
 			TextView lbResult = (TextView) oView.findViewById(R.id.lbResult);
-			RelativeLayout bg = (RelativeLayout) oView.findViewById(R.id.relative);
 
 			// On récupére le Result en fonction de l'index et on l'affiche
 			Result oResult = this.getItem(position);
 
 			lbPlayer.setText(String.valueOf(oResult.getId_player2()));
-			lbDate.setText(String.valueOf(oResult.getPlayDate()));
+			lbDate.setText(String.valueOf(oResult.getPlayDate().toString()));
 			lbResult.setText(String.valueOf(oResult.getScoreP1()) + " - "
 					+ String.valueOf(oResult.getScoreP2()));
 
 			if (oResult.getScoreP1() > oResult.getScoreP2()) {
-				//oView.setBackgroundColor(R.color.yellow);
-				bg.setBackgroundColor(R.color.yellow);
+				oView.setBackgroundColor(R.color.yellow);
 			} else {
-				//oView.setBackgroundColor(R.color.red);
-				bg.setBackgroundColor(R.color.red);
+				
+			}
+			
+			if (oResult.getId_player1() == thePlayer.getId()) {
+				if (oResult.getScoreP1() > oResult.getScoreP2()) {
+					oView.setBackgroundColor(R.color.yellow);
+				} else {
+					oView.setBackgroundColor(R.color.red);
+				}
+				
+			} else {
+				if (oResult.getScoreP1() < oResult.getScoreP2()) {
+					oView.setBackgroundColor(R.color.yellow);
+				} else {
+					oView.setBackgroundColor(R.color.red);
+				}
 			}
 
 			return oView;
@@ -90,7 +98,7 @@ public class StatsActivity extends Activity {
 
 		final TextView lbTotal = (TextView) findViewById(R.id.lbTotal);
 		final TextView lbWins = (TextView) findViewById(R.id.lbWins);
-		
+
 		final ListView myResultList = (ListView) findViewById(R.id.listViewResults);
 
 		// On récupére le Player
@@ -107,12 +115,14 @@ public class StatsActivity extends Activity {
 		SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
 
 		// Argument pour la condition de la requête SQL
-		String[] whereArg = { String.valueOf(thePlayer.getId()) };
+		String[] whereArg = { String.valueOf(thePlayer.getId()),
+				String.valueOf(thePlayer.getId()) };
 
 		// Requête sur la BDD
 		Cursor oCursor = dataBase.query(ResultContract.TABLE,
-				ResultContract.COLS, ResultContract.COL_PLAYER1 + "=?",
-				whereArg, null, null, null);
+				ResultContract.COLS, ResultContract.COL_PLAYER1 + "=? OR "
+						+ ResultContract.COL_PLAYER2 + "=?", whereArg, null,
+				null, null);
 
 		// Si au moin un résultat...
 		if (oCursor.moveToFirst()) {
@@ -138,23 +148,29 @@ public class StatsActivity extends Activity {
 				oResult.setScoreP2((oCursor.getInt(oCursor
 						.getColumnIndex(ResultContract.COL_SCOREP2))));
 
-				if (oResult.getScoreP1() > oResult.getScoreP2()) {
-					win++;
+				if (oResult.getId_player1() == thePlayer.getId()) {
+					if (oResult.getScoreP1() > oResult.getScoreP2()) {
+						win++;
+					}
+				} else {
+					if (oResult.getScoreP1() < oResult.getScoreP2()) {
+						win++;
+					}
 				}
-
+				
 				aResults.add(oResult);
 
 			} while (oCursor.moveToNext());
 
 			if (total != 0 && win != 0) {
-					win = (win * 100) / total;
+				win = (win * 100) / total;
 			}
-		
+
 			lbTotal.setText(lbTotal.getText() + " " + String.valueOf(total));
 			lbWins.setText(lbWins.getText() + " " + String.valueOf(win) + "%");
-			
+
 			myResultAdapter oAdapter = new myResultAdapter(this,
-					R.layout.row_score, aResults);
+					R.layout.row_score, aResults, thePlayer);
 
 			myResultList.setAdapter(oAdapter);
 		}

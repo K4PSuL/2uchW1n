@@ -5,6 +5,7 @@ import java.util.Date;
 import com.iia.touchwin.R;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.*;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,7 +14,10 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class HomeActivity extends Activity {
 	@Override
@@ -25,7 +29,8 @@ public class HomeActivity extends Activity {
 		final Button btnStats = (Button) findViewById(R.id.btnStats);
 		final Button btnSettings = (Button) findViewById(R.id.btnSettings);
 		final Bundle dataBundle = new Bundle();
-
+		final ImageView oLogo = (ImageView) findViewById(R.id.imgLogo);
+		
 		// On récupére le Player
 		final Player thePlayer = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
@@ -43,6 +48,10 @@ public class HomeActivity extends Activity {
 
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
 
+		// Animation du Logo
+		Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.drawable.logo);
+		oLogo.startAnimation(animation);
+		
 		btnJouer.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
