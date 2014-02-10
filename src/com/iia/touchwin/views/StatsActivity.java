@@ -59,15 +59,8 @@ public class StatsActivity extends Activity {
 
 			lbPlayer.setText(String.valueOf(oResult.getId_player2()));
 			lbDate.setText(String.valueOf(oResult.getPlayDate().toString()));
-			lbResult.setText(String.valueOf(oResult.getScoreP1()) + " - "
-					+ String.valueOf(oResult.getScoreP2()));
-
-			if (oResult.getScoreP1() > oResult.getScoreP2()) {
-				oView.setBackgroundColor(R.color.yellow);
-			} else {
-				
-			}
 			
+
 			if (oResult.getId_player1() == thePlayer.getId()) {
 				if (oResult.getScoreP1() > oResult.getScoreP2()) {
 					oView.setBackgroundColor(R.color.yellow);
@@ -75,12 +68,17 @@ public class StatsActivity extends Activity {
 					oView.setBackgroundColor(R.color.red);
 				}
 				
+				lbResult.setText(String.valueOf(oResult.getScoreP1()) + " - "
+						+ String.valueOf(oResult.getScoreP2()));
 			} else {
 				if (oResult.getScoreP1() < oResult.getScoreP2()) {
 					oView.setBackgroundColor(R.color.yellow);
 				} else {
 					oView.setBackgroundColor(R.color.red);
 				}
+				
+				lbResult.setText(String.valueOf(oResult.getScoreP2()) + " - "
+						+ String.valueOf(oResult.getScoreP1()));
 			}
 
 			return oView;

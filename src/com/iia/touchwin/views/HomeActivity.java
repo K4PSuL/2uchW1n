@@ -1,17 +1,14 @@
 package com.iia.touchwin.views;
 
-import java.util.Date;
 
 import com.iia.touchwin.R;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.*;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -29,6 +26,7 @@ public class HomeActivity extends Activity {
 		final Button btnStats = (Button) findViewById(R.id.btnStats);
 		final Button btnSettings = (Button) findViewById(R.id.btnSettings);
 		final Bundle dataBundle = new Bundle();
+		
 		final ImageView oLogo = (ImageView) findViewById(R.id.imgLogo);
 		
 		// On récupére le Player
@@ -44,13 +42,13 @@ public class HomeActivity extends Activity {
 		oEditor.commit();
 
 		// On joue un son d'entrée
-		Utils.playSound(this.getApplicationContext(), this, R.raw.home);
+		Utils.playSound(HomeActivity.this, this, R.raw.home);
 
+		// Animation du logo
+		Animation animateLogo = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.logo);
+		oLogo.startAnimation(animateLogo);
+		
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
-
-		// Animation du Logo
-		Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.drawable.logo);
-		oLogo.startAnimation(animation);
 		
 		btnJouer.setOnClickListener(new View.OnClickListener() {
 			@Override

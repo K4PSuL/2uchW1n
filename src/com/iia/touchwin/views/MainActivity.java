@@ -35,14 +35,15 @@ public class MainActivity extends Activity {
 		final EditText editLogin = (EditText) findViewById(R.id.editLogin);
 		final EditText editPassword = (EditText) findViewById(R.id.editPassword);
 		final String login;
-		
+
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
-		
+
 		login = oSettings.getString(Const.PREFERENCES_LOGIN, "");
-		
+
 		if (login != "") {
-			// On popule le formulaire si un Login est enregistré et on donne le focus au password
+			// On popule le formulaire si un Login est enregistré et on donne le
+			// focus au password
 			editLogin.setText(login);
 			editPassword.requestFocus();
 		}
@@ -50,45 +51,13 @@ public class MainActivity extends Activity {
 		btnConnection.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-						MainActivity.this, Const.DATABASE, null, 1);
 
-				// Récupération de la BDD
-				SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
+				// On vérifie les identifiants fournis par l'utilisateur
+				Player thePlayer = Utils.authentication(MainActivity.this,
+						editLogin.getText().toString(), editPassword.getText()
+								.toString());
 
-				// Argument pour la condition de la requête SQL
-				String[] whereArg = { editLogin.getText().toString(),
-						editPassword.getText().toString() };
-
-				// Requête sur la BDD
-				Cursor oCursor = dataBase.query(PlayerContract.TABLE,
-						PlayerContract.COLS, PlayerContract.COL_LOGIN
-								+ "=? and " + PlayerContract.COL_PASSWORD
-								+ "=?", whereArg, null, null, null);
-
-				// Si au moins un résultat...
-				if (oCursor.moveToFirst()) {
-
-					@SuppressWarnings("deprecation")
-					Date dateCreate = new Date(oCursor.getString((oCursor
-							.getColumnIndex(PlayerContract.COL_DATECREATE))));
-
-					@SuppressWarnings("deprecation")
-					Date dateBirth = new Date(oCursor.getString((oCursor
-							.getColumnIndex(PlayerContract.COL_BIRTHDATE))));
-
-					Player thePlayer = new Player();
-					thePlayer.setId(oCursor.getInt((oCursor
-							.getColumnIndex(PlayerContract.COL_ID))));
-					thePlayer.setLogin(oCursor.getString((oCursor
-							.getColumnIndex(PlayerContract.COL_LOGIN))));
-					thePlayer.setPassword(oCursor.getString((oCursor
-							.getColumnIndex(PlayerContract.COL_PASSWORD))));
-					thePlayer.setDateCreate(dateCreate);
-					thePlayer.setAvatar(oCursor.getString((oCursor
-							.getColumnIndex(PlayerContract.COL_AVATAR))));
-					thePlayer.setBirthdate(dateBirth);
-
+				if (thePlayer != null) {
 					Bundle dataBundle = new Bundle();
 					dataBundle.putSerializable(Const.BUNDLE_PLAYER,
 							(Player) thePlayer);
@@ -100,10 +69,6 @@ public class MainActivity extends Activity {
 					intentOpenHome.putExtras(dataBundle);
 
 					startActivity(intentOpenHome);
-
-				} else {
-					Toast.makeText(MainActivity.this, Const.ERREUR_LOGIN,
-							Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -117,7 +82,7 @@ public class MainActivity extends Activity {
 				SQLiteDatabase dataBase = oDbHelper.getWritableDatabase();
 
 				/* PLAYER */
-				
+
 				ContentValues myValuesPlayer = new ContentValues();
 				myValuesPlayer.put(PlayerContract.COL_LOGIN, "Lokoi");
 				myValuesPlayer.put(PlayerContract.COL_PASSWORD, "azqqza");
@@ -134,33 +99,36 @@ public class MainActivity extends Activity {
 				myValuesPlayer2.put(PlayerContract.COL_PASSWORD, "aze");
 				myValuesPlayer2.put(PlayerContract.COL_DATECREATE,
 						new Date().toString());
-				myValuesPlayer2.put(PlayerContract.COL_AVATAR, "/img/chouk.png");
+				myValuesPlayer2
+						.put(PlayerContract.COL_AVATAR, "/img/chouk.png");
 				myValuesPlayer2.put(PlayerContract.COL_ENABLE, true);
 				myValuesPlayer2.put(PlayerContract.COL_BIRTHDATE, "23/05/1993");
 
 				dataBase.insert(PlayerContract.TABLE, null, myValuesPlayer2);
 
 				/* GAME */
-				
+
 				ContentValues myValuesGame = new ContentValues();
 				myValuesGame.put(GameContract.COL_LIBELLE, "Reflexe");
 
 				dataBase.insert(GameContract.TABLE, null, myValuesGame);
-				
+
 				/* RESULT */
-				
+
 				ContentValues myValuesResult1 = new ContentValues();
-				myValuesResult1.put(ResultContract.COL_PLAYDATE, new Date().toString());
+				myValuesResult1.put(ResultContract.COL_PLAYDATE,
+						new Date().toString());
 				myValuesResult1.put(ResultContract.COL_ID_GAME, 1);
-				myValuesResult1.put(ResultContract.COL_PLAYER1,1);
+				myValuesResult1.put(ResultContract.COL_PLAYER1, 1);
 				myValuesResult1.put(ResultContract.COL_PLAYER2, 2);
 				myValuesResult1.put(ResultContract.COL_SCOREP1, 10);
 				myValuesResult1.put(ResultContract.COL_SCOREP2, 5);
 
 				dataBase.insert(ResultContract.TABLE, null, myValuesResult1);
-				
+
 				ContentValues myValuesResult2 = new ContentValues();
-				myValuesResult2.put(ResultContract.COL_PLAYDATE, new Date().toString());
+				myValuesResult2.put(ResultContract.COL_PLAYDATE,
+						new Date().toString());
 				myValuesResult2.put(ResultContract.COL_ID_GAME, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER1, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER2, 2);
