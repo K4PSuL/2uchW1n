@@ -108,27 +108,58 @@ public class MainActivity extends Activity {
 
 				SQLiteDatabase dataBase = oDbHelper.getWritableDatabase();
 
-				ContentValues myValues = new ContentValues();
-				myValues.put(PlayerContract.COL_LOGIN, "Lokoi");
-				myValues.put(PlayerContract.COL_PASSWORD, "azqqza");
-				myValues.put(PlayerContract.COL_DATECREATE,
+				/* PLAYER */
+				
+				ContentValues myValuesPlayer = new ContentValues();
+				myValuesPlayer.put(PlayerContract.COL_LOGIN, "Lokoi");
+				myValuesPlayer.put(PlayerContract.COL_PASSWORD, "azqqza");
+				myValuesPlayer.put(PlayerContract.COL_DATECREATE,
 						new Date().toString());
-				myValues.put(PlayerContract.COL_AVATAR, "/img/lokoi.png");
-				myValues.put(PlayerContract.COL_ENABLE, true);
-				myValues.put(PlayerContract.COL_BIRTHDATE, "17/07/1992");
+				myValuesPlayer.put(PlayerContract.COL_AVATAR, "/img/lokoi.png");
+				myValuesPlayer.put(PlayerContract.COL_ENABLE, true);
+				myValuesPlayer.put(PlayerContract.COL_BIRTHDATE, "17/07/1992");
 
-				dataBase.insert(PlayerContract.TABLE, null, myValues);
+				dataBase.insert(PlayerContract.TABLE, null, myValuesPlayer);
 
-				ContentValues myValues2 = new ContentValues();
-				myValues2.put(PlayerContract.COL_LOGIN, "Chouk");
-				myValues2.put(PlayerContract.COL_PASSWORD, "aze");
-				myValues2.put(PlayerContract.COL_DATECREATE,
+				ContentValues myValuesPlayer2 = new ContentValues();
+				myValuesPlayer2.put(PlayerContract.COL_LOGIN, "Chouk");
+				myValuesPlayer2.put(PlayerContract.COL_PASSWORD, "aze");
+				myValuesPlayer2.put(PlayerContract.COL_DATECREATE,
 						new Date().toString());
-				myValues2.put(PlayerContract.COL_AVATAR, "/img/chouk.png");
-				myValues2.put(PlayerContract.COL_ENABLE, true);
-				myValues2.put(PlayerContract.COL_BIRTHDATE, "23/05/1993");
+				myValuesPlayer2.put(PlayerContract.COL_AVATAR, "/img/chouk.png");
+				myValuesPlayer2.put(PlayerContract.COL_ENABLE, true);
+				myValuesPlayer2.put(PlayerContract.COL_BIRTHDATE, "23/05/1993");
 
-				dataBase.insert(PlayerContract.TABLE, null, myValues2);
+				dataBase.insert(PlayerContract.TABLE, null, myValuesPlayer2);
+
+				/* GAME */
+				
+				ContentValues myValuesGame = new ContentValues();
+				myValuesGame.put(GameContract.COL_LIBELLE, "Reflexe");
+
+				dataBase.insert(GameContract.TABLE, null, myValuesGame);
+				
+				/* RESULT */
+				
+				ContentValues myValuesResult1 = new ContentValues();
+				myValuesResult1.put(ResultContract.COL_PLAYDATE, new Date().toString());
+				myValuesResult1.put(ResultContract.COL_ID_GAME, 1);
+				myValuesResult1.put(ResultContract.COL_PLAYER1,1);
+				myValuesResult1.put(ResultContract.COL_PLAYER2, 2);
+				myValuesResult1.put(ResultContract.COL_SCOREP1, 10);
+				myValuesResult1.put(ResultContract.COL_SCOREP2, 5);
+
+				dataBase.insert(ResultContract.TABLE, null, myValuesResult1);
+				
+				ContentValues myValuesResult2 = new ContentValues();
+				myValuesResult2.put(ResultContract.COL_PLAYDATE, new Date().toString());
+				myValuesResult2.put(ResultContract.COL_ID_GAME, 1);
+				myValuesResult2.put(ResultContract.COL_PLAYER1, 1);
+				myValuesResult2.put(ResultContract.COL_PLAYER2, 2);
+				myValuesResult2.put(ResultContract.COL_SCOREP1, 7);
+				myValuesResult2.put(ResultContract.COL_SCOREP2, 8);
+
+				dataBase.insert(ResultContract.TABLE, null, myValuesResult2);
 			}
 		});
 	}
