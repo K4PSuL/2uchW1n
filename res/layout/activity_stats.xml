@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background" >
+    
+	<ImageView
+        android:id="@+id/imgHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/header3"
+        android:contentDescription="@string/title_stats" />
+	
+	<TextView
+        android:id="@+id/lbStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/title_stats"
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:textColor="@color/white"
+        android:typeface="monospace" />
+
+	<ListView
+	    android:id="@+id/listViewResults"
+	    android:layout_width="match_parent"
+	    android:layout_height="200dp"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentLeft="true"
+	    android:layout_marginBottom="15dp" >
+	</ListView>
+
+	<ImageView
+	    android:id="@+id/imgSeparateur"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/lbLooses"
+	    android:layout_marginTop="14dp"
+	    android:src="@drawable/separateur"
+	    android:contentDescription="@string/img_separateur" />
+
+	<TextView
+	    android:id="@+id/lbWins"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/imgHeader"
+	    android:layout_marginLeft="36dp"
+	    android:layout_marginTop="18dp"
+	    android:text="@string/lb_wins"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:textColor="@color/white"
+	    android:typeface="monospace" />
+
+	<TextView
+	    android:id="@+id/lbLooses"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/lbWins"
+	    android:layout_below="@+id/lbWins"
+	    android:layout_marginTop="14dp"
+	    android:text="@string/lb_looses"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:textColor="@color/white"
+	    android:typeface="monospace" />
+
+	<TextView
+	    android:id="@+id/lbResults"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/lbStats"
+	    android:layout_below="@+id/imgSeparateur"
+	    android:text="@string/lb_results"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:textColor="@color/white"
+	    android:typeface="monospace" />
+	
+</RelativeLayout>
