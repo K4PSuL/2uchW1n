@@ -45,7 +45,8 @@
         android:layout_below="@+id/lbGame"
         android:layout_marginTop="14dp"
         android:ems="10"
-        android:inputType="text" />
+        android:inputType="text"
+        android:focusableInTouchMode="false" />
 
     <ImageView
         android:id="@+id/imgVS"
@@ -64,7 +65,8 @@
         android:layout_alignLeft="@+id/editPlayer1"
         android:layout_below="@+id/imgVS"
         android:ems="10"
-        android:inputType="none" />
+        android:inputType="text"
+        android:focusableInTouchMode="false" />
 
     <TextView
         android:id="@+id/lbTime"
@@ -86,7 +88,8 @@
         android:layout_alignBottom="@+id/lbTime"
         android:layout_alignRight="@+id/editGame"
         android:ems="10"
-        android:inputType="text" />
+        android:inputType="text"
+        android:focusableInTouchMode="false" />
 
     <EditText
         android:id="@+id/editPlayer1"

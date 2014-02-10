@@ -23,9 +23,11 @@ public class GameActivity extends Activity {
 
 		final Player thePlayer = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
+		final Player Player2 = (Player) getIntent().getExtras()
+				.getSerializable(Const.BUNDLE_PLAYER2);
 
 		btnP1.setText(thePlayer.getLogin());
-		btnP2.setText("Player 2");
+		btnP2.setText(Player2.getLogin());
 		
 		
 		imgColor.setOnClickListener(new View.OnClickListener() {
@@ -47,12 +49,12 @@ public class GameActivity extends Activity {
  */
                 dialog.show();
                  
-                Button btnValidGame = (Button) dialog.findViewById(R.id.btnValid);
+                Button btnStop = (Button) dialog.findViewById(R.id.btnValid);
                 // if button is clicked, close the custom dialog
-                btnValidGame.setOnClickListener(new View.OnClickListener() {
+                btnStop.setOnClickListener(new View.OnClickListener() {
         			@Override
         			public void onClick(View v) {
-                        // Close dialog
+        				// Close dialog
                         dialog.dismiss();
                     }
                 });

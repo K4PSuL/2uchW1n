@@ -12,7 +12,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/btn_player1"
-        android:rotation="180" />
+        android:rotation="180"
+        android:textColor="@color/white"
+        android:typeface="monospace" />
 
     <Button
         android:id="@+id/btnP2"
@@ -21,7 +23,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:text="@string/btn_player2" />
+        android:text="@string/btn_player2"
+        android:textColor="@color/white"
+        android:typeface="monospace" />
 
     <ImageView
         android:id="@+id/imgColor"
