@@ -25,46 +25,24 @@
         android:textColor="@color/white"
         android:typeface="monospace" />
 
-	<ListView
-	    android:id="@+id/listViewResults"
-	    android:layout_width="match_parent"
-	    android:layout_height="200dp"
-	    android:layout_alignParentBottom="true"
-	    android:layout_alignParentLeft="true"
-	    android:layout_marginBottom="15dp" >
-	</ListView>
-
 	<ImageView
 	    android:id="@+id/imgSeparateur"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentLeft="true"
-	    android:layout_below="@+id/lbLooses"
+	    android:layout_below="@+id/lbTotal"
 	    android:layout_marginTop="14dp"
 	    android:src="@drawable/separateur"
 	    android:contentDescription="@string/img_separateur" />
 
 	<TextView
-	    android:id="@+id/lbWins"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentLeft="true"
-	    android:layout_below="@+id/imgHeader"
-	    android:layout_marginLeft="36dp"
-	    android:layout_marginTop="18dp"
-	    android:text="@string/lb_wins"
-	    android:textAppearance="?android:attr/textAppearanceLarge"
-	    android:textColor="@color/white"
-	    android:typeface="monospace" />
-
-	<TextView
-	    android:id="@+id/lbLooses"
+	    android:id="@+id/lbTotal"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignLeft="@+id/lbWins"
 	    android:layout_below="@+id/lbWins"
 	    android:layout_marginTop="14dp"
-	    android:text="@string/lb_looses"
+	    android:text="@string/lb_total"
 	    android:textAppearance="?android:attr/textAppearanceLarge"
 	    android:textColor="@color/white"
 	    android:typeface="monospace" />
@@ -76,6 +54,59 @@
 	    android:layout_alignLeft="@+id/lbStats"
 	    android:layout_below="@+id/imgSeparateur"
 	    android:text="@string/lb_results"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:textColor="@color/white"
+	    android:typeface="monospace" />
+
+	<ListView
+	    android:id="@+id/listViewResults"
+	    android:layout_width="match_parent"
+	    android:layout_height="195dp"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/lbResults"
+	    android:layout_marginTop="60dp" >
+
+	</ListView>
+
+	<TextView
+	    android:id="@+id/lbDate"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_centerVertical="true"
+	    android:layout_marginLeft="20dp"
+	    android:text="@string/lb_result_date"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	<TextView
+	    android:id="@+id/lbPlayer"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	     android:layout_centerVertical="true"
+	    android:layout_alignBottom="@+id/lbDate"
+	    android:layout_centerHorizontal="true"
+	    android:text="@string/lb_result_player"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	<TextView
+	    android:id="@+id/textView1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	     android:layout_centerVertical="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="20dp"
+	    android:text="@string/lb_result_score"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	<TextView
+	    android:id="@+id/lbWins"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/lbDate"
+	    android:layout_below="@+id/imgHeader"
+	    android:layout_marginTop="18dp"
+	    android:text="@string/lb_wins"
 	    android:textAppearance="?android:attr/textAppearanceLarge"
 	    android:textColor="@color/white"
 	    android:typeface="monospace" />
