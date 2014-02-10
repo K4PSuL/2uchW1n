@@ -63,7 +63,7 @@ public class StatsActivity extends Activity {
 			Result oResult = this.getItem(position);
 
 			lbPlayer.setText(String.valueOf(oResult.getId_player2()));
-			lbDate.setText(String.valueOf(oResult.getPlayDate().getDate()));
+			lbDate.setText(String.valueOf(oResult.getPlayDate()));
 			lbResult.setText(String.valueOf(oResult.getScoreP1()) + " - "
 					+ String.valueOf(oResult.getScoreP2()));
 

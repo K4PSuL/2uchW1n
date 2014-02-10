@@ -2,6 +2,8 @@ package com.iia.touchwin.views;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
+
 import com.iia.touchwin.R;
 import com.iia.touchwin.utils.*;
 import com.iia.touchwin.entities.*;
@@ -32,12 +34,18 @@ public class MainActivity extends Activity {
 		final Button btnAddData = (Button) findViewById(R.id.btnAddData);
 		final EditText editLogin = (EditText) findViewById(R.id.editLogin);
 		final EditText editPassword = (EditText) findViewById(R.id.editPassword);
-
+		final String login;
+		
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
-
-		// On popule le formulaire si un Login est enregistré
-		editLogin.setText(oSettings.getString(Const.PREFERENCES_LOGIN, ""));
+		
+		login = oSettings.getString(Const.PREFERENCES_LOGIN, "");
+		
+		if (login != "") {
+			// On popule le formulaire si un Login est enregistré et on donne le focus au password
+			editLogin.setText(login);
+			editPassword.requestFocus();
+		}
 
 		btnConnection.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -142,7 +150,7 @@ public class MainActivity extends Activity {
 				/* RESULT */
 				
 				ContentValues myValuesResult1 = new ContentValues();
-				myValuesResult1.put(ResultContract.COL_PLAYDATE, new Date().toString());
+				myValuesResult1.put(ResultContract.COL_PLAYDATE, new DateTime().toString());
 				myValuesResult1.put(ResultContract.COL_ID_GAME, 1);
 				myValuesResult1.put(ResultContract.COL_PLAYER1,1);
 				myValuesResult1.put(ResultContract.COL_PLAYER2, 2);
@@ -152,7 +160,7 @@ public class MainActivity extends Activity {
 				dataBase.insert(ResultContract.TABLE, null, myValuesResult1);
 				
 				ContentValues myValuesResult2 = new ContentValues();
-				myValuesResult2.put(ResultContract.COL_PLAYDATE, new Date().toString());
+				myValuesResult2.put(ResultContract.COL_PLAYDATE, new DateTime().toString());
 				myValuesResult2.put(ResultContract.COL_ID_GAME, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER1, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER2, 2);
