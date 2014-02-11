@@ -9,7 +9,8 @@ public class Const {
 	public final static String PREFERENCES_SOUND = "sound";
 
 	public final static String ERREUR_LOGIN = "Erreur, login incorrect";
-
+	public final static String ERREUR_PLAYER2 = "Erreur, adversaire impossible";
+	
 	public final static String DATABASE = "TouchWin";
 
 	public final static String BUNDLE_PLAYER = "player";

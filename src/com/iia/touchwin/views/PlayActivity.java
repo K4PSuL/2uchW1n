@@ -1,24 +1,34 @@
 package com.iia.touchwin.views;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 import com.iia.touchwin.R;
-import com.iia.touchwin.contracts.PlayerContract;
+import com.iia.touchwin.contracts.GameContract;
+import com.iia.touchwin.entities.Game;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
+import com.iia.touchwin.utils.Utils;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PlayActivity extends Activity {
@@ -65,60 +75,26 @@ public class PlayActivity extends Activity {
        				 	EditText editLoginDialog = (EditText) dialog.findViewById(R.id.editLogin);
        				 	EditText editPwdDialog = (EditText) dialog.findViewById(R.id.editPassword);
        		
-       				 	
-	       				TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-	     						PlayActivity.this, Const.DATABASE, null, 1);
-	
-	     				// Récupération de la BDD
-	     				SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
-	
-	     				// Argument pour la condition de la requête SQL
-	     				String[] whereArg = { editLoginDialog.getText().toString(),
-	     						editPwdDialog.getText().toString() };
-	
-	     				// Requête sur la BDD
-	     				Cursor oCursor = dataBase.query(PlayerContract.TABLE,
-	     						PlayerContract.COLS, PlayerContract.COL_LOGIN
-	     								+ "=? and " + PlayerContract.COL_PASSWORD
-	     								+ "=?", whereArg, null, null, null);
-	
-	     				// Si au moins un résultat...
-	     				if (oCursor.moveToFirst()) {
-	
-	     					@SuppressWarnings("deprecation")
-	     					Date dateCreate = new Date(oCursor.getString((oCursor
-	     							.getColumnIndex(PlayerContract.COL_DATECREATE))));
-	
-	     					@SuppressWarnings("deprecation")
-	     					Date dateBirth = new Date(oCursor.getString((oCursor
-	     							.getColumnIndex(PlayerContract.COL_BIRTHDATE))));
-	
-	     					Player Player2 = new Player();
-	     					Player2.setId(oCursor.getInt((oCursor
-	     							.getColumnIndex(PlayerContract.COL_ID))));
-	     					Player2.setLogin(oCursor.getString((oCursor
-	     							.getColumnIndex(PlayerContract.COL_LOGIN))));
-	     					Player2.setPassword(oCursor.getString((oCursor
-	     							.getColumnIndex(PlayerContract.COL_PASSWORD))));
-	     					Player2.setDateCreate(dateCreate);
-	     					Player2.setAvatar(oCursor.getString((oCursor
-	     							.getColumnIndex(PlayerContract.COL_AVATAR))));
-	     					Player2.setBirthdate(dateBirth);
-	
-	     					Bundle dataBundle = new Bundle();
-	     					dataBundle.putSerializable(Const.BUNDLE_PLAYER2,
-	     							(Player) Player2);
-	
-	     					// Close dialog
-							dialog.dismiss();
-							
-							editPlayer2.setText(Player2.getLogin().toString());
-	
-	     				} else {
-	     					Toast.makeText(PlayActivity.this, Const.ERREUR_LOGIN,
-	     							Toast.LENGTH_LONG).show();
-	     				}
-     				
+       				 	// On vérifie les identifiants fournis par l'utilisateur
+       					Player player2 = Utils.authentication(PlayActivity.this,
+       							editLoginDialog.getText().toString(), editPwdDialog.getText()
+       									.toString());
+       					
+       					if (player2 != null) {
+       						if (thePlayer.getId() == player2.getId()) {
+       							Toast.makeText(PlayActivity.this, Const.ERREUR_PLAYER2,
+       									Toast.LENGTH_LONG).show();
+							} else {
+								Bundle dataBundle = new Bundle();
+		     					dataBundle.putSerializable(Const.BUNDLE_PLAYER2,
+		     							(Player) player2);
+		
+		     					// Close dialog
+								dialog.dismiss();
+								
+								editPlayer2.setText(player2.getLogin().toString());
+							}
+       					}
 					}
 				});
 			}
@@ -126,6 +102,8 @@ public class PlayActivity extends Activity {
 		
 		
 		/* CHOIX DU JEU */
+		final Game oGame = new Game();
+		
 		editGame.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -139,8 +117,58 @@ public class PlayActivity extends Activity {
 				// Show dialog
 				dialog.show();
 
+				ListView listGames = (ListView) dialog
+						.findViewById(R.id.listGames);
 				Button btnValidGame = (Button) dialog
 						.findViewById(R.id.btnValid);
+				
+				
+				TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
+						PlayActivity.this, Const.DATABASE, null, 1);
+
+				// Récupération de la BDD
+				SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
+
+				// Requête sur la BDD
+				Cursor oCursor = dataBase.query(GameContract.TABLE,
+						GameContract.COLS, null, null, null, null, null);
+				
+				ArrayList<Game> games = new ArrayList<Game>();
+				
+				if (oCursor.moveToFirst()) {
+		        	do {
+		        		int id = 
+		        				oCursor.getInt( 
+		        						oCursor.getColumnIndex(GameContract.COL_ID));
+		        		
+						String libelle = 
+								oCursor.getString( 
+										oCursor.getColumnIndex(GameContract.COL_LIBELLE));
+						
+						if (libelle != null && libelle.length()>0) {
+							oGame.setId(id);
+							oGame.setLibelle(libelle);
+							games.add(oGame);
+						}
+						
+					} while (oCursor.moveToNext());
+		        }
+				
+				MyAdapter adapter = new MyAdapter(PlayActivity.this, R.layout.row_game, games);		
+				listGames.setAdapter(adapter);
+				
+				listGames.setOnItemClickListener(new OnItemClickListener()
+				   {
+				      @Override
+				      public void onItemClick(AdapterView<?> adapter, View v, int position,
+				            long arg3) 
+				      {
+				            Game game = (Game)adapter.getItemAtPosition(position);
+				            editGame.setText(game.getLibelle());
+				            dialog.dismiss();
+				      }
+				   });
+				
 				// if button is clicked, close the custom dialog
 				btnValidGame.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -163,12 +191,6 @@ public class PlayActivity extends Activity {
 		// find the radiobutton by returned id
 		final RadioButton radioBtn = (RadioButton) findViewById(selectedId);
 		
-		final Bundle dataBundle = new Bundle();
-		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
-		dataBundle.putSerializable(Const.BUNDLE_PLAYER2, (Player) thePlayer);
-//		dataBundle.putString(Const.BUNDLE_GAME, (Game) oGame);
-//		dataBundle.putString(Const.BUNDLE_TIME, editTime.getText().toString());
-		
 		/* DEMARRAGE DU JEU */
 		btnGo.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -177,8 +199,8 @@ public class PlayActivity extends Activity {
 				final Bundle dataBundle = new Bundle();
 				dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
 				dataBundle.putSerializable(Const.BUNDLE_PLAYER2, (Player) thePlayer);
-				dataBundle.putSerializable(Const.BUNDLE_GAME, editGame.getText().toString());
-				dataBundle.putSerializable(Const.BUNDLE_TIME, radioBtn.getText().toString());
+				dataBundle.putSerializable(Const.BUNDLE_GAME, (Game) oGame);
+				dataBundle.putInt(Const.BUNDLE_TIME, Integer.valueOf(radioBtn.getText().toString()));
 				
 				Intent intentOpenGame = new Intent(PlayActivity.this,
 						GameActivity.class);
@@ -191,10 +213,32 @@ public class PlayActivity extends Activity {
 
 	}
 	
-	private static String padding_str(int c) {
-		if (c >= 10)
-			return String.valueOf(c);
-		else
-			return "0" + String.valueOf(c);
+	private static class MyAdapter extends ArrayAdapter<Game> {
+
+		private Context context;
+		private int resource;
+		private LayoutInflater inflater;
+		
+		public MyAdapter(Context context, int resource,
+				java.util.List<Game> items) {
+			super(context, resource, items);
+			this.context = context;
+			this.resource = resource;
+			
+			inflater = LayoutInflater.from(this.context);
 		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) { // appelée à chaque création de  ligne
+			View view = inflater.inflate(this.resource, null);
+			
+			TextView lbGame = (TextView)view.findViewById(R.id.lbGame);
+			
+			Game game = this.getItem(position);
+			
+			lbGame.setText(game.getLibelle().toString());
+			
+			return view;
+		}
+	}
 }
