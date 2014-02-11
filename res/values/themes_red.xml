@@ -6,6 +6,8 @@
   <style name="red" parent="@android:style/Theme.Holo.NoActionBar.Fullscreen">
 
     <item name="android:editTextBackground">@drawable/red_edit_text_holo_dark</item>
+    
+    <item name="android:editTextColor">@color/yellow</item>
 
     <item name="android:listChoiceIndicatorMultiple">@drawable/red_btn_check_holo_dark</item>
 
@@ -14,6 +16,11 @@
     <item name="android:buttonStyle">@style/Buttonred</item>
 
     <item name="android:imageButtonStyle">@style/ImageButtonred</item>
+    
+    <item name="android:textColorHighlight">#99c80000</item>
+    <item name="android:textSelectHandleLeft">@drawable/red_text_select_handle_left</item>
+    <item name="android:textSelectHandleRight">@drawable/red_text_select_handle_right</item>
+    <item name="android:textSelectHandle">@drawable/red_text_select_handle_middle</item>
 
   </style>
 

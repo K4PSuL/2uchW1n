@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    style="@style/red" >
 
     <ListView
         android:id="@+id/listGames"
@@ -19,6 +20,7 @@
         android:layout_below="@+id/listGames"
         android:text="@string/btn_valid"
         android:textColor="@color/white"
-        android:typeface="monospace" />
+        android:typeface="monospace"
+        style="@style/Buttonred" />
 
 </RelativeLayout>

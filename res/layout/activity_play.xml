@@ -11,7 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/title_play"
-        android:src="@drawable/header3" />
+        android:src="@drawable/header" />
 
     <TextView
         android:id="@+id/lbPlay"
@@ -31,22 +31,11 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/imgVS"
         android:layout_below="@+id/editPlayer2"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="65dp"
         android:text="@string/lb_game"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white"
         android:typeface="monospace" />
-
-    <EditText
-        android:id="@+id/editGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/lbGame"
-        android:layout_below="@+id/lbGame"
-        android:layout_marginTop="14dp"
-        android:ems="10"
-        android:focusableInTouchMode="false"
-        android:inputType="text" />
 
     <ImageView
         android:id="@+id/imgVS"
@@ -57,17 +46,6 @@
         android:layout_toLeftOf="@+id/editPlayer2"
         android:contentDescription="@string/vs"
         android:src="@drawable/vs" />
-
-    <EditText
-        android:id="@+id/editPlayer2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editPlayer1"
-        android:layout_below="@+id/imgVS"
-        android:ems="10"
-        android:focusableInTouchMode="false"
-        android:inputType="text"
-        />
 
     <TextView
         android:id="@+id/lbTime"
@@ -125,13 +103,41 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/btnGo"
         android:layout_below="@+id/imgHeader"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="7dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
-        android:textColor="@color/white" >
+        android:textColor="@color/white" />
 
-        <requestFocus />
-    </EditText>
+    <EditText
+        android:id="@+id/editGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbGame"
+        android:layout_below="@+id/lbGame"
+        android:ems="10"
+        android:focusableInTouchMode="false"
+        android:inputType="text" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editPlayer2"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/separateur"
+        android:contentDescription="@string/img_separateur" />
+
+    <EditText
+        android:id="@+id/editPlayer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editPlayer1"
+        android:layout_alignTop="@+id/imgVS"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:focusableInTouchMode="false"
+        android:inputType="text" />
 
 </RelativeLayout>

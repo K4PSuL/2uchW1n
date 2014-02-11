@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/header3"
+        android:src="@drawable/header"
         android:contentDescription="@string/title_stats" />
 	
 	<TextView

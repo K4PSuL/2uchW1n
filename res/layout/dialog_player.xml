@@ -24,7 +24,8 @@
         android:layout_alignLeft="@+id/lbLogin"
         android:layout_below="@+id/lbLogin"
         android:ems="10"
-        android:inputType="text" />
+        android:inputType="text"
+        style="@style/red" />
 
     <TextView
         android:id="@+id/lbPassword"
@@ -45,7 +46,8 @@
         android:layout_alignLeft="@+id/lbPassword"
         android:layout_below="@+id/lbPassword"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        style="@style/red" />
 
     <Button
         android:id="@+id/btnValid"
@@ -57,6 +59,7 @@
         android:layout_marginTop="27dp"
         android:text="@string/btn_valid"
         android:textColor="@color/white"
-        android:typeface="monospace" />
+        android:typeface="monospace"
+        style="@style/Buttonred" />
 
 </RelativeLayout>
