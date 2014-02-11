@@ -8,7 +8,7 @@ import com.iia.touchwin.entities.Result;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
+/*
 public class AddDataAsyncTask extends AsyncTask<Void, Integer, Void> {
 	
 	@Override
@@ -31,3 +31,4 @@ public class AddDataAsyncTask extends AsyncTask<Void, Integer, Void> {
 		return null;
 	}
 }
+*/

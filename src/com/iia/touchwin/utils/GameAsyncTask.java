@@ -7,7 +7,7 @@ import com.iia.touchwin.entities.Result;
 
 import android.os.AsyncTask;
 import android.widget.Toast;
-
+/*
 public class GameAsyncTask extends AsyncTask<Void, Integer, Void> {
 	
 	protected void onPreExecute() {
@@ -47,3 +47,4 @@ public class GameAsyncTask extends AsyncTask<Void, Integer, Void> {
 		return null;
 	}
 }
+*/

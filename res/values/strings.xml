@@ -37,13 +37,13 @@
 	<string name="title_play">Jouer</string>
 	<string name="vs">VS</string>
 	<string name="lb_game">Sélectionner un jeu :</string>
-	<string name="lb_time">Temps :</string>
+	<string name="lb_time">Rounds :</string>
 	<string name="title_dialog_player">Joueur 2</string>
 	<string name="title_dialog_game">Sélectionner un jeu</string>
 	<string name="btn_playGo">Jouer</string>
-	<string name="radioBtn7">7 rounds</string>
-	<string name="radioBtn15">15 rounds</string>
-	<string name="radioBtn21">21 rounds</string>
+	<string name="radioBtn7">7</string>
+	<string name="radioBtn15">15</string>
+	<string name="radioBtn21">21</string>
 	
 	<!-- activity_game -->
 	<string name="btn_player1">Player 1</string>
