@@ -1,5 +1,8 @@
 package com.iia.touchwin.views;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.iia.touchwin.R;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
@@ -7,11 +10,23 @@ import com.iia.touchwin.utils.Const;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameActivity extends Activity {
+	
+	long startTime = 0L;
+	Handler customHandler = new Handler();
+	long timeInMilliseconds = 0L;
+	long timeSwapBuff = 0L;
+	long updatedTime = 0L;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,14 +40,22 @@ public class GameActivity extends Activity {
 				.getSerializable(Const.BUNDLE_PLAYER);
 		final Player Player2 = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER2);
-
+		final String game = getIntent().getExtras().getString(Const.BUNDLE_GAME);
+        final int nbRounds = getIntent().getExtras().getInt(Const.BUNDLE_TIME);
+		
 		btnP1.setText(thePlayer.getLogin());
 		btnP2.setText(Player2.getLogin());
+	
+		startTime = SystemClock.uptimeMillis();
+		customHandler.postDelayed(updateTimerThread, 0);
 		
-		
+        
 		imgColor.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+				timeSwapBuff += timeInMilliseconds;
+				customHandler.removeCallbacks(updateTimerThread);
 
 				// Create custom dialog object
                 final Dialog dialog = new Dialog(GameActivity.this);
@@ -40,13 +63,7 @@ public class GameActivity extends Activity {
                 dialog.setContentView(R.layout.dialog_game);
                 // Set dialog title
                 dialog.setTitle(R.string.title_dialog_stop);
- /*
-                // set values for custom dialog components - text, image and button
-                TextView text = (TextView) dialog.findViewById(R.id.textDialog);
-                text.setText("Custom dialog Android example.");
-                ImageView image = (ImageView) dialog.findViewById(R.id.imageDialog);
-                image.setImageResource(R.drawable.image0);
- */
+
                 dialog.show();
                  
                 Button btnStop = (Button) dialog.findViewById(R.id.btnValid);
@@ -56,11 +73,38 @@ public class GameActivity extends Activity {
         			public void onClick(View v) {
         				// Close dialog
                         dialog.dismiss();
+                        
+                        startTime = SystemClock.uptimeMillis();
+                		customHandler.postDelayed(updateTimerThread, 0);
                     }
+        			
                 });
                 
 			}
 		});
 		
 	}
+	
+	private Runnable updateTimerThread = new Runnable() {
+
+		public void run() {
+
+			timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+			updatedTime = timeSwapBuff + timeInMilliseconds;
+
+			int secs = (int) (updatedTime / 1000);
+			int mins = secs / 60;
+			secs = secs % 60;
+			int milliseconds = (int) (updatedTime % 1000);
+			
+			final TextView lbTimer = (TextView) findViewById(R.id.lbTimer);
+			lbTimer.setText("" + mins + ":"
+					+ String.format("%02d", secs) + ":"
+					+ String.format("%03d", milliseconds));
+			customHandler.postDelayed(this, 0);
+		}
+
+	};
+	
 }

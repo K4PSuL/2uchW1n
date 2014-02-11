@@ -1,9 +1,6 @@
 package com.iia.touchwin.views;
 
 import java.util.Date;
-
-import org.joda.time.DateTime;
-
 import com.iia.touchwin.R;
 import com.iia.touchwin.utils.*;
 import com.iia.touchwin.entities.*;

@@ -1,6 +1,5 @@
 package com.iia.touchwin.views;
 
-
 import com.iia.touchwin.R;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.*;
@@ -49,6 +48,8 @@ public class HomeActivity extends Activity {
 		oLogo.startAnimation(animateLogo);
 		
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
+		//Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.drawable.logo);
+		//oLogo.startAnimation(animation);
 		
 		btnJouer.setOnClickListener(new View.OnClickListener() {
 			@Override

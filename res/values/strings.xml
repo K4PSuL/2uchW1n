@@ -13,7 +13,7 @@
     
     <!-- activity_connection -->
     <string name="login">Login</string>
-	<string name="pwd">Password</string>
+	<string name="pwd">Mot de passe</string>
 	<string name="btn_connection">Connexion</string>
 	<string name="btn_addData">AddData</string>
 	
@@ -40,8 +40,10 @@
 	<string name="lb_time">Temps :</string>
 	<string name="title_dialog_player">Joueur 2</string>
 	<string name="title_dialog_game">Sélectionner un jeu</string>
-	<string name="title_dialog_time">Sélectionner un temps</string>
 	<string name="btn_playGo">Jouer</string>
+	<string name="radioBtn7">7 rounds</string>
+	<string name="radioBtn15">15 rounds</string>
+	<string name="radioBtn21">21 rounds</string>
 	
 	<!-- activity_game -->
 	<string name="btn_player1">Player 1</string>

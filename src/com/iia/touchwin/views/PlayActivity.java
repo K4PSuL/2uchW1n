@@ -10,7 +10,6 @@ import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,7 +17,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TimePicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 public class PlayActivity extends Activity {
@@ -31,7 +31,6 @@ public class PlayActivity extends Activity {
 		final EditText editPlayer1 = (EditText) findViewById(R.id.editPlayer1);
 		final EditText editPlayer2 = (EditText) findViewById(R.id.editPlayer2);
 		final EditText editGame = (EditText) findViewById(R.id.editGame);
-		final EditText editTime = (EditText) findViewById(R.id.editTime);
 		final Button btnGo = (Button) findViewById(R.id.btnGo);
 
 		// On récupère le Player
@@ -42,7 +41,7 @@ public class PlayActivity extends Activity {
 		editPlayer1.setText(thePlayer.getLogin());
 
 		
-		// --- CHOIX DU JOUEUR 2 ---
+		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -126,7 +125,7 @@ public class PlayActivity extends Activity {
 		});
 		
 		
-		// --- CHOIX DU JEU ---
+		/* CHOIX DU JEU */
 		editGame.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -155,71 +154,27 @@ public class PlayActivity extends Activity {
 		});
 
 		
-		// --- CHOIX DU TEMPS ---
-		editTime.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-				// Create custom dialog object
-				final Dialog dialog = new Dialog(PlayActivity.this);
-				// Include dialog.xml file
-				dialog.setContentView(R.layout.dialog_time);
-				// Set dialog title
-				dialog.setTitle(R.string.title_dialog_time);
-				// Show dialog
-				dialog.show();
-
-				Button btnValidTime = (Button) dialog
-						.findViewById(R.id.btnValid);
-
-				// if button is clicked, close the custom dialog
-				btnValidTime.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						/*
-						 final TimePickerDialog.OnTimeSetListener timePickerListener =  
-								 new TimePickerDialog.OnTimeSetListener() {
-							 
-							 public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
-								// set current time into textview
-								editTime.setText(new StringBuilder().
-										append(padding_str(selectedHour))
-										.append(":")
-										.append(padding_str(selectedMinute)));
-							 }
-						 };
-						 */
-						
-						TimePickerDialog mTimePicker;
-			            mTimePicker = new TimePickerDialog(PlayActivity.this, new TimePickerDialog.OnTimeSetListener() {
-			                @Override
-			                public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-			                	editTime.setText( selectedHour + ":" + selectedMinute);
-			                }
-			            }, 0, 0, true);//Yes 24 hour time
-			            mTimePicker.setTitle(R.string.title_dialog_time);
-			            mTimePicker.show();
-			            
-						// Close dialog
-						dialog.dismiss();
-					}
-				});
-
-			}
-		});
+		/* CHOIX DU TEMPS / NOMBRE DE ROUNDS */
+		final RadioGroup radioGroupTime = (RadioGroup) findViewById(R.id.radioGroup);
+		
+		// get selected radio button from radioGroup
+		int selectedId = radioGroupTime.getCheckedRadioButtonId();
+		 
+		// find the radiobutton by returned id
+		final RadioButton radioBtn = (RadioButton) findViewById(selectedId);
 		
 		
-		final Bundle dataBundle = new Bundle();
-		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
-		dataBundle.putSerializable(Const.BUNDLE_PLAYER2, (Player) thePlayer);
-		dataBundle.putSerializable(Const.BUNDLE_GAME, editGame.getText().toString());
-		dataBundle.putSerializable(Const.BUNDLE_TIME, editTime.getText().toString());
-		
-		// --- DEMARRAGE DU JEU ---
+		/* DEMARRAGE DU JEU */
 		btnGo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
+				final Bundle dataBundle = new Bundle();
+				dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
+				dataBundle.putSerializable(Const.BUNDLE_PLAYER2, (Player) thePlayer);
+				dataBundle.putSerializable(Const.BUNDLE_GAME, editGame.getText().toString());
+				dataBundle.putSerializable(Const.BUNDLE_TIME, radioBtn.getText().toString());
+				
 				Intent intentOpenGame = new Intent(PlayActivity.this,
 						GameActivity.class);
 

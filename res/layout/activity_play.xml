@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background" >
-    
+
     <ImageView
         android:id="@+id/imgHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/header3"
-        android:contentDescription="@string/title_play" />
+        android:contentDescription="@string/title_play"
+        android:src="@drawable/header3" />
 
     <TextView
         android:id="@+id/lbPlay"
@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
         android:text="@string/title_play"
-        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"
         android:typeface="monospace" />
 
@@ -45,8 +45,8 @@
         android:layout_below="@+id/lbGame"
         android:layout_marginTop="14dp"
         android:ems="10"
-        android:inputType="text"
-        android:focusableInTouchMode="false" />
+        android:focusableInTouchMode="false"
+        android:inputType="text" />
 
     <ImageView
         android:id="@+id/imgVS"
@@ -65,8 +65,8 @@
         android:layout_alignLeft="@+id/editPlayer1"
         android:layout_below="@+id/imgVS"
         android:ems="10"
-        android:inputType="text"
-        android:focusableInTouchMode="false" />
+        android:focusableInTouchMode="false"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/lbTime"
@@ -80,29 +80,6 @@
         android:textColor="@color/white"
         android:typeface="monospace" />
 
-    <EditText
-        android:id="@+id/editTime"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/lbTime"
-        android:layout_alignBottom="@+id/lbTime"
-        android:layout_alignRight="@+id/editGame"
-        android:ems="10"
-        android:inputType="text"
-        android:focusableInTouchMode="false" />
-
-    <EditText
-        android:id="@+id/editPlayer1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/btnGo"
-        android:layout_below="@+id/imgHeader"
-        android:layout_marginTop="37dp"
-        android:ems="10"
-        android:inputType="text"
-        android:enabled="false"
-        android:textColor="@color/white" />
-
     <Button
         android:id="@+id/btnGo"
         android:layout_width="100dp"
@@ -113,5 +90,47 @@
         android:text="@string/btn_playGo"
         android:textColor="@color/white"
         android:typeface="monospace" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbPlay"
+        android:layout_alignTop="@+id/lbTime" >
+
+        <RadioButton
+            android:id="@+id/radio0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radioBtn7" />
+
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radioBtn15"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radioBtn21" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editPlayer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/btnGo"
+        android:layout_below="@+id/imgHeader"
+        android:layout_marginTop="26dp"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textColor="@color/white" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>
