@@ -14,7 +14,8 @@
         android:text="@string/btn_player1"
         android:rotation="180"
         android:textColor="@color/white"
-        android:typeface="monospace" />
+        android:typeface="monospace" 
+        style="@style/AppTheme"/>
 
     <Button
         android:id="@+id/btnP2"
@@ -25,7 +26,8 @@
         android:layout_alignParentRight="true"
         android:text="@string/btn_player2"
         android:textColor="@color/white"
-        android:typeface="monospace" />
+        android:typeface="monospace" 
+        style="@style/AppTheme"/>
 
     <TextView
         android:id="@+id/lbScoreP2"

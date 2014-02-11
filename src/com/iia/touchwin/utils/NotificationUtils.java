@@ -6,12 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-/**
- * Class for create notification on device
- * 
- * @author Nicolas GAUTIER
- * 
- */
+
 public class NotificationUtils {
 
 	private Context context;

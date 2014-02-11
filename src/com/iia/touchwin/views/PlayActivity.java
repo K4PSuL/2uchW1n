@@ -35,7 +35,7 @@ import android.widget.Toast;
 public class PlayActivity extends Activity {
 
 	private Player oPlayer2;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,39 +52,40 @@ public class PlayActivity extends Activity {
 		final RadioGroup radioGroupTime = (RadioGroup) findViewById(R.id.radioGroup);
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
-		
+
 		/* CHOIX DU TEMPS / NOMBRE DE ROUNDS */
 		int selectedId = radioGroupTime.getCheckedRadioButtonId();
 		final RadioButton radioBtn = (RadioButton) findViewById(selectedId);
-		
+
 		editPlayer1.setText(thePlayer.getLogin());
-		
+
 		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
 				final Dialog oDialogChoicePlayer = new Dialog(PlayActivity.this);
-				
-				final EditText editLoginDialog = (EditText) oDialogChoicePlayer
-						.findViewById(R.id.editLogin);
-				final EditText editPwdDialog = (EditText) oDialogChoicePlayer
-						.findViewById(R.id.editPassword);
-				
+
 				oDialogChoicePlayer.setContentView(R.layout.dialog_player);
 				oDialogChoicePlayer.setTitle(R.string.title_dialog_player);
 				oDialogChoicePlayer.show();
 
+				final EditText editLoginDialog = (EditText) oDialogChoicePlayer
+						.findViewById(R.id.editLogin);
+				final EditText editPwdDialog = (EditText) oDialogChoicePlayer
+						.findViewById(R.id.editPassword);
+
 				Button btnValidPlayer = (Button) oDialogChoicePlayer
 						.findViewById(R.id.btnValid);
-				
-				editLoginDialog.setText(oSettings.getString(Const.PREFERENCES_LOGIN, ""));
+
+				editLoginDialog.setText(oSettings.getString(
+						Const.PREFERENCES_LOGIN, ""));
 
 				btnValidPlayer.setOnClickListener(new View.OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						
+
 						oPlayer2 = Utils.authentication(PlayActivity.this,
 								editLoginDialog.getText().toString(),
 								editPwdDialog.getText().toString());
@@ -97,9 +98,11 @@ public class PlayActivity extends Activity {
 							} else {
 								editPlayer2.setText(oPlayer2.getLogin()
 										.toString());
-								
-								SharedPreferences.Editor oEditor = oSettings.edit();
-								oEditor.putString(Const.PREFERENCES_LOGIN, oPlayer2.getLogin());
+
+								SharedPreferences.Editor oEditor = oSettings
+										.edit();
+								oEditor.putString(Const.PREFERENCES_LOGIN,
+										oPlayer2.getLogin());
 								oEditor.commit();
 
 								oDialogChoicePlayer.dismiss();
@@ -122,6 +125,7 @@ public class PlayActivity extends Activity {
 
 				ListView listGames = (ListView) oDialogChoiceGame
 						.findViewById(R.id.listGames);
+
 				Button btnValidGame = (Button) oDialogChoiceGame
 						.findViewById(R.id.btnValid);
 
@@ -160,7 +164,6 @@ public class PlayActivity extends Activity {
 						editGame.setText(oGame.getLibelle());
 
 						oDialogChoiceGame.dismiss();
-
 					}
 				});
 
@@ -170,7 +173,6 @@ public class PlayActivity extends Activity {
 						oDialogChoiceGame.dismiss();
 					}
 				});
-
 			}
 		});
 
@@ -207,7 +209,7 @@ public class PlayActivity extends Activity {
 	}
 
 	private static class MyGameAdapter extends ArrayAdapter<Game> {
-		
+
 		private Context context;
 		private int resource;
 		private LayoutInflater inflater;

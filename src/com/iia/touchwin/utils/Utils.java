@@ -4,21 +4,14 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Bundle;
 import android.widget.Toast;
 
-import com.iia.touchwin.R;
 import com.iia.touchwin.contracts.PlayerContract;
 import com.iia.touchwin.entities.Player;
-import com.iia.touchwin.views.HomeActivity;
-import com.iia.touchwin.views.MainActivity;
 
 public abstract class Utils {
 

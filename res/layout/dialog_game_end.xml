@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/imgProfil"
+        android:layout_width="190px"
+        android:layout_height="190px"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/txtPseudo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgProfil"
+        android:layout_centerHorizontal="true"
+        android:text="Pseudo"
+        android:textColor="@color/red"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtWinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPseudo"
+        android:layout_centerHorizontal="true"
+        android:text="Winner"
+        android:textColor="@color/yellow"
+        android:textSize="45sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/txtPseudo"
+        android:layout_below="@+id/txtWinner"
+        android:text="Score"
+        android:textColor="@color/yellow"
+        android:textSize="45sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnExitEndGame"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtWinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp"
+        android:text="Valider" />
+
+</RelativeLayout>
