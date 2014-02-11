@@ -10,6 +10,7 @@ public class Const {
 
 	public final static String ERREUR_LOGIN = "Erreur, login incorrect";
 	public final static String ERREUR_PLAYER2 = "Erreur, adversaire impossible";
+	public final static String ERREUR_FORMVIDE = "Veuillez remplir tous les champs";
 	
 	public final static String DATABASE = "TouchWin";
 

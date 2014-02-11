@@ -46,7 +46,7 @@ public class PlayActivity extends Activity {
 		// On récupère le Player
 		final Player thePlayer = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
-
+				
 		// On popule le formulaire avec le login du Player 1
 		editPlayer1.setText(thePlayer.getLogin());
 
@@ -191,6 +191,7 @@ public class PlayActivity extends Activity {
 		// find the radiobutton by returned id
 		final RadioButton radioBtn = (RadioButton) findViewById(selectedId);
 		
+		
 		/* DEMARRAGE DU JEU */
 		btnGo.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -202,12 +203,20 @@ public class PlayActivity extends Activity {
 				dataBundle.putSerializable(Const.BUNDLE_GAME, (Game) oGame);
 				dataBundle.putInt(Const.BUNDLE_TIME, Integer.valueOf(radioBtn.getText().toString()));
 				
-				Intent intentOpenGame = new Intent(PlayActivity.this,
-						GameActivity.class);
+				// Controle des champs vides
+				if (editPlayer1.getText().length() < 1 
+						|| editPlayer2.getText().length() < 1
+						|| editGame.getText().length() < 1) {
+					Toast.makeText(PlayActivity.this, Const.ERREUR_FORMVIDE,
+								Toast.LENGTH_LONG).show();
+				} else {
+					Intent intentOpenGame = new Intent(PlayActivity.this,
+							GameActivity.class);
 
-				intentOpenGame.putExtras(dataBundle);
+					intentOpenGame.putExtras(dataBundle);
 
-				startActivity(intentOpenGame);
+					startActivity(intentOpenGame);
+				}
 			}
 		});
 

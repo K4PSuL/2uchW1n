@@ -66,7 +66,8 @@
         android:layout_below="@+id/imgVS"
         android:ems="10"
         android:focusableInTouchMode="false"
-        android:inputType="text" />
+        android:inputType="text"
+        />
 
     <TextView
         android:id="@+id/lbTime"
