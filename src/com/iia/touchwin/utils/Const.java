@@ -5,6 +5,7 @@ import com.iia.touchwin.views.MainActivity;
 
 public class Const {
 	public final static String PREFERENCES_PLAYER = "player";
+	public final static String PREFERENCES_PLAYER2 = "player2";
 	public final static String PREFERENCES_LOGIN = "login";
 	public final static String PREFERENCES_SOUND = "sound";
 

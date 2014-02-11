@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 public class StatsActivity extends Activity {
 
-	private static class myResultAdapter extends ArrayAdapter<Result> {
+	private static class MyResultAdapter extends ArrayAdapter<Result> {
 
 		private Context context;
 		private int resource;
@@ -35,7 +35,7 @@ public class StatsActivity extends Activity {
 		private Player thePlayer;
 		
 		// On créer un adapater pour la listView
-		public myResultAdapter(Context context, int resource,
+		public MyResultAdapter(Context context, int resource,
 				List<Result> objects, Player thePlayer) {
 			super(context, resource, objects);
 
@@ -167,7 +167,7 @@ public class StatsActivity extends Activity {
 			lbTotal.setText(lbTotal.getText() + " " + String.valueOf(total));
 			lbWins.setText(lbWins.getText() + " " + String.valueOf(win) + "%");
 
-			myResultAdapter oAdapter = new myResultAdapter(this,
+			MyResultAdapter oAdapter = new MyResultAdapter(this,
 					R.layout.row_score, aResults, thePlayer);
 
 			myResultList.setAdapter(oAdapter);
