@@ -17,61 +17,6 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    
-    <!-- Red theme -->
-    <style name="RedTheme" parent="AppTheme">
-    	<item name="android:checkboxStyle">@style/CheckBoxAppTheme</item>
-	</style>
-    
-    <style name="CheckBoxAppTheme" parent="android:Widget.CompoundButton.CheckBox">
-	    <item name="android:button">@drawable/btn_check_on_focused_holo_dark</item>
-	</style>
-
-    <selector>
-    <!-- Enabled states -->
-	    <item android:state_checked="true" android:state_window_focused="false"
-	          android:state_enabled="true"
-	          android:drawable="@drawable/redtheme_btn_check_on_holo_dark" />
-	    <item android:state_checked="false" android:state_window_focused="false"
-	          android:state_enabled="true"
-	          android:drawable="@drawable/redtheme_btn_check_off_holo_dark" />
-	
-	    <item android:state_checked="true" android:state_pressed="true"
-	          android:state_enabled="true"
-	          android:drawable="@drawable/redtheme_btn_check_on_pressed_holo_dark" />
-	    <item android:state_checked="false" android:state_pressed="true"
-	          android:state_enabled="true"
-	          android:drawable="@drawable/redtheme_btn_check_off_pressed_holo_dark" />
-	
-	    <item android:state_checked="true" android:state_focused="true"
-	          android:state_enabled="true"
-	          android:drawable="@drawable/redtheme_btn_check_on_focused_holo_dark" />
-	    <item android:state_checked="false" android:state_focused="true"
-	          android:state_enabled="true"
-	          android:drawable="@drawable/redtheme_btn_check_off_focused_holo_dark" />
-	
-	    <item android:state_checked="false"
-	          android:state_enabled="true"
-	          android:drawable="@drawable/redtheme_btn_check_off_holo_dark" />
-	    <item android:state_checked="true"
-	          android:state_enabled="true"
-	          android:drawable="@drawable/redtheme_btn_check_on_holo_dark" />
-	
-	    <!-- Disabled states -->
-	    <item android:state_checked="true" android:state_window_focused="false"
-	          android:drawable="@drawable/redtheme_btn_check_on_disabled_holo_dark" />
-	    <item android:state_checked="false" android:state_window_focused="false"
-	          android:drawable="@drawable/redtheme_btn_check_off_disabled_holo_dark" />
-	
-	    <item android:state_checked="true" android:state_focused="true"
-	          android:drawable="@drawable/redtheme_btn_check_on_disabled_focused_holo_dark" />
-	    <item android:state_checked="false" android:state_focused="true"
-	          android:drawable="@drawable/redtheme_btn_check_off_disabled_focused_holo_dark" />
-	
-	    <item android:state_checked="false"
-	          android:drawable="@drawable/redtheme_btn_check_off_disabled_holo_dark" />
-	    <item android:state_checked="true" 
-	          android:drawable="@drawable/redtheme_btn_check_on_disabled_holo_dark" />
-	</selector>
+  
 
 </resources>

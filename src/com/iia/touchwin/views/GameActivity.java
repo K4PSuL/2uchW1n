@@ -25,14 +25,14 @@ import android.widget.TextView;
 
 public class GameActivity extends Activity {
 
-	Player thePlayer;
-	Player Player2;
-	TextView lbScoreP1;
-	TextView lbScoreP2;
-	ImageView imgColor;
-	int nbRounds = 7;
-	boolean play;
-	boolean isTrue;
+	private Player thePlayer;
+	private Player Player2;
+	private TextView lbScoreP1;
+	private TextView lbScoreP2;
+	private ImageView imgColor;
+	private int nbRounds;
+	private boolean play;
+	private boolean isTrue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,8 @@ public class GameActivity extends Activity {
 
 		Player2 = (Player) getIntent().getExtras().getSerializable(
 				Const.BUNDLE_PLAYER2);
+		
+		nbRounds = getIntent().getExtras().getInt(Const.BUNDLE_TIME);
 
 		lbScoreP1 = (TextView) findViewById(R.id.lbScoreP1);
 		lbScoreP2 = (TextView) findViewById(R.id.lbScoreP2);
@@ -60,14 +62,13 @@ public class GameActivity extends Activity {
 		// On éxecute le jeux dans un autre thread
 		GameAsyncTask inGame = new GameAsyncTask();
 		inGame.execute();
-		
+
 		btnP1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (play) {
-					
 					play = false;
-					
+
 					if (isTrue) {
 						lbScoreP1.setText(String.valueOf(Integer
 								.valueOf((String) lbScoreP1.getText()) + 1));
@@ -75,7 +76,7 @@ public class GameActivity extends Activity {
 						lbScoreP2.setText(String.valueOf(Integer
 								.valueOf((String) lbScoreP2.getText()) + 1));
 					}
-					
+
 					imgColor.setBackgroundResource(R.color.gray);
 				}
 			}
@@ -85,9 +86,9 @@ public class GameActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (play) {
-					
+
 					play = false;
-					
+
 					if (isTrue) {
 						lbScoreP2.setText(String.valueOf(Integer
 								.valueOf((String) lbScoreP2.getText()) + 1));
@@ -95,42 +96,40 @@ public class GameActivity extends Activity {
 						lbScoreP1.setText(String.valueOf(Integer
 								.valueOf((String) lbScoreP1.getText()) + 1));
 					}
-					
+
 					imgColor.setBackgroundResource(R.color.gray);
-					
 				}
 
 			}
 		});
 	}
 
-	private class GameAsyncTask extends AsyncTask<Void, Boolean, Void> {
+	private class GameAsyncTask extends AsyncTask<Void, Integer, Void> {
+		
+		protected void onProgressUpdate(Integer... randomInteger) {
+			super.onProgressUpdate(randomInteger);
 
-		protected void onProgressUpdate(Boolean isTrue) {
-			super.onProgressUpdate(isTrue);
-
-			play = true;
-			
-			if (isTrue.booleanValue()) {
+			if (randomInteger[0] != 1) {
+				isTrue = true;
 				imgColor.setBackgroundResource(R.color.yellow);
 			} else {
+				isTrue = false;
 				imgColor.setBackgroundResource(R.color.red);
 			}
+
+			play = true;
 		}
 
+		@Override
 		protected Void doInBackground(Void... arg0) {
 			int roundPlay = 0;
 
 			do {
 				roundPlay++;
-				
-				isTrue = GameReflex.randomFalse(1, 5);
 
-				int timeRound = GameReflex.randomTime(3, 7);
+				SystemClock.sleep(GameReflex.randomTime(2, 10) * 1000);
 
-				SystemClock.sleep(timeRound * 1000);
-				
-				publishProgress(isTrue);
+				publishProgress(GameReflex.randomTime(1, 4));
 
 			} while (nbRounds != roundPlay);
 
