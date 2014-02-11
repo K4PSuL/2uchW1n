@@ -30,19 +30,7 @@ public class GameActivity extends Activity {
 				.getSerializable(Const.BUNDLE_PLAYER2);
 
 		btnP1.setText(thePlayer.getLogin());
-		btnP2.setText(Player2.getLogin());
-		
-		Random oRandom = new Random();
-		int timeRound = oRandom.nextInt(7-2) + 2;
-		
-		int trueOrFalse = oRandom.nextInt(5-1) + 1;
-		
-		boolean isFalse = false;
-		
-		if (trueOrFalse == 1) {
-			isFalse = true;
-		}
-
+		btnP2.setText(Player2.getLogin());		
 		
 		imgColor.setOnClickListener(new View.OnClickListener() {
 			@Override

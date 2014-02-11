@@ -9,7 +9,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-public class AddDataAsyncTask extends AsyncTask<Activity, Integer, Void> {
+public class AddDataAsyncTask extends AsyncTask<Void, Integer, Void> {
 	
 	@Override
 	protected void onPreExecute() {
@@ -26,7 +26,7 @@ public class AddDataAsyncTask extends AsyncTask<Activity, Integer, Void> {
 	}
 
 	@Override
-	protected Void doInBackground(Activity... params) {
+	protected Void doInBackground(Void... params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
