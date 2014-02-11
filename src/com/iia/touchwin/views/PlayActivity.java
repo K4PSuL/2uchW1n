@@ -56,13 +56,9 @@ public class PlayActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				// Create custom dialog object
 				final Dialog dialog = new Dialog(PlayActivity.this);
-				// Include dialog.xml file
 				dialog.setContentView(R.layout.dialog_player);
-				// Set dialog title
 				dialog.setTitle(R.string.title_dialog_player);
-				// Show the dialog
 				dialog.show();
 
 				Button btnValidPlayer = (Button) dialog.findViewById(R.id.btnValid);
