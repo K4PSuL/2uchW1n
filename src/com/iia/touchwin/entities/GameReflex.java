@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 public class GameReflex extends Game{
 	
-	private int nbRounds;
+	private static int nbRounds;
 	
 	/**
 	 * Retourne un nombre aléatoire entre les deux valeurs passé en paramètres
@@ -16,7 +16,7 @@ public class GameReflex extends Game{
 	 * @param max
 	 * @return
 	 */
-	public int timeRandom(int min, int max) {
+	public static int randomTime(int min, int max) {
 		Random oRandom = new Random();
 		
 		int timeRound = oRandom.nextInt(max-min) + min;
@@ -30,8 +30,8 @@ public class GameReflex extends Game{
 	 * @param max
 	 * @return
 	 */
-	public boolean isFalse(int min, int max) {
-		int trueOrFalse = timeRandom(min, max);
+	public static boolean randomFalse(int min, int max) {
+		int trueOrFalse = randomTime(min, max);
 		
 		boolean isFalse = false;
 		
@@ -40,27 +40,6 @@ public class GameReflex extends Game{
 		}
 		
 		return isFalse;
-	}
-	
-	public void playGame(ImageView imgColor) throws InterruptedException {
-		int roundPlay = 0;
-		boolean isFalse;
-		
-		do {
-			
-			isFalse = isFalse(1, 5);
-			
-			roundPlay++;
-			Thread.sleep(timeRandom(2,7));
-			
-			if (isFalse) {
-				imgColor.setBackgroundResource(R.color.yellow);
-			} else {
-				imgColor.setBackgroundResource(R.color.red);
-			}
-			
-			
-		} while(nbRounds == roundPlay);
 	}
 
 }

@@ -1,49 +1,51 @@
-package com.iia.touchwin.utils;
-
-import java.lang.reflect.Array;
-
-import com.iia.touchwin.entities.Game;
-import com.iia.touchwin.entities.Result;
-
-import android.os.AsyncTask;
-import android.widget.Toast;
-
-public class GameAsyncTask extends AsyncTask<Void, Integer, Void> {
-	
-	protected void onPreExecute() {
-		super.onPreExecute();
-		Toast.makeText(getApplicationContext(),
-				"Début du traitement asynchrone", Toast.LENGTH_LONG).show();
-	}
-
-	protected void onProgressUpdate(Integer... values) {
-		super.onProgressUpdate(values);
-		// Mise à jour de la ProgressBar
-		mProgressBar.setProgress(values[0]);
-	}
-
-	protected Void doInBackground(Void... arg0) {
-
-		int progress;
-		for (progress = 0; progress <= 100; progress++) {
-			for (int i = 0; i < 1000000; i++) {
-			}
-			// la méthode publishProgress met à jour l'interface en invoquant la
-			// méthode onProgressUpdate
-			publishProgress(progress);
-			progress++;
-		}
-		return null;
-	}
-
-	protected void onPostExecute(Void result) {
-		Toast.makeText(getApplicationContext(),
-				"Le traitement asynchrone est terminé", Toast.LENGTH_LONG)
-				.show();
-	}
-
-	protected Result doInBackground(Params... arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-}
+//package com.iia.touchwin.utils;
+//
+//import java.lang.reflect.Array;
+//
+//import com.iia.touchwin.R;
+//import com.iia.touchwin.entities.Game;
+//import com.iia.touchwin.entities.GameReflex;
+//import com.iia.touchwin.entities.Result;
+//import com.iia.touchwin.views.GameActivity;
+//
+//import android.os.AsyncTask;
+//import android.widget.Toast;
+//
+//public class GameAsyncTask extends AsyncTask<Void, Integer, Void> {
+//	
+//	protected void onProgressUpdate(Integer... values) {
+//		super.onProgressUpdate(values);
+//	
+//	}
+//
+//	protected Void doInBackground(Void... arg0) {
+//		int roundPlay = 0;
+//		
+//		do {
+//			final boolean isFalse = GameReflex.isFalse(1, 5);
+//
+//			roundPlay++;
+//			
+//			int timeRound = GameReflex.timeRandom(2, 7);
+//			
+//			try {
+//				Thread.sleep(timeRound);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//
+//			if (isFalse) {
+//				publishProgress(R.color.yellow);
+//			} else {
+//				publishProgress(R.color.red);
+//			}
+//
+//			
+//
+//		} while (nbRounds != roundPlay);
+//		
+//		return null;
+//	}
+//
+//}

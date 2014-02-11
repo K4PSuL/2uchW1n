@@ -3,14 +3,18 @@ package com.iia.touchwin.views;
 import java.util.Random;
 
 import com.iia.touchwin.R;
+import com.iia.touchwin.entities.GameReflex;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
+//import com.iia.touchwin.utils.GameAsyncTask;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.res.Resources.Theme;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -20,105 +24,120 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class GameActivity extends Activity {
-	
-	long startTime = 0L;
-	Handler customHandler = new Handler();
-	long timeInMilliseconds = 0L;
-	long timeSwapBuff = 0L;
-	long updatedTime = 0L;
-	
+
+	Player thePlayer;
+	Player Player2;
+	TextView lbScoreP1;
+	TextView lbScoreP2;
+	ImageView imgColor;
+	int nbRounds = 7;
+	boolean play;
+	boolean isTrue;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_game);
 
 		final Button btnP1 = (Button) findViewById(R.id.btnP1);
 		final Button btnP2 = (Button) findViewById(R.id.btnP2);
-		final ImageView imgColor = (ImageView) findViewById(R.id.imgColor);
 
-		final Player thePlayer = (Player) getIntent().getExtras()
-				.getSerializable(Const.BUNDLE_PLAYER);
-		final Player Player2 = (Player) getIntent().getExtras()
-				.getSerializable(Const.BUNDLE_PLAYER2);
-		final String game = getIntent().getExtras().getString(Const.BUNDLE_GAME);
-        final int nbRounds = getIntent().getExtras().getInt(Const.BUNDLE_TIME);
-		
-        // Create custom dialog object
-        final Dialog dialog = new Dialog(GameActivity.this);
-        
+		imgColor = (ImageView) findViewById(R.id.imgColor);
+
+		thePlayer = (Player) getIntent().getExtras().getSerializable(
+				Const.BUNDLE_PLAYER);
+
+		Player2 = (Player) getIntent().getExtras().getSerializable(
+				Const.BUNDLE_PLAYER2);
+
+		lbScoreP1 = (TextView) findViewById(R.id.lbScoreP1);
+		lbScoreP2 = (TextView) findViewById(R.id.lbScoreP2);
+
 		btnP1.setText(thePlayer.getLogin());
 		btnP2.setText(Player2.getLogin());
-	
-		startTime = SystemClock.uptimeMillis();
-		customHandler.postDelayed(updateTimerThread, 0);
-		
-		
-		dialog.setOnShowListener(new OnShowListener() {
-			
-			@Override
-			public void onShow(DialogInterface dialog) {
-				timeSwapBuff += timeInMilliseconds;
-				customHandler.removeCallbacks(updateTimerThread);
-			}
-		});
-		
-		dialog.setOnDismissListener(new OnDismissListener() {
-			
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				startTime = SystemClock.uptimeMillis();
-        		customHandler.postDelayed(updateTimerThread, 0);
-			}
-		});
-		
-		imgColor.setOnClickListener(new View.OnClickListener() {
+
+		btnP1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				// Include dialog.xml file
-                dialog.setContentView(R.layout.dialog_game);
-                // Set dialog title
-                dialog.setTitle(R.string.title_dialog_stop);
-
-                dialog.show();
-                 
-                Button btnStop = (Button) dialog.findViewById(R.id.btnValid);
-                // if button is clicked, close the custom dialog
-                btnStop.setOnClickListener(new View.OnClickListener() {
-        			@Override
-        			public void onClick(View v) {
-        				// Close dialog
-                        dialog.dismiss();
-                    }
-        			
-                });
-                
+				if (play) {
+					
+					play = false;
+					
+					if (isTrue) {
+						lbScoreP1.setText(String.valueOf(Integer
+								.valueOf((String) lbScoreP1.getText()) + 1));
+					} else {
+						lbScoreP2.setText(String.valueOf(Integer
+								.valueOf((String) lbScoreP2.getText()) + 1));
+					}
+					
+					imgColor.setBackgroundResource(R.color.gray);
+				}
 			}
 		});
+
+		btnP2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (play) {
+					
+					play = false;
+					
+					if (isTrue) {
+						lbScoreP2.setText(String.valueOf(Integer
+								.valueOf((String) lbScoreP2.getText()) + 1));
+					} else {
+						lbScoreP1.setText(String.valueOf(Integer
+								.valueOf((String) lbScoreP1.getText()) + 1));
+					}
+					
+					imgColor.setBackgroundResource(R.color.gray);
+					
+				}
+
+			}
+		});
+
+		// On éxecute le jeux dans un autre thread
+		GameAsyncTask inGame = new GameAsyncTask();
+		inGame.execute();
+
 		
 	}
-	
-	private Runnable updateTimerThread = new Runnable() {
 
-		public void run() {
+	private class GameAsyncTask extends AsyncTask<Void, Boolean, Void> {
 
-			timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+		protected void onProgressUpdate(Boolean isTrue) {
+			super.onProgressUpdate(isTrue);
 
-			updatedTime = timeSwapBuff + timeInMilliseconds;
-
-			int secs = (int) (updatedTime / 1000);
-			int mins = secs / 60;
-			secs = secs % 60;
-			int milliseconds = (int) (updatedTime % 1000);
+			play = true;
 			
-			final TextView lbTimer = (TextView) findViewById(R.id.lbTimer);
-			lbTimer.setText("" + mins + ":"
-					+ String.format("%02d", secs) + ":"
-					+ String.format("%03d", milliseconds));
-			customHandler.postDelayed(this, 0);
+			if (isTrue.booleanValue()) {
+				imgColor.setBackgroundResource(R.color.yellow);
+			} else {
+				imgColor.setBackgroundResource(R.color.red);
+			}
 		}
 
-	};
-	
+		protected Void doInBackground(Void... arg0) {
+			int roundPlay = 0;
+
+			do {
+				roundPlay++;
+				
+				isTrue = GameReflex.randomFalse(1, 5);
+
+				int timeRound = GameReflex.randomTime(3, 7);
+
+				SystemClock.sleep(timeRound * 1000);
+				
+				publishProgress(isTrue);
+
+			} while (nbRounds != roundPlay);
+
+			return null;
+		}
+
+	}
 }

@@ -27,26 +27,6 @@
         android:textColor="@color/white"
         android:typeface="monospace" />
 
-    <ImageView
-        android:id="@+id/imgColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/img_color"
-        android:src="@drawable/img_black" />
-
-    <TextView
-        android:id="@+id/lbScoreP1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/btnP1"
-        android:text="0"
-        android:rotation="180"
-        android:textColor="@color/gray"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <TextView
         android:id="@+id/lbScoreP2"
         android:layout_width="wrap_content"
@@ -54,10 +34,10 @@
         android:layout_above="@+id/btnP2"
         android:layout_alignParentRight="true"
         android:text="0"
-        android:textColor="@color/gray"
+        android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
+<!--     <TextView
         android:id="@+id/lbTimer"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
@@ -66,6 +46,26 @@
         android:rotation="90"
         android:text="00:00:00"
         android:textColor="@color/gray"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge" /> -->
+
+    <ImageView
+        android:id="@+id/imgColor"
+        android:layout_width="250px"
+        android:layout_height="175px"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="25px"
+        android:contentDescription="@string/img_color" />
+
+    <TextView
+        android:id="@+id/lbScoreP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btnP1"
+        android:rotation="180"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
