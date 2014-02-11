@@ -57,6 +57,10 @@ public class GameActivity extends Activity {
 		btnP1.setText(thePlayer.getLogin());
 		btnP2.setText(Player2.getLogin());
 
+		// On éxecute le jeux dans un autre thread
+		GameAsyncTask inGame = new GameAsyncTask();
+		inGame.execute();
+		
 		btnP1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -98,12 +102,6 @@ public class GameActivity extends Activity {
 
 			}
 		});
-
-		// On éxecute le jeux dans un autre thread
-		GameAsyncTask inGame = new GameAsyncTask();
-		inGame.execute();
-
-		
 	}
 
 	private class GameAsyncTask extends AsyncTask<Void, Boolean, Void> {
