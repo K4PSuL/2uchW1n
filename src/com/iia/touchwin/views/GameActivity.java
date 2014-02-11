@@ -1,5 +1,7 @@
 package com.iia.touchwin.views;
 
+import java.util.Random;
+
 import com.iia.touchwin.R;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
@@ -15,6 +17,7 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_game);
 
 		final Button btnP1 = (Button) findViewById(R.id.btnP1);
@@ -29,6 +32,17 @@ public class GameActivity extends Activity {
 		btnP1.setText(thePlayer.getLogin());
 		btnP2.setText(Player2.getLogin());
 		
+		Random oRandom = new Random();
+		int timeRound = oRandom.nextInt(7-2) + 2;
+		
+		int trueOrFalse = oRandom.nextInt(5-1) + 1;
+		
+		boolean isFalse = false;
+		
+		if (trueOrFalse == 1) {
+			isFalse = true;
+		}
+
 		
 		imgColor.setOnClickListener(new View.OnClickListener() {
 			@Override

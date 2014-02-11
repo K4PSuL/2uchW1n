@@ -46,6 +46,7 @@ public class HomeActivity extends Activity {
 
 		// Animation du logo
 		Animation animateLogo = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.logo);
+
 		oLogo.startAnimation(animateLogo);
 		
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);

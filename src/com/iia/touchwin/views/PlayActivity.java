@@ -212,8 +212,8 @@ public class PlayActivity extends Activity {
 		final Bundle dataBundle = new Bundle();
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER2, (Player) thePlayer);
-		dataBundle.putSerializable(Const.BUNDLE_GAME, editGame.getText().toString());
-		dataBundle.putSerializable(Const.BUNDLE_TIME, editTime.getText().toString());
+		dataBundle.putString(Const.BUNDLE_GAME, (Game) oGame);
+		dataBundle.putString(Const.BUNDLE_TIME, editTime.getText().toString());
 		
 		// --- DEMARRAGE DU JEU ---
 		btnGo.setOnClickListener(new View.OnClickListener() {
