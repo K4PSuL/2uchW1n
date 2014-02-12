@@ -11,7 +11,7 @@ public class GameReflex extends Game{
 	private static int nbRounds;
 	
 	/**
-	 * Retourne un nombre aléatoire entre les deux valeurs passé en paramètres
+	 * Retourne un nombre aléatoire entre les deux valeurs passées en paramètres
 	 * @param min
 	 * @param max
 	 * @return
