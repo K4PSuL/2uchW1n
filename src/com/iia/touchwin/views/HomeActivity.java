@@ -71,6 +71,7 @@ public class HomeActivity extends Activity {
 		//Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.drawable.logo);
 		//oLogo.startAnimation(animation);
 		
+		
 		btnJouer.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -90,7 +91,7 @@ public class HomeActivity extends Activity {
 						StatsActivity.class);
 
 				intentOpenStats.putExtras(dataBundle);
-
+				
 				startActivity(intentOpenStats);
 			}
 		});

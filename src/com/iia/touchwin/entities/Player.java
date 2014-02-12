@@ -1,17 +1,18 @@
 package com.iia.touchwin.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+
+import org.joda.time.DateTime;
 
 public class Player implements Serializable {
 
 	private int id;
 	private String login;
 	private String password;
-	private Date dateCreate;
+	private DateTime dateCreate;
 	private String avatar;
 	private boolean enable;
-	private Date birthdate;
+	private DateTime birthdate;
 
 	/**
 	 * Default constructor.
@@ -68,7 +69,7 @@ public class Player implements Serializable {
 	/**
 	 * @return the dateCreate
 	 */
-	public Date getDateCreate() {
+	public DateTime getDateCreate() {
 		return this.dateCreate;
 	}
 
@@ -76,7 +77,7 @@ public class Player implements Serializable {
 	 * @param value
 	 *            the dateCreate to set
 	 */
-	public void setDateCreate(final Date value) {
+	public void setDateCreate(final DateTime value) {
 		this.dateCreate = value;
 	}
 
@@ -113,7 +114,7 @@ public class Player implements Serializable {
 	/**
 	 * @return the birthdate
 	 */
-	public Date getBirthdate() {
+	public DateTime getBirthdate() {
 		return this.birthdate;
 	}
 
@@ -121,7 +122,7 @@ public class Player implements Serializable {
 	 * @param value
 	 *            the birthdate to set
 	 */
-	public void setBirthdate(final Date value) {
+	public void setBirthdate(final DateTime value) {
 		this.birthdate = value;
 	}
 

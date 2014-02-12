@@ -1,6 +1,7 @@
 package com.iia.touchwin.views;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 import com.iia.touchwin.R;
 import com.iia.touchwin.utils.*;
 import com.iia.touchwin.entities.*;
@@ -12,13 +13,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -83,8 +82,9 @@ public class MainActivity extends Activity {
 				ContentValues myValuesPlayer = new ContentValues();
 				myValuesPlayer.put(PlayerContract.COL_LOGIN, "Lokoi");
 				myValuesPlayer.put(PlayerContract.COL_PASSWORD, "azqqza");
+				new DateTime();
 				myValuesPlayer.put(PlayerContract.COL_DATECREATE,
-						new Date().toString());
+						DateTime.now().toString("dd/MM/YYYY"));
 				myValuesPlayer.put(PlayerContract.COL_AVATAR, "/img/lokoi.png");
 				myValuesPlayer.put(PlayerContract.COL_ENABLE, true);
 				myValuesPlayer.put(PlayerContract.COL_BIRTHDATE, "17/07/1992");
@@ -94,8 +94,9 @@ public class MainActivity extends Activity {
 				ContentValues myValuesPlayer2 = new ContentValues();
 				myValuesPlayer2.put(PlayerContract.COL_LOGIN, "Chouk");
 				myValuesPlayer2.put(PlayerContract.COL_PASSWORD, "aze");
+				new DateTime();
 				myValuesPlayer2.put(PlayerContract.COL_DATECREATE,
-						new Date().toString());
+						DateTime.now().toString("dd/MM/YYYY"));
 				myValuesPlayer2
 						.put(PlayerContract.COL_AVATAR, "/img/chouk.png");
 				myValuesPlayer2.put(PlayerContract.COL_ENABLE, true);
@@ -113,8 +114,9 @@ public class MainActivity extends Activity {
 				/* RESULT */
 
 				ContentValues myValuesResult1 = new ContentValues();
+				new DateTime();
 				myValuesResult1.put(ResultContract.COL_PLAYDATE,
-						new Date().toString());
+						DateTime.now().toString("dd/MM/YYYY"));
 				myValuesResult1.put(ResultContract.COL_ID_GAME, 1);
 				myValuesResult1.put(ResultContract.COL_PLAYER1, 1);
 				myValuesResult1.put(ResultContract.COL_PLAYER2, 2);
@@ -124,8 +126,9 @@ public class MainActivity extends Activity {
 				dataBase.insert(ResultContract.TABLE, null, myValuesResult1);
 
 				ContentValues myValuesResult2 = new ContentValues();
+				new DateTime();
 				myValuesResult2.put(ResultContract.COL_PLAYDATE,
-						new Date().toString());
+						DateTime.now().toString("dd/MM/YYYY"));
 				myValuesResult2.put(ResultContract.COL_ID_GAME, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER1, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER2, 2);
