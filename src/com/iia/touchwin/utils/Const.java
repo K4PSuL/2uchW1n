@@ -19,7 +19,9 @@ public class Const {
 	public final static String BUNDLE_PLAYER2 = "player2";
 	public final static String BUNDLE_GAME = "game";
 	public final static String BUNDLE_TIME = "time";
-
+	
+	public final static String WINNER = " à gagné !";
+	
 	public static Class<?> NOTIFICATION_ACTIVITY = MainActivity.class;
 	public static Integer NOTIFICATION_ICON = R.drawable.ic_launcher;
 }

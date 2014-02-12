@@ -78,8 +78,12 @@ public class PlayActivity extends Activity {
 				Button btnValidPlayer = (Button) oDialogChoicePlayer
 						.findViewById(R.id.btnValid);
 
-				editLoginDialog.setText(oSettings.getString(
-						Const.PREFERENCES_LOGIN, ""));
+				String login = oSettings.getString(Const.PREFERENCES_LOGIN, "");
+
+				if (login != "") {
+					editLoginDialog.setText(login);
+					editPwdDialog.requestFocus();
+				}
 
 				btnValidPlayer.setOnClickListener(new View.OnClickListener() {
 

@@ -1,15 +1,19 @@
 package com.iia.touchwin.views;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+
+
+
+import org.joda.time.DateTime;
 
 import com.iia.touchwin.R;
 import com.iia.touchwin.contracts.ResultContract;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.entities.Result;
 import com.iia.touchwin.utils.Const;
+import com.iia.touchwin.utils.DateUtils;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
 
 import android.annotation.SuppressLint;
@@ -58,7 +62,7 @@ public class StatsActivity extends Activity {
 			Result oResult = this.getItem(position);
 
 			lbPlayer.setText(String.valueOf(oResult.getId_player2()));
-			lbDate.setText(String.valueOf(oResult.getPlayDate().toString()));
+			lbDate.setText(DateUtils.formatDateTimeToString(oResult.getPlayDate(), context));
 			
 
 			if (oResult.getId_player1() == thePlayer.getId()) {
@@ -128,10 +132,10 @@ public class StatsActivity extends Activity {
 				final Result oResult = new Result();
 
 				total++;
-
-				Date datePlayDate = new Date((oCursor.getInt(oCursor
-						.getColumnIndex(ResultContract.COL_PLAYDATE))));
-
+				
+				DateTime datePlayDate = DateUtils.formatStringToDate(oCursor.getString(oCursor
+						.getColumnIndex(ResultContract.COL_PLAYDATE)),StatsActivity.this);
+				
 				oResult.setId((oCursor.getInt(oCursor
 						.getColumnIndex(ResultContract.COL_ID))));
 				oResult.setId_game((oCursor.getInt(oCursor

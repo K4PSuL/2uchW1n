@@ -5,11 +5,10 @@
 
     <ImageView
         android:id="@+id/imgProfil"
-        android:layout_width="190px"
-        android:layout_height="190px"
-        android:layout_alignParentTop="true"
+        android:layout_width="230px"
+        android:layout_height="230px"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logo" />
+        android:src="@drawable/couronne" />
 
     <TextView
         android:id="@+id/txtPseudo"
@@ -20,7 +19,8 @@
         android:text="Pseudo"
         android:textColor="@color/red"
         android:textSize="35sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="0px" />
 
     <TextView
         android:id="@+id/txtWinner"

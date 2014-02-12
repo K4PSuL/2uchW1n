@@ -2,12 +2,13 @@ package com.iia.touchwin.entities;
 
 
 import java.io.Serializable;
-import java.util.Date;
+
+import org.joda.time.DateTime;
 
 public class Result implements Serializable {
 
 	private int id;
-	private Date playDate;
+	private DateTime playDate;
 	private int id_game;
 	private int id_player1;
 	private int id_player2;
@@ -39,7 +40,7 @@ public class Result implements Serializable {
 	/**
 	 * @return the playDate
 	 */
-	public Date getPlayDate() {
+	public DateTime getPlayDate() {
 		return this.playDate;
 	}
 
@@ -47,7 +48,7 @@ public class Result implements Serializable {
 	 * @param value
 	 *            the playDate to set
 	 */
-	public void setPlayDate(final Date value) {
+	public void setPlayDate(final DateTime value) {
 		this.playDate = value;
 	}
 
