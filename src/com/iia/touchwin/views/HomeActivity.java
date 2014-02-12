@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -40,12 +41,31 @@ public class HomeActivity extends Activity {
 		oEditor.putString(Const.PREFERENCES_LOGIN, thePlayer.getLogin());
 		oEditor.commit();
 
-		// On joue un son d'entrée
-		Utils.playSound(HomeActivity.this, this, R.raw.home);
-
 		// Animation du logo
 		Animation animateLogo = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.logo);
+		animateLogo.setAnimationListener(new AnimationListener() {
+			
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// On joue un son d'entrée
+				Utils.playSound(HomeActivity.this, HomeActivity.this, R.raw.home);
+			}
+		});
+		
 		oLogo.startAnimation(animateLogo);
+		
 		
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
 		//Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.drawable.logo);

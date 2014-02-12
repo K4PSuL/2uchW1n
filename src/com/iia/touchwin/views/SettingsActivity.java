@@ -3,6 +3,7 @@ package com.iia.touchwin.views;
 import com.iia.touchwin.R;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
+import com.iia.touchwin.utils.Utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -36,6 +37,7 @@ public class SettingsActivity extends Activity {
 
 				if (checkBoxSound.isChecked()) {
 					oEditor.putBoolean(Const.PREFERENCES_SOUND, true);
+					Utils.playSound(SettingsActivity.this, SettingsActivity.this, R.raw.switch_sound);
 				} else {
 					oEditor.putBoolean(Const.PREFERENCES_SOUND, false);
 				}

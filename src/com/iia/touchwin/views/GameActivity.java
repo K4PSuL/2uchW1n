@@ -4,6 +4,8 @@ import com.iia.touchwin.R;
 import com.iia.touchwin.entities.GameReflex;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
+import com.iia.touchwin.utils.Utils;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -53,6 +55,12 @@ public class GameActivity extends Activity {
 
 		btnP1.setText(thePlayer.getLogin());
 		btnP2.setText(oPlayer2.getLogin());
+		
+		Utils.playSound(GameActivity.this, GameActivity.this, R.raw.five);
+		Utils.playSound(GameActivity.this, GameActivity.this, R.raw.four);
+		Utils.playSound(GameActivity.this, GameActivity.this, R.raw.three);
+		Utils.playSound(GameActivity.this, GameActivity.this, R.raw.two);
+		Utils.playSound(GameActivity.this, GameActivity.this, R.raw.one);
 
 		// On éxecute le jeux dans un autre thread
 		GameAsyncTask inGame = new GameAsyncTask();
@@ -70,10 +78,12 @@ public class GameActivity extends Activity {
 						lbScoreP1.setText(String.valueOf(Integer
 								.valueOf((String) lbScoreP1.getText()) + 1));
 						btnP1.setBackgroundColor(R.color.green);
+						Utils.playSound(GameActivity.this, GameActivity.this, R.raw.win);
 					} else {
 						lbScoreP2.setText(String.valueOf(Integer
 								.valueOf((String) lbScoreP2.getText()) + 1));
 						btnP1.setBackgroundColor(R.color.red);
+						Utils.playSound(GameActivity.this, GameActivity.this, R.raw.loose);
 					}
 
 					imgColor.setBackgroundResource(R.color.gray);
@@ -93,10 +103,12 @@ public class GameActivity extends Activity {
 						lbScoreP2.setText(String.valueOf(Integer
 								.valueOf((String) lbScoreP2.getText()) + 1));
 						btnP2.setBackgroundColor(R.color.green);
+						Utils.playSound(GameActivity.this, GameActivity.this, R.raw.win);
 					} else {
 						lbScoreP1.setText(String.valueOf(Integer
 								.valueOf((String) lbScoreP1.getText()) + 1));
 						btnP2.setBackgroundColor(R.color.red);
+						Utils.playSound(GameActivity.this, GameActivity.this, R.raw.loose);
 					}
 
 					imgColor.setBackgroundResource(R.color.gray);
@@ -164,6 +176,8 @@ public class GameActivity extends Activity {
 			txtScore.setText(lbScoreP1.getText() + " - " + lbScoreP2.getText());
 
 			oDialogEndGame.show();
+
+			Utils.playSound(GameActivity.this, GameActivity.this, R.raw.end);
 			
 			btnExitEndGame.setOnClickListener(new View.OnClickListener() {
 				
