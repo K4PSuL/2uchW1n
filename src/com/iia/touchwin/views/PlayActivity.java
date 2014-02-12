@@ -37,6 +37,7 @@ import android.widget.Toast;
 public class PlayActivity extends Activity {
 
 	private Player oPlayer2;
+	private Game oGameSelect;
 	final String RED = "#c80000";
 
 	@Override
@@ -51,7 +52,7 @@ public class PlayActivity extends Activity {
 		final Player thePlayer = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
 
-		final Game oGame = new Game();
+		
 		final RadioGroup radioGroupTime = (RadioGroup) findViewById(R.id.radioGroup);
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
@@ -168,6 +169,7 @@ public class PlayActivity extends Activity {
 
 				if (oCursor.moveToFirst()) {
 					do {
+						Game oGame = new Game();
 						oGame.setId(oCursor.getInt(oCursor
 								.getColumnIndex(GameContract.COL_ID)));
 						oGame.setLibelle(oCursor.getString(oCursor
@@ -186,9 +188,9 @@ public class PlayActivity extends Activity {
 					@Override
 					public void onItemClick(AdapterView<?> adapter, View v,
 							int position, long arg3) {
-						Game oGame = (Game) adapter.getItemAtPosition(position);
+						oGameSelect = (Game) adapter.getItemAtPosition(position);
 
-						editGame.setText(oGame.getLibelle());
+						editGame.setText(oGameSelect.getLibelle());
 
 						oDialogGame.dismiss();
 					}
@@ -214,7 +216,7 @@ public class PlayActivity extends Activity {
 						(Player) thePlayer);
 				dataBundle.putSerializable(Const.BUNDLE_PLAYER2,
 						(Player) oPlayer2);
-				dataBundle.putSerializable(Const.BUNDLE_GAME, (Game) oGame);
+				dataBundle.putSerializable(Const.BUNDLE_GAME, (Game) oGameSelect);
 				dataBundle.putInt(Const.BUNDLE_TIME,
 						Integer.valueOf(radioBtn.getText().toString()));
 
@@ -225,12 +227,20 @@ public class PlayActivity extends Activity {
 					Toast.makeText(PlayActivity.this, Const.ERREUR_FORMVIDE,
 							Toast.LENGTH_LONG).show();
 				} else {
-					Intent intentOpenGame = new Intent(PlayActivity.this,
-							GameActivity.class);
-
-					intentOpenGame.putExtras(dataBundle);
-
-					startActivity(intentOpenGame);
+					if (oGameSelect.getId() == 1) {
+						Intent intentOpenGame = new Intent(PlayActivity.this,
+								GameActivity.class);
+						intentOpenGame.putExtras(dataBundle);
+						startActivity(intentOpenGame);
+						
+					} else if (oGameSelect.getId() == 2) {
+						Intent intentOpenGame = new Intent(PlayActivity.this,
+								CalculActivity.class);
+						intentOpenGame.putExtras(dataBundle);
+						startActivity(intentOpenGame);
+					}
+					
+					
 				}
 			}
 		});

@@ -55,6 +55,13 @@
             android:screenOrientation="portrait" >
         </activity>
         
+        <!-- CalculActivity -->
+        <activity
+            android:name="com.iia.touchwin.views.CalculActivity"
+            android:label="@string/app_name"  
+            android:screenOrientation="portrait" >
+        </activity>
+        
         <!-- SettingsActivity -->
         <activity
             android:name="com.iia.touchwin.views.SettingsActivity"

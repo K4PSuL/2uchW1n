@@ -22,7 +22,8 @@ public class CalculActivity extends Activity {
 	private TextView lbScoreP1;
 	private TextView lbScoreP2;
 	private int calcul;
-	private String lbCalcul;
+	private TextView lbCalculP1;
+	private TextView lbCalculP2;
 	private int result;
 	private int nbRounds;
 	private boolean play;
@@ -41,6 +42,9 @@ public class CalculActivity extends Activity {
 
 		//imgColor = (ImageView) findViewById(R.id.imgColor);
 		
+		lbCalculP1 = (TextView) findViewById(R.id.lbCalculP1);
+		lbCalculP2 = (TextView) findViewById(R.id.lbCalculP2);
+		
 		thePlayer = (Player) getIntent().getExtras().getSerializable(
 				Const.BUNDLE_PLAYER);
 
@@ -53,64 +57,6 @@ public class CalculActivity extends Activity {
 		result = 0;
 		isTrue = false;
 		
-		int nb1 = GameReflex.randomTime(0, 100); // premier nombre
-		int nb2 = GameReflex.randomTime(0, 100); // deuxième nombre
-		int operator = GameReflex.randomTime(1, 4); // opérateur
-		int cpt; // bon ou mauvais calcul
-		
-		switch (operator) {
-		case 1:
-			calcul = nb1 + nb2;
-			cpt = GameReflex.randomTime(1, 3);
-			result = calcul;
-			
-			if (cpt == 1) {
-				isTrue = true;
-			} else {
-				do {
-					result = GameReflex.randomTime(calcul-5, calcul+5);
-				} while (result == calcul);
-				isTrue = false;
-			}
-			
-			lbCalcul = nb1 + " + " + nb2 + " = " + result;
-			break;
-		case 2:
-			calcul = nb1 - nb2;
-			cpt = GameReflex.randomTime(1, 3);
-			result = calcul;
-			
-			if (cpt == 1) {
-				isTrue = true;
-			} else {
-				do {
-					result = GameReflex.randomTime(calcul-5, calcul+5);
-				} while (result == calcul);
-				isTrue = false;
-			}
-			
-			lbCalcul = nb1 + " - " + nb2 + " = " + result;
-			break;
-		case 3:
-			calcul = nb1 * nb2;
-			cpt = GameReflex.randomTime(1, 3);
-			result = calcul;
-			
-			if (cpt == 1) {
-				isTrue = true;
-			} else {
-				do {
-					result = GameReflex.randomTime(calcul-5, calcul+5);
-				} while (result == calcul);
-				isTrue = false;
-			}
-			
-			lbCalcul = nb1 + " x " + nb2 + " = " + result;
-			break;
-		default:
-			break;
-		}
-
 		lbScoreP1 = (TextView) findViewById(R.id.lbScoreP1);
 		lbScoreP2 = (TextView) findViewById(R.id.lbScoreP2);
 
@@ -178,21 +124,87 @@ public class CalculActivity extends Activity {
 		});
 	}
 
+	private void setNewCalcul() {
+		int nb1 = GameReflex.randomTime(0, 100); // premier nombre
+		int nb2 = GameReflex.randomTime(0, 100); // deuxième nombre
+		int operator = GameReflex.randomTime(1, 4); // opérateur
+		int cpt; // bon ou mauvais calcul
+		String lbCalcul = "";
+		
+		switch (operator) {
+		case 1:
+			calcul = nb1 + nb2;
+			cpt = GameReflex.randomTime(1, 3);
+			result = calcul;
+			
+			if (cpt == 1) {
+				isTrue = true;
+			} else {
+				do {
+					result = GameReflex.randomTime(calcul-5, calcul+5);
+				} while (result == calcul);
+				isTrue = false;
+			}
+			
+			lbCalcul = nb1 + " + " + nb2 + " = " + result;
+			break;
+		case 2:
+			calcul = nb1 - nb2;
+			cpt = GameReflex.randomTime(1, 3);
+			result = calcul;
+			
+			if (cpt == 1) {
+				isTrue = true;
+			} else {
+				do {
+					result = GameReflex.randomTime(calcul-5, calcul+5);
+				} while (result == calcul);
+				isTrue = false;
+			}
+			
+			lbCalcul = nb1 + " - " + nb2 + " = " + result;
+			break;
+		case 3:
+			calcul = nb1 * nb2;
+			cpt = GameReflex.randomTime(1, 3);
+			result = calcul;
+			
+			if (cpt == 1) {
+				isTrue = true;
+			} else {
+				do {
+					result = GameReflex.randomTime(calcul-5, calcul+5);
+				} while (result == calcul);
+				isTrue = false;
+			}
+			
+			lbCalcul = nb1 + " x " + nb2 + " = " + result;
+			break;
+		default:
+			break;
+		}
+		
+		lbCalculP1.setVisibility(View.VISIBLE);
+		lbCalculP2.setVisibility(View.VISIBLE);
+		lbCalculP1.setText(lbCalcul);
+		lbCalculP2.setText(lbCalcul);
+	}
+	
 	private class GameAsyncTask extends AsyncTask<Void, Integer, Void> {
 		protected void onProgressUpdate(Integer... randomInteger) {
 			super.onProgressUpdate(randomInteger);
 
 			btnP1.setBackgroundResource(R.color.gray);
 			btnP2.setBackgroundResource(R.color.gray);
-			
-			if (randomInteger[0] != 1) {
-				isTrue = true;
-				//imgColor.setBackgroundResource(R.color.yellow);
-			} else {
-				isTrue = false;
-				//imgColor.setBackgroundResource(R.color.red);
-			}
 
+			lbCalculP1.setText(" ");
+			lbCalculP2.setText(" ");
+			
+			lbCalculP1.setVisibility(View.INVISIBLE);
+			lbCalculP2.setVisibility(View.INVISIBLE);
+			
+			setNewCalcul();
+			
 			play = true;
 		}
 

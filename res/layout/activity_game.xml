@@ -80,4 +80,24 @@
         android:textStyle="bold"
         android:rotation="90" />
 
+    <TextView
+        android:id="@+id/lbCalculP2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lbScoreP2"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/lbCalculP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbCalculP2"
+        android:layout_alignTop="@+id/lbScoreP1"
+        android:layout_centerHorizontal="true"
+        android:rotation="180"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="30sp" />
+
 </RelativeLayout>

@@ -110,6 +110,11 @@ public class MainActivity extends Activity {
 				myValuesGame.put(GameContract.COL_LIBELLE, "Reflexe");
 
 				dataBase.insert(GameContract.TABLE, null, myValuesGame);
+				
+				ContentValues myValuesGame2 = new ContentValues();
+				myValuesGame2.put(GameContract.COL_LIBELLE, "Calcul");
+
+				dataBase.insert(GameContract.TABLE, null, myValuesGame2);
 
 				/* RESULT */
 
