@@ -9,8 +9,10 @@ import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
 import com.iia.touchwin.utils.Utils;
+import com.iia.touchwin.utils.QustomDialogBuilder;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +37,7 @@ import android.widget.Toast;
 public class PlayActivity extends Activity {
 
 	private Player oPlayer2;
+	final String RED = "#c80000";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +67,31 @@ public class PlayActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
+				final QustomDialogBuilder oDialogChoicePlayer = new QustomDialogBuilder(v.getContext()).
+						setTitle(R.string.title_dialog_player).
+						setTitleColor(RED).
+						setDividerColor(RED).
+						setCustomView(R.layout.dialog_player, v.getContext()).
+						setIcon(getResources().getDrawable(R.drawable.ic_launcher));
+				
+				final AlertDialog oDialogPlayer = oDialogChoicePlayer.show();
+				
+				View oDialogP = oDialogChoicePlayer.getViewById(R.layout.dialog_player);
+				
+				/*
 				final Dialog oDialogChoicePlayer = new Dialog(PlayActivity.this);
 
 				oDialogChoicePlayer.setContentView(R.layout.dialog_player);
 				oDialogChoicePlayer.setTitle(R.string.title_dialog_player);
 				oDialogChoicePlayer.show();
+				*/
 
-				final EditText editLoginDialog = (EditText) oDialogChoicePlayer
+				final EditText editLoginDialog = (EditText) oDialogP
 						.findViewById(R.id.editLogin);
-				final EditText editPwdDialog = (EditText) oDialogChoicePlayer
+				final EditText editPwdDialog = (EditText) oDialogP
 						.findViewById(R.id.editPassword);
 
-				Button btnValidPlayer = (Button) oDialogChoicePlayer
+				Button btnValidPlayer = (Button) oDialogP
 						.findViewById(R.id.btnValid);
 
 				String login = oSettings.getString(Const.PREFERENCES_LOGIN, "");
@@ -109,7 +125,7 @@ public class PlayActivity extends Activity {
 										oPlayer2.getLogin());
 								oEditor.commit();
 
-								oDialogChoicePlayer.dismiss();
+								oDialogPlayer.dismiss();
 							}
 						}
 					}
@@ -117,20 +133,27 @@ public class PlayActivity extends Activity {
 			}
 		});
 
-		/* CHOIX DU JEU */
+		/* CHOIX DU JEU */		
 		editGame.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				final Dialog oDialogChoiceGame = new Dialog(PlayActivity.this);
-				oDialogChoiceGame.setContentView(R.layout.dialog_game);
-				oDialogChoiceGame.setTitle(R.string.title_dialog_game);
-				oDialogChoiceGame.show();
-
-				ListView listGames = (ListView) oDialogChoiceGame
+				
+				final QustomDialogBuilder oDialogChoiceGame = new QustomDialogBuilder(v.getContext()).
+						setTitle(R.string.title_dialog_game).
+						setTitleColor(RED).
+						setDividerColor(RED).
+						setCustomView(R.layout.dialog_game, v.getContext()).
+						setIcon(getResources().getDrawable(R.drawable.ic_launcher));
+				
+				final AlertDialog oDialogGame = oDialogChoiceGame.show();
+				
+				View oDialogG = oDialogChoiceGame.getViewById(R.layout.dialog_game);
+				
+				
+				ListView listGames = (ListView) oDialogG
 						.findViewById(R.id.listGames);
 
-				Button btnValidGame = (Button) oDialogChoiceGame
+				Button btnValidGame = (Button) oDialogG
 						.findViewById(R.id.btnValid);
 
 				TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
@@ -167,18 +190,19 @@ public class PlayActivity extends Activity {
 
 						editGame.setText(oGame.getLibelle());
 
-						oDialogChoiceGame.dismiss();
+						oDialogGame.dismiss();
 					}
 				});
-
+				
 				btnValidGame.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						oDialogChoiceGame.dismiss();
+						oDialogGame.dismiss();
 					}
 				});
 			}
 		});
+		
 
 		/* DEMARRAGE DU JEU */
 		btnGo.setOnClickListener(new View.OnClickListener() {
