@@ -10,7 +10,6 @@
  **************************************************************************/
 package com.iia.touchwin.utils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.regex.Matcher;
