@@ -22,6 +22,8 @@
 	<string name="checkBoxSound">Activer les sons</string>
 	<string name="lb_login">Login :</string>
 	<string name="lb_pwd">Mot de passe :</string>
+	<string name="lb_help">Règles du jeu :</string>
+	<string name="btn_help">Aide</string>
 	<string name="btn_valid">Valider</string>
 	
 	<!-- activity_stats -->

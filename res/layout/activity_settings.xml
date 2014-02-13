@@ -25,25 +25,48 @@
         android:textColor="@color/white"
         android:typeface="monospace" />
 
-    <CheckBox
-        android:id="@+id/checkBoxSound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imgHeader"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp"
-        android:text="@string/checkBoxSound"
-        android:typeface="monospace" />
-
     <Button
         android:id="@+id/btnValid"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="26dp"
         android:layout_marginRight="16dp"
         android:text="@string/btn_valid"
+        android:textColor="@color/white"
+        android:typeface="monospace" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/lbSettings"
+        android:layout_below="@+id/imgHeader"
+        android:layout_marginTop="57dp"
+        android:text="@string/checkBoxSound"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/lbHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/checkBoxSound"
+        android:layout_below="@+id/checkBoxSound"
+        android:layout_marginTop="60dp"
+        android:text="@string/lb_help"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white"
+        android:typeface="monospace" />
+
+    <Button
+        android:id="@+id/btnHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lbHelp"
+        android:layout_alignBottom="@+id/lbHelp"
+        android:layout_toRightOf="@+id/checkBoxSound"
+        android:text="@string/btn_help"
         android:textColor="@color/white"
         android:typeface="monospace" />
 
