@@ -43,8 +43,8 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
      * 
      * @param colorString for passing "#ffffff"
      */
-    public QustomDialogBuilder setDividerColor(String colorString) {
-    	mDivider.setBackgroundColor(Color.parseColor(colorString));
+    public QustomDialogBuilder setDividerColor(int colorRes) {
+    	mDivider.setBackgroundResource(colorRes);
     	return this;
     }
  

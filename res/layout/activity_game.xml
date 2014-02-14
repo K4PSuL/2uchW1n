@@ -6,19 +6,20 @@
 
     <Button
         android:id="@+id/btnP1"
+        style="@style/AppTheme"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/btn_player1"
         android:rotation="180"
+        android:text="@string/btn_player1"
         android:textColor="@color/white"
-        android:typeface="monospace" 
-        style="@style/AppTheme"/>
+        android:typeface="monospace" />
 
     <Button
         android:id="@+id/btnP2"
+        style="@style/AppTheme"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
@@ -26,8 +27,7 @@
         android:layout_alignParentRight="true"
         android:text="@string/btn_player2"
         android:textColor="@color/white"
-        android:typeface="monospace" 
-        style="@style/AppTheme"/>
+        android:typeface="monospace" />
 
     <TextView
         android:id="@+id/lbScoreP2"
@@ -35,25 +35,16 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnP2"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
         android:text="0"
-        android:textColor="@color/white"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white" />
 
-<!--     <TextView
-        android:id="@+id/lbTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:rotation="90"
-        android:text="00:00:00"
-        android:textColor="@color/gray"
-        android:textAppearance="?android:attr/textAppearanceLarge" /> -->
 
     <ImageView
         android:id="@+id/imgColor"
-        android:layout_width="300px"
-        android:layout_height="200px"
+        android:layout_width="200dp"
+        android:layout_height="125dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="25px"
@@ -65,6 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/btnP1"
+        android:layout_marginLeft="25dp"
         android:rotation="180"
         android:text="0"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -76,9 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:rotation="90"
         android:textSize="100sp"
-        android:textStyle="bold"
-        android:rotation="90" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/lbCalculP2"
@@ -99,5 +91,31 @@
         android:rotation="180"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/imgClickP1"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_above="@+id/lbScoreP1"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:layout_toLeftOf="@+id/lbScoreP2"
+        android:rotation="180" />
+
+    <ImageView
+        android:id="@+id/imgClickP2"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/btnP2"
+        android:layout_margin="30dp" />
+
+    <TextView
+        android:id="@+id/txtTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/imgColor"
+        android:text="TextView" />
 
 </RelativeLayout>

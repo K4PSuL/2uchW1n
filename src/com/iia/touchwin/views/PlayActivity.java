@@ -1,7 +1,6 @@
 package com.iia.touchwin.views;
 
 import java.util.ArrayList;
-
 import com.iia.touchwin.R;
 import com.iia.touchwin.contracts.GameContract;
 import com.iia.touchwin.entities.Game;
@@ -10,7 +9,7 @@ import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
 import com.iia.touchwin.utils.Utils;
 import com.iia.touchwin.utils.QustomDialogBuilder;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -37,54 +36,50 @@ public class PlayActivity extends Activity {
 
 	private Player oPlayer2;
 	private Game oGameSelect;
-	final String RED = "#c80000";
 
+	@SuppressLint("ResourceAsColor")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_play);
 
 		final EditText editPlayer1 = (EditText) findViewById(R.id.editPlayer1);
 		final EditText editPlayer2 = (EditText) findViewById(R.id.editPlayer2);
 		final EditText editGame = (EditText) findViewById(R.id.editGame);
+		final RadioGroup radioGroupTime = (RadioGroup) findViewById(R.id.radioGroup);
 		final Button btnGo = (Button) findViewById(R.id.btnGo);
+		
+		final Bundle dataBundle = new Bundle();
+		
 		final Player thePlayer = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
-
 		
-		final RadioGroup radioGroupTime = (RadioGroup) findViewById(R.id.radioGroup);
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
-
-		/* CHOIX DU TEMPS / NOMBRE DE ROUNDS */
-		int selectedId = radioGroupTime.getCheckedRadioButtonId();
-		final RadioButton radioBtn = (RadioButton) findViewById(selectedId);
 
 		editPlayer1.setText(thePlayer.getLogin());
 
 		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
 
-				final QustomDialogBuilder oDialogChoicePlayer = new QustomDialogBuilder(v.getContext()).
-						setTitle(R.string.title_dialog_player).
-						setTitleColor(RED).
-						setDividerColor(RED).
-						setCustomView(R.layout.dialog_player, v.getContext()).
-						setIcon(getResources().getDrawable(R.drawable.ic_launcher));
-				
-				final AlertDialog oDialogPlayer = oDialogChoicePlayer.show();
-				
-				View oDialogP = oDialogChoicePlayer.getViewById(R.layout.dialog_player);
-				
-				/*
-				final Dialog oDialogChoicePlayer = new Dialog(PlayActivity.this);
+				final QustomDialogBuilder oDialogChoicePlayer = new QustomDialogBuilder(
+						v.getContext())
+						.setTitle(R.string.title_dialog_player)
+						.setTitleColor(Const.COLOR_RED)
+						.setDividerColor(R.color.red)
+						.setCustomView(R.layout.dialog_player, v.getContext())
+						.setIcon(
+								getResources().getDrawable(
+										R.drawable.ic_launcher));
 
-				oDialogChoicePlayer.setContentView(R.layout.dialog_player);
-				oDialogChoicePlayer.setTitle(R.string.title_dialog_player);
-				oDialogChoicePlayer.show();
-				*/
+				final AlertDialog oDialogPlayer = oDialogChoicePlayer.show();
+
+				View oDialogP = oDialogChoicePlayer
+						.getViewById(R.layout.dialog_player);
 
 				final EditText editLoginDialog = (EditText) oDialogP
 						.findViewById(R.id.editLogin);
@@ -133,23 +128,27 @@ public class PlayActivity extends Activity {
 			}
 		});
 
-		/* CHOIX DU JEU */		
+		/* CHOIX DU JEU */
 		editGame.setOnClickListener(new View.OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
-				
-				final QustomDialogBuilder oDialogChoiceGame = new QustomDialogBuilder(v.getContext()).
-						setTitle(R.string.title_dialog_game).
-						setTitleColor(RED).
-						setDividerColor(RED).
-						setCustomView(R.layout.dialog_game, v.getContext()).
-						setIcon(getResources().getDrawable(R.drawable.ic_launcher));
-				
+
+				final QustomDialogBuilder oDialogChoiceGame = new QustomDialogBuilder(
+						v.getContext())
+						.setTitle(R.string.title_dialog_game)
+						.setTitleColor(Const.COLOR_RED)
+						.setDividerColor(R.color.red)
+						.setCustomView(R.layout.dialog_game, v.getContext())
+						.setIcon(
+								getResources().getDrawable(
+										R.drawable.ic_launcher));
+
 				final AlertDialog oDialogGame = oDialogChoiceGame.show();
-				
-				View oDialogG = oDialogChoiceGame.getViewById(R.layout.dialog_game);
-				
-				
+
+				View oDialogG = oDialogChoiceGame
+						.getViewById(R.layout.dialog_game);
+
 				ListView listGames = (ListView) oDialogG
 						.findViewById(R.id.listGames);
 
@@ -169,6 +168,7 @@ public class PlayActivity extends Activity {
 				if (oCursor.moveToFirst()) {
 					do {
 						Game oGame = new Game();
+						
 						oGame.setId(oCursor.getInt(oCursor
 								.getColumnIndex(GameContract.COL_ID)));
 						oGame.setLibelle(oCursor.getString(oCursor
@@ -187,14 +187,16 @@ public class PlayActivity extends Activity {
 					@Override
 					public void onItemClick(AdapterView<?> adapter, View v,
 							int position, long arg3) {
-						oGameSelect = (Game) adapter.getItemAtPosition(position);
+						
+						oGameSelect = (Game) adapter
+								.getItemAtPosition(position);
 
 						editGame.setText(oGameSelect.getLibelle());
 
 						oDialogGame.dismiss();
 					}
 				});
-				
+
 				btnValidGame.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -203,19 +205,23 @@ public class PlayActivity extends Activity {
 				});
 			}
 		});
-		
 
 		/* DEMARRAGE DU JEU */
 		btnGo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
-				final Bundle dataBundle = new Bundle();
+				/* CHOIX DU TEMPS / NOMBRE DE ROUNDS */
+				int selectedId = radioGroupTime.getCheckedRadioButtonId();
+				final RadioButton radioBtn = (RadioButton) findViewById(selectedId);
+
+
 				dataBundle.putSerializable(Const.BUNDLE_PLAYER,
 						(Player) thePlayer);
 				dataBundle.putSerializable(Const.BUNDLE_PLAYER2,
 						(Player) oPlayer2);
-				dataBundle.putSerializable(Const.BUNDLE_GAME, (Game) oGameSelect);
+				dataBundle.putSerializable(Const.BUNDLE_GAME,
+						(Game) oGameSelect);
 				dataBundle.putInt(Const.BUNDLE_TIME,
 						Integer.valueOf(radioBtn.getText().toString()));
 
@@ -223,23 +229,25 @@ public class PlayActivity extends Activity {
 				if (editPlayer1.getText().length() < 1
 						|| editPlayer2.getText().length() < 1
 						|| editGame.getText().length() < 1) {
+					
 					Toast.makeText(PlayActivity.this, Const.ERREUR_FORMVIDE,
 							Toast.LENGTH_LONG).show();
+					
 				} else {
+					
+					Intent intentOpenGame = null;
+					
 					if (oGameSelect.getId() == 1) {
-						Intent intentOpenGame = new Intent(PlayActivity.this,
+						intentOpenGame = new Intent(PlayActivity.this,
 								GameActivity.class);
-						intentOpenGame.putExtras(dataBundle);
-						startActivity(intentOpenGame);
-						
+
 					} else if (oGameSelect.getId() == 2) {
-						Intent intentOpenGame = new Intent(PlayActivity.this,
+						intentOpenGame = new Intent(PlayActivity.this,
 								CalculActivity.class);
-						intentOpenGame.putExtras(dataBundle);
-						startActivity(intentOpenGame);
 					}
 					
-					
+					intentOpenGame.putExtras(dataBundle);
+					startActivity(intentOpenGame);
 				}
 			}
 		});
@@ -253,6 +261,7 @@ public class PlayActivity extends Activity {
 
 		public MyGameAdapter(Context context, int resource,
 				java.util.List<Game> items) {
+			
 			super(context, resource, items);
 			this.context = context;
 			this.resource = resource;

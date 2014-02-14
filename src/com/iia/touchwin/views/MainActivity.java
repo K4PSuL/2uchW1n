@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
 
 				ContentValues myValuesPlayer = new ContentValues();
 				myValuesPlayer.put(PlayerContract.COL_LOGIN, "Lokoi");
-				myValuesPlayer.put(PlayerContract.COL_PASSWORD, "azqqza");
+				myValuesPlayer.put(PlayerContract.COL_PASSWORD, "");
 				new DateTime();
 				myValuesPlayer.put(PlayerContract.COL_DATECREATE,
 						DateTime.now().toString("dd/MM/YYYY"));
@@ -93,7 +93,7 @@ public class MainActivity extends Activity {
 
 				ContentValues myValuesPlayer2 = new ContentValues();
 				myValuesPlayer2.put(PlayerContract.COL_LOGIN, "Chouk");
-				myValuesPlayer2.put(PlayerContract.COL_PASSWORD, "aze");
+				myValuesPlayer2.put(PlayerContract.COL_PASSWORD, "");
 				new DateTime();
 				myValuesPlayer2.put(PlayerContract.COL_DATECREATE,
 						DateTime.now().toString("dd/MM/YYYY"));
