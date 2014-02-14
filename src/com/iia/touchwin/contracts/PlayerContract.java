@@ -10,7 +10,7 @@ public class PlayerContract {
 	public final static String COL_DATECREATE = "dateCreate";
 	public final static String COL_AVATAR = "avatar";
 	public final static String COL_ENABLE = "enable";
-	public final static String COL_BIRTHDATE = "birthdate";
+	public final static String COL_BIRTHDATE = "birthDate";
 
 	// On crée la requete SQL de creation de la base
 	public final static String SCHEMA = "CREATE TABLE " + TABLE + "("

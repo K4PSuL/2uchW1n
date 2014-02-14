@@ -22,6 +22,8 @@ public class Const {
 	
 	public final static String WINNER = " à gagné !";
 	
+	public final static String COLOR_RED = "#c80000";
+	
 	public static Class<?> NOTIFICATION_ACTIVITY = MainActivity.class;
 	public static Integer NOTIFICATION_ICON = R.drawable.ic_launcher;
 }
