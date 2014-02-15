@@ -110,12 +110,4 @@
         android:layout_alignTop="@+id/btnP2"
         android:layout_margin="30dp" />
 
-    <TextView
-        android:id="@+id/txtTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/imgColor"
-        android:text="TextView" />
-
 </RelativeLayout>

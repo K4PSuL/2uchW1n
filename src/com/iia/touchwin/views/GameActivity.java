@@ -59,7 +59,7 @@ public class GameActivity extends Activity {
 				Const.BUNDLE_GAME);
 
 		nbRounds = getIntent().getExtras().getInt(Const.BUNDLE_TIME);
-		nbRounds = 2;
+		//nbRounds = 2;
 
 
 		thePlayer = (Player) getIntent().getExtras().getSerializable(

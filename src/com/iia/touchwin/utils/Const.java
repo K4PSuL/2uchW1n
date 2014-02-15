@@ -20,7 +20,7 @@ public class Const {
 	public final static String BUNDLE_GAME = "game";
 	public final static String BUNDLE_TIME = "time";
 	
-	public final static String WINNER = " à gagné !";
+	public final static String WINNER = " a gagné !";
 	
 	public final static String COLOR_RED = "#c80000";
 	
