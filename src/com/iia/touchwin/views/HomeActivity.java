@@ -30,7 +30,7 @@ public class HomeActivity extends Activity {
 		final ImageView oLogo = (ImageView) findViewById(R.id.imgLogo);
 		
 		// On récupére le Player
-		final Player thePlayer = (Player) getIntent().getExtras()
+		final Player oPlayer1 = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
 
 		SharedPreferences oSettings = this.getSharedPreferences(
@@ -38,7 +38,7 @@ public class HomeActivity extends Activity {
 
 		// On enregistre son Login pour populer le formulaire de connexion
 		SharedPreferences.Editor oEditor = oSettings.edit();
-		oEditor.putString(Const.PREFERENCES_LOGIN, thePlayer.getLogin());
+		oEditor.putString(Const.PREFERENCES_LOGIN, oPlayer1.getLogin());
 		oEditor.commit();
 
 		// Animation du logo
@@ -67,7 +67,7 @@ public class HomeActivity extends Activity {
 		oLogo.startAnimation(animateLogo);
 		
 		
-		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) thePlayer);
+		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) oPlayer1);
 		//Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.drawable.logo);
 		//oLogo.startAnimation(animation);
 		

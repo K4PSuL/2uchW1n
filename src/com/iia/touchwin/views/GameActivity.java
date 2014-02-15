@@ -11,15 +11,15 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements View.OnClickListener {
 
 	private Button btnP1;
 	private Button btnP2;
@@ -29,9 +29,8 @@ public class GameActivity extends Activity {
 	private ImageView imgColor;
 	private ImageView imgClickP1;
 	private ImageView imgClickP2;
-	private Player thePlayer;
+	private Player oPlayer1;
 	private Player oPlayer2;
-	private Animation animateChrono;
 	private int nbRounds;
 	private boolean play;
 	private boolean isTrue;
@@ -52,99 +51,43 @@ public class GameActivity extends Activity {
 		imgClickP1 = (ImageView) findViewById(R.id.imgClickP1);
 		imgClickP2 = (ImageView) findViewById(R.id.imgClickP2);
 
-		animateChrono = AnimationUtils.loadAnimation(GameActivity.this,
-				R.anim.chrono);
+//		final TextView lbMoreScoreP1 = (TextView) findViewById(R.id.lbMoreP1);
+//		final Animation animateMoreScoreP1 = AnimationUtils.loadAnimation(
+//				GameActivity.this, R.anim.more_p1);
 
 		oGame = (Game) getIntent().getExtras().getSerializable(
 				Const.BUNDLE_GAME);
 
 		nbRounds = getIntent().getExtras().getInt(Const.BUNDLE_TIME);
-		nbRounds = 2;
 
-
-		thePlayer = (Player) getIntent().getExtras().getSerializable(
+		oPlayer1 = (Player) getIntent().getExtras().getSerializable(
 				Const.BUNDLE_PLAYER);
 
 		oPlayer2 = (Player) getIntent().getExtras().getSerializable(
 				Const.BUNDLE_PLAYER2);
 
-		btnP1.setText(thePlayer.getLogin());
+		btnP1.setText(oPlayer1.getLogin());
 		btnP2.setText(oPlayer2.getLogin());
 
 		// On démarre le chronomètre
 		ChronoAsyncTask chrono = new ChronoAsyncTask(nbRounds);
 		chrono.execute();
 
-		btnP1.setOnClickListener(new View.OnClickListener() {
+		btnP1.setOnClickListener((OnClickListener) this);
+		btnP2.setOnClickListener((OnClickListener) this);
+	}
 
-			@SuppressLint("ResourceAsColor")
-			@Override
-			public void onClick(View v) {
-				if (play) {
-					play = false;
-
-					// Si il fallait cliquer
-					if (isTrue) {
-						lbScoreP1.setText(String.valueOf(Integer
-								.valueOf((String) lbScoreP1.getText()) + 1));
-
-						Utils.playSound(GameActivity.this, R.raw.win);
-
-						imgClickP1.setVisibility(View.VISIBLE);
-						imgClickP1.setImageResource(R.drawable.ok);
-						imgClickP2.setVisibility(View.INVISIBLE);
-
-					} else {
-
-						lbScoreP2.setText(String.valueOf(Integer
-								.valueOf((String) lbScoreP2.getText()) + 1));
-
-						Utils.playSound(GameActivity.this, R.raw.loose);
-
-						imgClickP1.setVisibility(View.VISIBLE);
-						imgClickP1.setImageResource(R.drawable.cancel);
-						imgClickP2.setVisibility(View.INVISIBLE);
-					}
-
-					imgColor.setBackground(null);
-				}
+	@Override
+	public void onClick(View v) {
+		if (play) {
+			play = false;
+			
+			if (v.getId() == R.id.btnP1) {
+				clickBtn(lbScoreP1,lbScoreP2,imgClickP1,imgClickP2);
+			} else {
+				clickBtn(lbScoreP2,lbScoreP1,imgClickP2,imgClickP1);
 			}
-		});
-
-		btnP2.setOnClickListener(new View.OnClickListener() {
-
-			@SuppressLint("ResourceAsColor")
-			@Override
-			public void onClick(View v) {
-				if (play) {
-					play = false;
-
-					// Si il fallait cliquer
-					if (isTrue) {
-						lbScoreP2.setText(String.valueOf(Integer
-								.valueOf((String) lbScoreP2.getText()) + 1));
-
-						Utils.playSound(GameActivity.this, R.raw.win);
-
-						imgClickP2.setVisibility(View.VISIBLE);
-						imgClickP2.setImageResource(R.drawable.ok);
-						imgClickP1.setVisibility(View.INVISIBLE);
-
-					} else {
-						lbScoreP1.setText(String.valueOf(Integer
-								.valueOf((String) lbScoreP1.getText()) + 1));
-
-						Utils.playSound(GameActivity.this, R.raw.loose);
-
-						imgClickP2.setVisibility(View.VISIBLE);
-						imgClickP2.setImageResource(R.drawable.cancel);
-						imgClickP1.setVisibility(View.INVISIBLE);
-					}
-
-					imgColor.setBackground(null);
-				}
-			}
-		});
+		}
 	}
 
 	@Override
@@ -153,6 +96,44 @@ public class GameActivity extends Activity {
 		super.onStop();
 	}
 
+	/**
+	 * Incrémente le score du joueur ayant remporter le round
+	 * @param lbScoreSender
+	 * @param lbScoreOther
+	 * @param imgClickSender
+	 * @param imgClickOther
+	 */
+	private void clickBtn(TextView lbScoreSender, TextView lbScoreOther,
+			ImageView imgClickSender, ImageView imgClickOther) {
+		if (isTrue) {
+			lbScoreSender.setText(String.valueOf(Integer.valueOf((String) lbScoreSender
+					.getText()) + 1));
+
+			Utils.playSound(GameActivity.this, R.raw.win);
+
+			imgClickSender.setVisibility(View.VISIBLE);
+			imgClickSender.setImageResource(R.drawable.ok);
+			imgClickOther.setVisibility(View.INVISIBLE);
+
+		} else {
+			lbScoreOther.setText(String.valueOf(Integer.valueOf((String) lbScoreOther
+					.getText()) + 1));
+
+			Utils.playSound(GameActivity.this, R.raw.loose);
+
+			imgClickSender.setVisibility(View.VISIBLE);
+			imgClickSender.setImageResource(R.drawable.cancel);
+			imgClickOther.setVisibility(View.INVISIBLE);
+		}
+
+		imgColor.setVisibility(View.INVISIBLE);
+	}
+
+	/**
+	 * AsyncTask pour la mécanique du jeu
+	 * @author Tommy
+	 *
+	 */
 	private class GameAsyncTask extends AsyncTask<Void, Integer, Void> {
 
 		private int nbRounds;
@@ -165,6 +146,7 @@ public class GameActivity extends Activity {
 			this.scoreP2 = 0;
 		}
 
+		@SuppressLint("ResourceAsColor")
 		@Override
 		protected void onProgressUpdate(Integer... randomInteger) {
 			super.onProgressUpdate(randomInteger);
@@ -173,31 +155,39 @@ public class GameActivity extends Activity {
 			this.scoreP1 = Integer.valueOf((String) lbScoreP1.getText());
 			this.scoreP2 = Integer.valueOf((String) lbScoreP2.getText());
 
-			if (randomInteger[0] != 100) {
-				// On ne joue que si le nombre de round n'est pas atteint
-				if (this.scoreP1 + this.scoreP2 <= nbRounds) {
+			switch (randomInteger[0]) {
 
-					Log.d("total", String.valueOf(scoreP1 + scoreP2));
+			// Si = 1, la réponse est vrai
+			case 1:
+				isTrue = true;
+				imgColor.setBackgroundResource(R.color.yellow);
+				imgColor.setVisibility(View.VISIBLE);
+				play = true;
+				break;
 
-					// Si le nombre aléatoire généré est = 1, la réponse est
-					// fausse
-					if (randomInteger[0] != 1) {
-						isTrue = true;
-						imgColor.setBackgroundResource(R.color.yellow);
-					} else {
-						isTrue = false;
-						imgColor.setBackgroundResource(R.color.red);
-					}
+			// Si = 2, la réponse est false
+			case 2:
+				isTrue = false;
+				imgColor.setBackgroundResource(R.color.red);
+				imgColor.setVisibility(View.VISIBLE);
+				play = true;
+				break;
 
-					// On autorise les joueurs a pouvoir cliquer sur les boutons
-					play = true;
-				}
-
+			// Si = 3, On retire la couleur pour le round suivant
+			case 3:
+				imgColor.setVisibility(View.INVISIBLE);
+				play = false;
+				break;
+			default:
+				break;
 			}
 		}
 
 		protected Void doInBackground(Void... arg0) {
-			do {
+			
+			// Si le nombre de round passé est atteint, on quitte le thread
+			while (scoreP1 + scoreP2 != nbRounds) {
+				
 				// On génére un temp d'attente aléatoire
 				SystemClock.sleep(Utils.randomNumber(2, 10) * 1000);
 
@@ -206,13 +196,12 @@ public class GameActivity extends Activity {
 				publishProgress(Utils.randomNumber(1, 3));
 
 				// On laisse 2sec pour répondre
-				SystemClock.sleep(2000);
+				SystemClock.sleep(3000);
 
-				publishProgress(100);
-
-				// Si le nombre de round passé est atteint, on quitte le thread
-			} while (scoreP1 + scoreP2 != nbRounds);
-
+				// On retire la couleur
+				publishProgress(3);
+			}
+			
 			return null;
 		}
 
@@ -220,12 +209,17 @@ public class GameActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 
-			Utils.dialogEndGame(GameActivity.this, thePlayer, oPlayer2,
+			Utils.dialogEndGame(GameActivity.this, oPlayer1, oPlayer2,
 					this.scoreP1, this.scoreP2, oGame);
 
 		}
 	}
 
+	/**
+	 * AsyncTask pour le compte à rebour de départ
+	 * @author Tommy
+	 *
+	 */
 	private class ChronoAsyncTask extends AsyncTask<Void, Integer, Void> {
 
 		private int nbRounds;
@@ -237,6 +231,9 @@ public class GameActivity extends Activity {
 		@Override
 		protected void onProgressUpdate(Integer... number) {
 			super.onProgressUpdate(number);
+
+			Animation animateChrono = AnimationUtils.loadAnimation(
+					GameActivity.this, R.anim.chrono);
 
 			switch (number[0]) {
 			case 5:
@@ -260,7 +257,7 @@ public class GameActivity extends Activity {
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 0:
-				lbChrono.setText("Go !");
+				lbChrono.setText(Const.CHRONO_GO);
 				break;
 			default:
 				lbChrono.setText(null);
@@ -272,7 +269,6 @@ public class GameActivity extends Activity {
 
 		@Override
 		protected Void doInBackground(Void... arg0) {
-
 			publishProgress(5);
 			SystemClock.sleep(1000);
 			publishProgress(4);
@@ -298,6 +294,5 @@ public class GameActivity extends Activity {
 			GameAsyncTask inGame = new GameAsyncTask(nbRounds);
 			inGame.execute();
 		}
-
 	}
 }
