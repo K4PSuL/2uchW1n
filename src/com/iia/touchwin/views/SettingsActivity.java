@@ -53,12 +53,12 @@ public class SettingsActivity extends Activity {
 		btnHelp.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				/*
+				
 				Intent intentOpenHelp = new Intent(SettingsActivity.this,
-						FragmentsSliderActivity.class);
+						HelpActivity.class);
 				
 				startActivity(intentOpenHelp);
-				*/
+				
 			}
 		});
 

@@ -70,6 +70,13 @@
             android:screenOrientation="portrait" >
         </activity>
         
+        <!-- HelpActivity -->
+        <activity
+            android:name="com.iia.touchwin.views.HelpActivity"
+            android:label="@string/app_name"  
+            android:screenOrientation="portrait" >
+        </activity>
+        
         <!-- StatsActivity -->
         <activity
             android:name="com.iia.touchwin.views.StatsActivity"

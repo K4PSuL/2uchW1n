@@ -25,6 +25,12 @@
 	<string name="lb_help">Règles du jeu :</string>
 	<string name="btn_help">Aide</string>
 	<string name="btn_valid">Valider</string>
+	<string name="btn_back">Retour</string>
+	<string name="title_fragments">Comment jouer ?</string>
+	<string name="lb_step1">1.</string>
+	<string name="lb_page1">1 / 3</string>
+	<string name="lb_page2">2 / 3</string>
+	<string name="lb_page3">3 / 3</string>
 	
 	<!-- activity_stats -->
 	<string name="title_stats">Statistiques</string>
