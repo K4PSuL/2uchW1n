@@ -60,7 +60,7 @@ public class HomeActivity extends Activity {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				// On joue un son d'entrée
-				Utils.playSound(HomeActivity.this, HomeActivity.this, R.raw.home);
+				Utils.playSound(HomeActivity.this, R.raw.home);
 			}
 		});
 		

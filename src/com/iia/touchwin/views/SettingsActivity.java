@@ -1,13 +1,11 @@
 package com.iia.touchwin.views;
 
 import com.iia.touchwin.R;
-import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.Utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -22,8 +20,8 @@ public class SettingsActivity extends Activity {
 
 		final CheckBox checkBoxSound = (CheckBox) findViewById(R.id.checkBoxSound);
 		final Button btnHelp = (Button) findViewById(R.id.btnHelp);
-		final Player thePlayer = (Player) getIntent().getExtras()
-				.getSerializable(Const.BUNDLE_PLAYER);
+//		final Player thePlayer = (Player) getIntent().getExtras()
+//				.getSerializable(Const.BUNDLE_PLAYER);
 
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
@@ -40,8 +38,7 @@ public class SettingsActivity extends Activity {
 
 				if (checkBoxSound.isChecked()) {
 					oEditor.putBoolean(Const.PREFERENCES_SOUND, true);
-					Utils.playSound(SettingsActivity.this, 
-							SettingsActivity.this, R.raw.switch_sound);
+					Utils.playSound(SettingsActivity.this, R.raw.switch_sound);
 				} else {
 					oEditor.putBoolean(Const.PREFERENCES_SOUND, false);
 				}

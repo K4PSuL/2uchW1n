@@ -2,17 +2,24 @@ package com.iia.touchwin.utils;
 
 import java.util.Random;
 
+import junit.framework.Test;
+
 import org.joda.time.DateTime;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iia.touchwin.R;
 import com.iia.touchwin.contracts.PlayerContract;
 import com.iia.touchwin.contracts.ResultContract;
 import com.iia.touchwin.entities.Game;
@@ -27,7 +34,7 @@ public abstract class Utils {
 	 * @param oActivity
 	 * @param resource
 	 */
-	public static void playSound(Context oContext, Activity oActivity,
+	public static void playSound(Activity oActivity,
 			int resource) {
 
 		SharedPreferences oSettings = oActivity.getSharedPreferences(
@@ -35,7 +42,7 @@ public abstract class Utils {
 
 		if (oSettings.getBoolean(Const.PREFERENCES_SOUND, true)) {
 			MediaPlayer oMediaPlayer = (MediaPlayer) MediaPlayer.create(
-					oContext, resource);
+					oActivity.getApplicationContext(), resource);
 			oMediaPlayer.start();
 		}
 	}
@@ -102,30 +109,12 @@ public abstract class Utils {
 	 * @param max
 	 * @return
 	 */
-	public static int randomTime(int min, int max) {
+	public static int randomNumber(int min, int max) {
 		Random oRandom = new Random();
 		
 		int timeRound = oRandom.nextInt(max-min) + min;
 
 		return timeRound;
-	}
-	
-	/**
-	 * Retourne un boolean permettant de savoir si la réponse du round est faux ou vrai
-	 * @param min
-	 * @param max
-	 * @return
-	 */
-	public static boolean randomFalse(int min, int max) {
-		int trueOrFalse = randomTime(min, max);
-		
-		boolean isFalse = false;
-		
-		if (trueOrFalse == 1) {
-			isFalse = true;
-		}
-		
-		return isFalse;
 	}
 	
 	/**
@@ -154,5 +143,49 @@ public abstract class Utils {
 		myValuesResult.put(ResultContract.COL_SCOREP2, scoreP2);
 
 		dataBase.insert(ResultContract.TABLE, null, myValuesResult);
+	}
+	
+	public static void dialogEndGame(Activity oActivity, Player oPlayer1, Player oPlayer2, int scoreP1, int scoreP2, Game oGame) {
+		
+		final Activity test = oActivity;
+		
+		final Dialog oDialogEndGame = new Dialog(test);
+		
+		final Player oPlayerWinner;
+		
+		if (scoreP1 > scoreP2) {
+			oPlayerWinner = oPlayer1;
+		} else {
+			oPlayerWinner = oPlayer2;
+		}
+
+		oDialogEndGame.setContentView(R.layout.dialog_game_end);
+		oDialogEndGame.setTitle(oPlayerWinner.getLogin() + Const.WINNER);
+
+		final TextView lbPseudo = (TextView) oDialogEndGame
+				.findViewById(R.id.txtPseudo);
+		final TextView lbScore = (TextView) oDialogEndGame
+				.findViewById(R.id.txtScore);
+		final Button btnExitEndGame = (Button) oDialogEndGame
+				.findViewById(R.id.btnExitEndGame);
+
+		lbPseudo.setText(oPlayerWinner.getLogin());
+		lbScore.setText(String.valueOf(scoreP1) + " - " + String.valueOf(scoreP2));
+
+		oDialogEndGame.show();
+
+		playSound(test, R.raw.end);
+
+		saveScore(oPlayer1, oPlayer2, scoreP1, scoreP1, oGame,
+				oActivity);
+
+		btnExitEndGame.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				oDialogEndGame.dismiss();
+				test.finish();
+			}
+		});
 	}
 }
