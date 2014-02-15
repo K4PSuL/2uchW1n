@@ -93,7 +93,7 @@ public class CalculActivity extends Activity {
 
 						btnP1.setBackgroundColor(R.color.green);
 
-						Utils.playSound(CalculActivity.this, CalculActivity.this,
+						Utils.playSound(CalculActivity.this,
 								R.raw.win);
 					} else {
 						lbScoreP2.setText(String.valueOf(Integer
@@ -101,7 +101,7 @@ public class CalculActivity extends Activity {
 
 						btnP1.setBackgroundColor(R.color.red);
 
-						Utils.playSound(CalculActivity.this, CalculActivity.this,
+						Utils.playSound(CalculActivity.this,
 								R.raw.loose);
 					}
 
@@ -127,7 +127,7 @@ public class CalculActivity extends Activity {
 
 						btnP2.setBackgroundColor(R.color.green);
 
-						Utils.playSound(CalculActivity.this, CalculActivity.this,
+						Utils.playSound(CalculActivity.this,
 								R.raw.win);
 					} else {
 						lbScoreP1.setText(String.valueOf(Integer
@@ -135,7 +135,7 @@ public class CalculActivity extends Activity {
 
 						btnP2.setBackgroundColor(R.color.red);
 
-						Utils.playSound(CalculActivity.this, CalculActivity.this,
+						Utils.playSound(CalculActivity.this,
 								R.raw.loose);
 					}
 					
@@ -149,23 +149,23 @@ public class CalculActivity extends Activity {
 	}
 	
 	private void calcul(int min, int max) {
-		int cpt = Utils.randomTime(1, 3); // bon ou mauvais calcul
+		int cpt = Utils.randomNumber(1, 3); // bon ou mauvais calcul
 		result = calcul;
 		
 		if (cpt == 1) {
 			isTrue = true;
 		} else {
 			do {
-				result = Utils.randomTime(calcul-5, calcul+5);
+				result = Utils.randomNumber(calcul-5, calcul+5);
 			} while (result == calcul);
 			isTrue = false;
 		}
 	}
 	
 	private void setNewCalcul() {
-		int nb1 = Utils.randomTime(0, 26); // premier nombre
-		int nb2 = Utils.randomTime(0, 26); // deuxième nombre
-		int operator = Utils.randomTime(1, 4); // opérateur
+		int nb1 = Utils.randomNumber(0, 26); // premier nombre
+		int nb2 = Utils.randomNumber(0, 26); // deuxième nombre
+		int operator = Utils.randomNumber(1, 4); // opérateur
 		String lbCalcul = ""; // libellé du calcul à afficher
 		
 		switch (operator) {
@@ -213,7 +213,7 @@ public class CalculActivity extends Activity {
 			do {
 				SystemClock.sleep(5000);
 
-				publishProgress(Utils.randomTime(1, 3));
+				publishProgress(Utils.randomNumber(1, 3));
 
 			} while (true != false);
 		}
@@ -246,7 +246,7 @@ public class CalculActivity extends Activity {
 
 			oDialogEndGame.show();
 
-			Utils.playSound(CalculActivity.this, CalculActivity.this, R.raw.end);
+			Utils.playSound(CalculActivity.this, R.raw.end);
 
 			Utils.saveScore(thePlayer, oPlayer2, scoreP1, scoreP2, oGame,
 					CalculActivity.this);
@@ -268,27 +268,27 @@ public class CalculActivity extends Activity {
 
 			switch (number[0]) {
 			case 5:
-				Utils.playSound(CalculActivity.this, CalculActivity.this,
+				Utils.playSound(CalculActivity.this,
 						R.raw.five);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 4:
-				Utils.playSound(CalculActivity.this, CalculActivity.this,
+				Utils.playSound(CalculActivity.this,
 						R.raw.four);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 3:
-				Utils.playSound(CalculActivity.this, CalculActivity.this,
+				Utils.playSound(CalculActivity.this,
 						R.raw.three);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 2:
-				Utils.playSound(CalculActivity.this, CalculActivity.this, 
+				Utils.playSound(CalculActivity.this, 
 						R.raw.two);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 1:
-				Utils.playSound(CalculActivity.this, CalculActivity.this, 
+				Utils.playSound(CalculActivity.this, 
 						R.raw.one);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
