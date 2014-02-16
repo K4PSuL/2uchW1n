@@ -52,13 +52,13 @@ public class PlayActivity extends Activity {
 		
 		final Bundle dataBundle = new Bundle();
 		
-		final Player thePlayer = (Player) getIntent().getExtras()
+		final Player oPlayer1 = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
 		
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
 
-		editPlayer1.setText(thePlayer.getLogin());
+		editPlayer1.setText(oPlayer1.getLogin());
 
 		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +106,7 @@ public class PlayActivity extends Activity {
 								editPwdDialog.getText().toString());
 
 						if (oPlayer2 != null) {
-							if (thePlayer.getId() == oPlayer2.getId()) {
+							if (oPlayer1.getId() == oPlayer2.getId()) {
 								Toast.makeText(PlayActivity.this,
 										Const.ERREUR_PLAYER2, Toast.LENGTH_LONG)
 										.show();
@@ -217,7 +217,7 @@ public class PlayActivity extends Activity {
 
 
 				dataBundle.putSerializable(Const.BUNDLE_PLAYER,
-						(Player) thePlayer);
+						(Player) oPlayer1);
 				dataBundle.putSerializable(Const.BUNDLE_PLAYER2,
 						(Player) oPlayer2);
 				dataBundle.putSerializable(Const.BUNDLE_GAME,

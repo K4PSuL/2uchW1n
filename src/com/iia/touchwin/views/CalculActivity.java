@@ -1,15 +1,16 @@
 package com.iia.touchwin.views;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iia.touchwin.R;
@@ -18,27 +19,30 @@ import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.Utils;
 
-public class CalculActivity extends Activity {
-	
-	private Player thePlayer;
-	private Player oPlayer2;
+public class CalculActivity extends Activity implements View.OnClickListener {
+
+	private ImageView imgClickP1;
+	private ImageView imgClickP2;
 	private TextView lbScoreP1;
 	private TextView lbScoreP2;
-	private Player oPlayerWinner;
+	private TextView lbCalculP1;
+	private TextView lbCalculP2;
+	private TextView lbMoreScoreP1;
+	private TextView lbMoreScoreP2;
+	private TextView lbChrono;
 	private Button btnP1;
 	private Button btnP2;
-	private TextView lbChrono;
-	private Animation animateChrono;
+	private Animation animateMoreScoreP1;
+	private Animation animateMoreScoreP2;
+	private Player oPlayer1;
+	private Player oPlayer2;
 	private int nbRounds;
 	private boolean play;
 	private boolean isTrue;
 	private Game oGame;
-	private int roundPlay = 0;
-	private int calcul;
-	private TextView lbCalculP1;
-	private TextView lbCalculP2;
-	private int result;
-	
+	private int calcul = 0;
+	private int result = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,250 +50,300 @@ public class CalculActivity extends Activity {
 		setContentView(R.layout.activity_game);
 
 		lbChrono = (TextView) findViewById(R.id.txtChrono);
+
 		btnP1 = (Button) findViewById(R.id.btnP1);
 		btnP2 = (Button) findViewById(R.id.btnP2);
+
 		lbScoreP1 = (TextView) findViewById(R.id.lbScoreP1);
 		lbScoreP2 = (TextView) findViewById(R.id.lbScoreP2);
+
 		lbCalculP1 = (TextView) findViewById(R.id.lbCalculP1);
 		lbCalculP2 = (TextView) findViewById(R.id.lbCalculP2);
-		
-		animateChrono = AnimationUtils.loadAnimation(CalculActivity.this,
-				R.anim.chrono);
-		
+
+		imgClickP1 = (ImageView) findViewById(R.id.imgClickP1);
+		imgClickP2 = (ImageView) findViewById(R.id.imgClickP2);
+
+		lbMoreScoreP1 = (TextView) findViewById(R.id.lbMoreP1);
+		lbMoreScoreP2 = (TextView) findViewById(R.id.lbMoreP2);
+
+		animateMoreScoreP1 = AnimationUtils.loadAnimation(CalculActivity.this,
+				R.anim.more_p1);
+
+		animateMoreScoreP2 = AnimationUtils.loadAnimation(CalculActivity.this,
+				R.anim.more_p2);
+
 		oGame = (Game) getIntent().getExtras().getSerializable(
 				Const.BUNDLE_GAME);
-		
+
 		nbRounds = getIntent().getExtras().getInt(Const.BUNDLE_TIME);
-		
-		thePlayer = (Player) getIntent().getExtras().getSerializable(
+
+		oPlayer1 = (Player) getIntent().getExtras().getSerializable(
 				Const.BUNDLE_PLAYER);
 
 		oPlayer2 = (Player) getIntent().getExtras().getSerializable(
 				Const.BUNDLE_PLAYER2);
 
-		calcul = 0;
-		result = 0;
 		isTrue = false;
-		
-		btnP1.setText(thePlayer.getLogin());
+
+		btnP1.setText(oPlayer1.getLogin());
 		btnP2.setText(oPlayer2.getLogin());
 
 		// On démarre le chronomètre
 		ChronoAsyncTask chrono = new ChronoAsyncTask();
 		chrono.execute();
 
-		btnP1.setOnClickListener(new View.OnClickListener() {
-			
-			@SuppressLint("ResourceAsColor")
-			@Override
-			public void onClick(View v) {
-				if (play) {
-					play = false;
-
-					// Si il fallait cliquer
-					if (isTrue) {
-						lbScoreP1.setText(String.valueOf(Integer
-								.valueOf((String) lbScoreP1.getText()) + 1));
-
-						btnP1.setBackgroundColor(R.color.green);
-
-						Utils.playSound(CalculActivity.this,
-								R.raw.win);
-					} else {
-						lbScoreP2.setText(String.valueOf(Integer
-								.valueOf((String) lbScoreP2.getText()) + 1));
-
-						btnP1.setBackgroundColor(R.color.red);
-
-						Utils.playSound(CalculActivity.this,
-								R.raw.loose);
-					}
-
-					roundPlay++;
-					
-					//imgColor.setBackground(null);
-				}
-			}
-		});
-
-		btnP2.setOnClickListener(new View.OnClickListener() {
-
-			@SuppressLint("ResourceAsColor")
-			@Override
-			public void onClick(View v) {
-				if (play) {
-					play = false;
-
-					// Si il fallait cliquer
-					if (isTrue) {
-						lbScoreP2.setText(String.valueOf(Integer
-								.valueOf((String) lbScoreP2.getText()) + 1));
-
-						btnP2.setBackgroundColor(R.color.green);
-
-						Utils.playSound(CalculActivity.this,
-								R.raw.win);
-					} else {
-						lbScoreP1.setText(String.valueOf(Integer
-								.valueOf((String) lbScoreP1.getText()) + 1));
-
-						btnP2.setBackgroundColor(R.color.red);
-
-						Utils.playSound(CalculActivity.this,
-								R.raw.loose);
-					}
-					
-					roundPlay++;
-					
-					//imgColor.setBackground(null);
-				}
-			}
-
-		});
+		btnP1.setOnClickListener((OnClickListener) this);
+		btnP2.setOnClickListener((OnClickListener) this);
 	}
-	
+
+	@Override
+	public void onClick(View v) {
+		if (play) {
+			play = false;
+
+			// Le joueur 1 joue
+			if (v.getId() == R.id.btnP1) {
+				// Et a bon
+				if (isTrue) {
+					clickBtn(animateMoreScoreP1, lbMoreScoreP1, lbScoreP1,
+							imgClickP1, imgClickP2, R.raw.win, R.drawable.ok);
+				} else {
+					clickBtn(animateMoreScoreP2, lbMoreScoreP2, lbScoreP2,
+							imgClickP1, imgClickP2, R.raw.loose,
+							R.drawable.cancel);
+				}
+			} else {
+				if (isTrue) {
+					clickBtn(animateMoreScoreP2, lbMoreScoreP2, lbScoreP2,
+							imgClickP2, imgClickP1, R.raw.win, R.drawable.ok);
+				} else {
+					clickBtn(animateMoreScoreP1, lbMoreScoreP1, lbScoreP1,
+							imgClickP2, imgClickP1, R.raw.loose,
+							R.drawable.cancel);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Incrémente le score du joueur ayant remporter le round
+	 * 
+	 * @param lbMoreWinner
+	 * @param lbScoreWinner
+	 * @param imgClickSender
+	 * @param imgClickOther
+	 * @param resSound
+	 * @param resImg
+	 */
+	private void clickBtn(final Animation oAnimation,
+			final TextView lbMoreWinner, TextView lbScoreWinner,
+			ImageView imgClickSender, ImageView imgClickOther, int resSound,
+			int resImg) {
+
+		oAnimation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+				lbMoreWinner.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// On joue un son d'entrée
+				lbMoreWinner.setVisibility(View.INVISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		lbMoreWinner.startAnimation(animateMoreScoreP1);
+
+		lbScoreWinner.setText(String.valueOf(Integer
+				.valueOf((String) lbScoreWinner.getText()) + 1));
+
+		Utils.playSound(CalculActivity.this, resSound);
+
+		imgClickSender.setVisibility(View.VISIBLE);
+		imgClickSender.setImageResource(resImg);
+		imgClickOther.setVisibility(View.INVISIBLE);
+
+		lbCalculP1.setText("");
+		lbCalculP2.setText("");
+	}
+
+	/**
+	 * 
+	 * @param min
+	 * @param max
+	 */
 	private void calcul(int min, int max) {
 		int cpt = Utils.randomNumber(1, 3); // bon ou mauvais calcul
 		result = calcul;
-		
+
 		if (cpt == 1) {
 			isTrue = true;
 		} else {
 			do {
-				result = Utils.randomNumber(calcul-5, calcul+5);
+				result = Utils.randomNumber(calcul - 5, calcul + 5);
 			} while (result == calcul);
 			isTrue = false;
 		}
 	}
-	
+
+	/**
+	 * Génére un nouveau calcul
+	 */
 	private void setNewCalcul() {
 		int nb1 = Utils.randomNumber(0, 26); // premier nombre
 		int nb2 = Utils.randomNumber(0, 26); // deuxième nombre
 		int operator = Utils.randomNumber(1, 4); // opérateur
 		String lbCalcul = ""; // libellé du calcul à afficher
-		
+
 		switch (operator) {
 		case 1:
 			calcul = nb1 + nb2;
-			calcul(0,26);			
+			calcul(0, 26);
 			lbCalcul = nb1 + " + " + nb2 + " = " + result;
 			break;
 		case 2:
 			calcul = nb1 - nb2;
-			calcul(0,26);
+			calcul(0, 26);
 			lbCalcul = nb1 + " - " + nb2 + " = " + result;
 			break;
 		case 3:
 			calcul = nb1 * nb2;
-			calcul(0,11);
+			calcul(0, 11);
 			lbCalcul = nb1 + " x " + nb2 + " = " + result;
 			break;
 		default:
 			break;
 		}
-		
+
 		lbCalculP1.setText(lbCalcul);
 		lbCalculP2.setText(lbCalcul);
 	}
-	
+
+	/**
+	 * AsyncTask pour la mécanique du jeu
+	 * 
+	 * @author Tommy
+	 * 
+	 */
 	private class GameAsyncTask extends AsyncTask<Void, Integer, Void> {
 
-		protected void onProgressUpdate(Integer... values) {
-			super.onProgressUpdate(values);
+		private int nbRounds;
+		private int scoreP1;
+		private int scoreP2;
 
-			lbCalculP1.setText(null);
-			lbCalculP2.setText(null);
-			
-			setNewCalcul();
-			
-			play = true;
+		protected GameAsyncTask(int nbRounds) {
+			this.nbRounds = nbRounds;
+			this.scoreP1 = 0;
+			this.scoreP2 = 0;
+		}
 
-			if (nbRounds == roundPlay - 1) {
-				this.cancel(true);
+		protected void onProgressUpdate(Integer... randomInteger) {
+			super.onProgressUpdate(randomInteger);
+
+			// On récupère le score de chaque joueur
+			this.scoreP1 = Integer.valueOf((String) lbScoreP1.getText());
+			this.scoreP2 = Integer.valueOf((String) lbScoreP2.getText());
+
+			switch (randomInteger[0]) {
+
+			// Si = 1, la réponse est vrai
+			case 1:
+				isTrue = true;
+				setNewCalcul();
+				play = true;
+				break;
+
+			// Si = 2, la réponse est false
+			case 2:
+				isTrue = false;
+				setNewCalcul();
+				play = true;
+				break;
+
+			// Si = 3, On retire la couleur pour le round suivant
+			case 3:
+				lbCalculP1.setText("");
+				lbCalculP2.setText("");
+				play = false;
+				break;
+			default:
+				break;
 			}
+
 		}
 
 		protected Void doInBackground(Void... arg0) {
-			do {
-				SystemClock.sleep(5000);
 
+			// Si le nombre de round passé est atteint, on quitte le thread
+			while (scoreP1 + scoreP2 != nbRounds) {
+
+				// On génére un temp d'attente aléatoire
+				SystemClock.sleep(Utils.randomNumber(2, 10) * 1000);
+
+				// On génére un nombre aléatoire pour s'avoir si la réponse est
+				// vrai ou fausse
 				publishProgress(Utils.randomNumber(1, 3));
 
-			} while (true != false);
+				// On laisse 5sec pour répondre
+				SystemClock.sleep(5000);
+
+				// On retire la couleur
+				publishProgress(3);
+			}
+
+			return null;
 		}
 
 		@Override
-		protected void onCancelled() {
-			final Dialog oDialogEndGame = new Dialog(CalculActivity.this);
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
 
-			int scoreP1 = Integer.valueOf((String) lbScoreP1.getText());
-			int scoreP2 = Integer.valueOf((String) lbScoreP2.getText());
-
-			if (scoreP1 > scoreP2) {
-				oPlayerWinner = thePlayer;
-			} else {
-				oPlayerWinner = oPlayer2;
-			}
-
-			oDialogEndGame.setContentView(R.layout.dialog_game_end);
-			oDialogEndGame.setTitle(oPlayerWinner.getLogin() + Const.WINNER);
-
-			TextView lbPseudo = (TextView) oDialogEndGame
-					.findViewById(R.id.txtPseudo);
-			TextView lbScore = (TextView) oDialogEndGame
-					.findViewById(R.id.txtScore);
-			Button btnExitEndGame = (Button) oDialogEndGame
-					.findViewById(R.id.btnExitEndGame);
-
-			lbPseudo.setText(oPlayerWinner.getLogin());
-			lbScore.setText(lbScoreP1.getText() + " - " + lbScoreP2.getText());
-
-			oDialogEndGame.show();
-
-			Utils.playSound(CalculActivity.this, R.raw.end);
-
-			Utils.saveScore(thePlayer, oPlayer2, scoreP1, scoreP2, oGame,
-					CalculActivity.this);
-
-			btnExitEndGame.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					oDialogEndGame.dismiss();
-				}
-			});
+			Utils.dialogEndGame(CalculActivity.this, oPlayer1, oPlayer2,
+					this.scoreP1, this.scoreP2, oGame);
 		}
 	}
 
+	/**
+	 * AsyncTask pour le compte à rebour de départ
+	 * 
+	 * @author Tommy
+	 * 
+	 */
 	private class ChronoAsyncTask extends AsyncTask<Void, Integer, Void> {
-		
+
 		protected void onProgressUpdate(Integer... number) {
 			super.onProgressUpdate(number);
 
+			Animation animateChrono = AnimationUtils.loadAnimation(
+					CalculActivity.this, R.anim.chrono);
+
 			switch (number[0]) {
 			case 5:
-				Utils.playSound(CalculActivity.this,
-						R.raw.five);
+				Utils.playSound(CalculActivity.this, R.raw.five);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 4:
-				Utils.playSound(CalculActivity.this,
-						R.raw.four);
+				Utils.playSound(CalculActivity.this, R.raw.four);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 3:
-				Utils.playSound(CalculActivity.this,
-						R.raw.three);
+				Utils.playSound(CalculActivity.this, R.raw.three);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 2:
-				Utils.playSound(CalculActivity.this, 
-						R.raw.two);
+				Utils.playSound(CalculActivity.this, R.raw.two);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 1:
-				Utils.playSound(CalculActivity.this, 
-						R.raw.one);
+				Utils.playSound(CalculActivity.this, R.raw.one);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 0:
@@ -301,7 +355,6 @@ public class CalculActivity extends Activity {
 			}
 
 			lbChrono.startAnimation(animateChrono);
-
 		}
 
 		protected Void doInBackground(Void... arg0) {
@@ -325,9 +378,8 @@ public class CalculActivity extends Activity {
 
 		protected void onPostExecute(Void result) {
 			// On éxecute le jeu dans un autre thread
-			GameAsyncTask inGame = new GameAsyncTask();
+			GameAsyncTask inGame = new GameAsyncTask(nbRounds);
 			inGame.execute();
-
 		}
 
 	}

@@ -49,14 +49,14 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 
 				// On vérifie les identifiants fournis par l'utilisateur
-				Player thePlayer = Utils.authentication(MainActivity.this,
+				Player oPlayer1 = Utils.authentication(MainActivity.this,
 						editLogin.getText().toString(), editPassword.getText()
 								.toString());
 
-				if (thePlayer != null) {
+				if (oPlayer1 != null) {
 					Bundle dataBundle = new Bundle();
 					dataBundle.putSerializable(Const.BUNDLE_PLAYER,
-							(Player) thePlayer);
+							(Player) oPlayer1);
 
 					Intent intentOpenHome = new Intent(MainActivity.this,
 							HomeActivity.class);
@@ -107,7 +107,7 @@ public class MainActivity extends Activity {
 				/* GAME */
 
 				ContentValues myValuesGame = new ContentValues();
-				myValuesGame.put(GameContract.COL_LIBELLE, "Reflexe");
+				myValuesGame.put(GameContract.COL_LIBELLE, "Couleur");
 
 				dataBase.insert(GameContract.TABLE, null, myValuesGame);
 				

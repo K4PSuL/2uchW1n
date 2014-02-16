@@ -36,7 +36,7 @@ public class StatsActivity extends Activity {
 		private Context context;
 		private int resource;
 		private LayoutInflater monInflateur;
-		private Player thePlayer;
+		private Player oPlayer1;
 		
 		// On créer un adapater pour la listView
 		public MyResultAdapter(Context context, int resource,
@@ -46,7 +46,7 @@ public class StatsActivity extends Activity {
 			this.context = context;
 			this.resource = resource;
 			this.monInflateur = LayoutInflater.from(this.context);
-			this.thePlayer = thePlayer;
+			this.oPlayer1 = thePlayer;
 		}
 
 		@SuppressLint("ResourceAsColor")
@@ -65,7 +65,7 @@ public class StatsActivity extends Activity {
 			lbDate.setText(DateUtils.formatDateTimeToString(oResult.getPlayDate(), context));
 			
 
-			if (oResult.getId_player1() == thePlayer.getId()) {
+			if (oResult.getId_player1() == oPlayer1.getId()) {
 				if (oResult.getScoreP1() > oResult.getScoreP2()) {
 					oView.setBackgroundColor(R.color.yellow);
 				} else {

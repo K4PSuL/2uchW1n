@@ -28,14 +28,13 @@ import com.iia.touchwin.entities.Player;
 public abstract class Utils {
 
 	/**
-	 * Permet de jouer un son
+	 * Joue un son
 	 * 
 	 * @param oContext
 	 * @param oActivity
 	 * @param resource
 	 */
-	public static void playSound(Activity oActivity,
-			int resource) {
+	public static void playSound(Activity oActivity, int resource) {
 
 		SharedPreferences oSettings = oActivity.getSharedPreferences(
 				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
@@ -46,16 +45,18 @@ public abstract class Utils {
 			oMediaPlayer.start();
 		}
 	}
-	
+
 	/**
-	 * Permet d'authentifier l'utilisateur
+	 * Authentifie un utilisateur d'apres son mdp + login
+	 * 
 	 * @param oActivity
 	 * @param login
 	 * @param password
 	 * @return
 	 */
-	public static Player authentication(Activity oActivity, String login, String password) {
-		
+	public static Player authentication(Activity oActivity, String login,
+			String password) {
+
 		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
 				oActivity.getApplicationContext(), Const.DATABASE, null, 1);
 
@@ -67,58 +68,64 @@ public abstract class Utils {
 
 		// Requête sur la BDD
 		Cursor oCursor = dataBase.query(PlayerContract.TABLE,
-				PlayerContract.COLS, PlayerContract.COL_LOGIN
-						+ "=? and " + PlayerContract.COL_PASSWORD
-						+ "=?", whereArg, null, null, null);
+				PlayerContract.COLS, PlayerContract.COL_LOGIN + "=? and "
+						+ PlayerContract.COL_PASSWORD + "=?", whereArg, null,
+				null, null);
 
 		// Si au moins un résultat...
 		if (oCursor.moveToFirst()) {
 
-			
-			DateTime dateCreate = DateUtils.formatStringToDate(oCursor.getString(oCursor
-					.getColumnIndex(PlayerContract.COL_DATECREATE)), oActivity.getApplicationContext());
-			
-			DateTime dateBirth = DateUtils.formatStringToDate(oCursor.getString(oCursor
-					.getColumnIndex(PlayerContract.COL_BIRTHDATE)), oActivity.getApplicationContext());
+			DateTime dateCreate = DateUtils.formatStringToDate(oCursor
+					.getString(oCursor
+							.getColumnIndex(PlayerContract.COL_DATECREATE)),
+					oActivity.getApplicationContext());
 
-			Player thePlayer = new Player();
-			thePlayer.setId(oCursor.getInt((oCursor
+			DateTime dateBirth = DateUtils.formatStringToDate(oCursor
+					.getString(oCursor
+							.getColumnIndex(PlayerContract.COL_BIRTHDATE)),
+					oActivity.getApplicationContext());
+
+			Player oPlayer = new Player();
+			oPlayer.setId(oCursor.getInt((oCursor
 					.getColumnIndex(PlayerContract.COL_ID))));
-			thePlayer.setLogin(oCursor.getString((oCursor
+			oPlayer.setLogin(oCursor.getString((oCursor
 					.getColumnIndex(PlayerContract.COL_LOGIN))));
-			thePlayer.setPassword(oCursor.getString((oCursor
+			oPlayer.setPassword(oCursor.getString((oCursor
 					.getColumnIndex(PlayerContract.COL_PASSWORD))));
-			thePlayer.setDateCreate(dateCreate);
-			thePlayer.setAvatar(oCursor.getString((oCursor
+			oPlayer.setDateCreate(dateCreate);
+			oPlayer.setAvatar(oCursor.getString((oCursor
 					.getColumnIndex(PlayerContract.COL_AVATAR))));
-			thePlayer.setBirthdate(dateBirth);
-			
-			return thePlayer;
-			
+			oPlayer.setBirthdate(dateBirth);
+
+			return oPlayer;
+
 		} else {
-			Toast.makeText(oActivity.getApplicationContext(), Const.ERREUR_LOGIN,
-					Toast.LENGTH_LONG).show();
-			
+			Toast.makeText(oActivity.getApplicationContext(),
+					Const.ERREUR_LOGIN, Toast.LENGTH_LONG).show();
+
 			return null;
 		}
 	}
-	
+
 	/**
-	 * Retourne un nombre aléatoire entre les deux valeurs passé en paramètres (max exclu)
+	 * Retourne un nombre aléatoire entre les deux valeurs passé en paramètres
+	 * (max exclu)
+	 * 
 	 * @param min
 	 * @param max
 	 * @return
 	 */
 	public static int randomNumber(int min, int max) {
 		Random oRandom = new Random();
-		
-		int timeRound = oRandom.nextInt(max-min) + min;
+
+		int timeRound = oRandom.nextInt(max - min) + min;
 
 		return timeRound;
 	}
-	
+
 	/**
-	 * Permet de sauvegarder le score de la partie en BDD
+	 * Sauvegarde le score final de la partie en BDD
+	 * 
 	 * @param oPlayer1
 	 * @param oPlayer2
 	 * @param scoreP1
@@ -126,16 +133,18 @@ public abstract class Utils {
 	 * @param oGame
 	 * @param oActivity
 	 */
-	public static void saveScore(Player oPlayer1, Player oPlayer2, int scoreP1, int scoreP2, Game oGame, Activity oActivity) {
-		
+	public static void saveScore(Player oPlayer1, Player oPlayer2, int scoreP1,
+			int scoreP2, Game oGame, Activity oActivity) {
+
 		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
 				oActivity.getApplicationContext(), Const.DATABASE, null, 1);
 
 		SQLiteDatabase dataBase = oDbHelper.getWritableDatabase();
 
 		ContentValues myValuesResult = new ContentValues();
-		
-		myValuesResult.put(ResultContract.COL_PLAYDATE, DateTime.now().toString("dd/MM/YYYY"));
+
+		myValuesResult.put(ResultContract.COL_PLAYDATE, DateTime.now()
+				.toString("dd/MM/YYYY"));
 		myValuesResult.put(ResultContract.COL_ID_GAME, oGame.getId());
 		myValuesResult.put(ResultContract.COL_PLAYER1, oPlayer1.getId());
 		myValuesResult.put(ResultContract.COL_PLAYER2, oPlayer2.getId());
@@ -144,15 +153,27 @@ public abstract class Utils {
 
 		dataBase.insert(ResultContract.TABLE, null, myValuesResult);
 	}
-	
-	public static void dialogEndGame(Activity oActivity, Player oPlayer1, Player oPlayer2, int scoreP1, int scoreP2, Game oGame) {
-		
+
+	/**
+	 * Affiche une dialogue en fin de partit avec le résultat final + savegarde
+	 * en BDD le score
+	 * 
+	 * @param oActivity
+	 * @param oPlayer1
+	 * @param oPlayer2
+	 * @param scoreP1
+	 * @param scoreP2
+	 * @param oGame
+	 */
+	public static void dialogEndGame(Activity oActivity, Player oPlayer1,
+			Player oPlayer2, int scoreP1, int scoreP2, Game oGame) {
+
 		final Activity test = oActivity;
-		
+
 		final Dialog oDialogEndGame = new Dialog(test);
-		
+
 		final Player oPlayerWinner;
-		
+
 		if (scoreP1 > scoreP2) {
 			oPlayerWinner = oPlayer1;
 		} else {
@@ -170,14 +191,14 @@ public abstract class Utils {
 				.findViewById(R.id.btnExitEndGame);
 
 		lbPseudo.setText(oPlayerWinner.getLogin());
-		lbScore.setText(String.valueOf(scoreP1) + " - " + String.valueOf(scoreP2));
+		lbScore.setText(String.valueOf(scoreP1) + " - "
+				+ String.valueOf(scoreP2));
 
 		oDialogEndGame.show();
 
 		playSound(test, R.raw.end);
 
-		saveScore(oPlayer1, oPlayer2, scoreP1, scoreP1, oGame,
-				oActivity);
+		saveScore(oPlayer1, oPlayer2, scoreP1, scoreP1, oGame, oActivity);
 
 		btnExitEndGame.setOnClickListener(new View.OnClickListener() {
 
