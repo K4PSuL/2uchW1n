@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,15 +21,19 @@ import com.iia.touchwin.utils.Utils;
 
 public class CalculActivity extends Activity implements View.OnClickListener {
 
+	private ImageView imgClickP1;
+	private ImageView imgClickP2;
 	private TextView lbScoreP1;
 	private TextView lbScoreP2;
 	private TextView lbCalculP1;
 	private TextView lbCalculP2;
-	private ImageView imgClickP1;
-	private ImageView imgClickP2;
+	private TextView lbMoreScoreP1;
+	private TextView lbMoreScoreP2;
+	private TextView lbChrono;
 	private Button btnP1;
 	private Button btnP2;
-	private TextView lbChrono;
+	private Animation animateMoreScoreP1;
+	private Animation animateMoreScoreP2;
 	private Player oPlayer1;
 	private Player oPlayer2;
 	private int nbRounds;
@@ -45,14 +50,27 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 		setContentView(R.layout.activity_game);
 
 		lbChrono = (TextView) findViewById(R.id.txtChrono);
+
 		btnP1 = (Button) findViewById(R.id.btnP1);
 		btnP2 = (Button) findViewById(R.id.btnP2);
+
 		lbScoreP1 = (TextView) findViewById(R.id.lbScoreP1);
 		lbScoreP2 = (TextView) findViewById(R.id.lbScoreP2);
+
 		lbCalculP1 = (TextView) findViewById(R.id.lbCalculP1);
 		lbCalculP2 = (TextView) findViewById(R.id.lbCalculP2);
+
 		imgClickP1 = (ImageView) findViewById(R.id.imgClickP1);
 		imgClickP2 = (ImageView) findViewById(R.id.imgClickP2);
+
+		lbMoreScoreP1 = (TextView) findViewById(R.id.lbMoreP1);
+		lbMoreScoreP2 = (TextView) findViewById(R.id.lbMoreP2);
+
+		animateMoreScoreP1 = AnimationUtils.loadAnimation(CalculActivity.this,
+				R.anim.more_p1);
+
+		animateMoreScoreP2 = AnimationUtils.loadAnimation(CalculActivity.this,
+				R.anim.more_p2);
 
 		oGame = (Game) getIntent().getExtras().getSerializable(
 				Const.BUNDLE_GAME);
@@ -83,10 +101,26 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 		if (play) {
 			play = false;
 
+			// Le joueur 1 joue
 			if (v.getId() == R.id.btnP1) {
-				clickBtn(lbScoreP1, lbScoreP2, imgClickP1, imgClickP2);
+				// Et a bon
+				if (isTrue) {
+					clickBtn(animateMoreScoreP1, lbMoreScoreP1, lbScoreP1,
+							imgClickP1, imgClickP2, R.raw.win, R.drawable.ok);
+				} else {
+					clickBtn(animateMoreScoreP2, lbMoreScoreP2, lbScoreP2,
+							imgClickP1, imgClickP2, R.raw.loose,
+							R.drawable.cancel);
+				}
 			} else {
-				clickBtn(lbScoreP2, lbScoreP1, imgClickP2, imgClickP1);
+				if (isTrue) {
+					clickBtn(animateMoreScoreP2, lbMoreScoreP2, lbScoreP2,
+							imgClickP2, imgClickP1, R.raw.win, R.drawable.ok);
+				} else {
+					clickBtn(animateMoreScoreP1, lbMoreScoreP1, lbScoreP1,
+							imgClickP2, imgClickP1, R.raw.loose,
+							R.drawable.cancel);
+				}
 			}
 		}
 	}
@@ -94,38 +128,58 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 	/**
 	 * Incrémente le score du joueur ayant remporter le round
 	 * 
-	 * @param lbScoreSender
-	 * @param lbScoreOther
+	 * @param lbMoreWinner
+	 * @param lbScoreWinner
 	 * @param imgClickSender
 	 * @param imgClickOther
+	 * @param resSound
+	 * @param resImg
 	 */
-	private void clickBtn(TextView lbScoreSender, TextView lbScoreOther,
-			ImageView imgClickSender, ImageView imgClickOther) {
-		if (isTrue) {
-			lbScoreSender.setText(String.valueOf(Integer
-					.valueOf((String) lbScoreSender.getText()) + 1));
+	private void clickBtn(final Animation oAnimation,
+			final TextView lbMoreWinner, TextView lbScoreWinner,
+			ImageView imgClickSender, ImageView imgClickOther, int resSound,
+			int resImg) {
 
-			Utils.playSound(CalculActivity.this, R.raw.win);
+		oAnimation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+				lbMoreWinner.setVisibility(View.VISIBLE);
+			}
 
-			imgClickSender.setVisibility(View.VISIBLE);
-			imgClickSender.setImageResource(R.drawable.ok);
-			imgClickOther.setVisibility(View.INVISIBLE);
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// On joue un son d'entrée
+				lbMoreWinner.setVisibility(View.INVISIBLE);
+			}
 
-		} else {
-			lbScoreOther.setText(String.valueOf(Integer
-					.valueOf((String) lbScoreOther.getText()) + 1));
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
 
-			Utils.playSound(CalculActivity.this, R.raw.loose);
+			}
+		});
 
-			imgClickSender.setVisibility(View.VISIBLE);
-			imgClickSender.setImageResource(R.drawable.cancel);
-			imgClickOther.setVisibility(View.INVISIBLE);
-		}
+		lbMoreWinner.startAnimation(animateMoreScoreP1);
+
+		lbScoreWinner.setText(String.valueOf(Integer
+				.valueOf((String) lbScoreWinner.getText()) + 1));
+
+		Utils.playSound(CalculActivity.this, resSound);
+
+		imgClickSender.setVisibility(View.VISIBLE);
+		imgClickSender.setImageResource(resImg);
+		imgClickOther.setVisibility(View.INVISIBLE);
 
 		lbCalculP1.setText("");
 		lbCalculP2.setText("");
 	}
 
+	/**
+	 * 
+	 * @param min
+	 * @param max
+	 */
 	private void calcul(int min, int max) {
 		int cpt = Utils.randomNumber(1, 3); // bon ou mauvais calcul
 		result = calcul;
@@ -140,6 +194,9 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
+	/**
+	 * Génére un nouveau calcul
+	 */
 	private void setNewCalcul() {
 		int nb1 = Utils.randomNumber(0, 26); // premier nombre
 		int nb2 = Utils.randomNumber(0, 26); // deuxième nombre
@@ -170,6 +227,12 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 		lbCalculP2.setText(lbCalcul);
 	}
 
+	/**
+	 * AsyncTask pour la mécanique du jeu
+	 * 
+	 * @author Tommy
+	 * 
+	 */
 	private class GameAsyncTask extends AsyncTask<Void, Integer, Void> {
 
 		private int nbRounds;
@@ -229,8 +292,8 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 				// vrai ou fausse
 				publishProgress(Utils.randomNumber(1, 3));
 
-				// On laisse 2sec pour répondre
-				SystemClock.sleep(3000);
+				// On laisse 5sec pour répondre
+				SystemClock.sleep(5000);
 
 				// On retire la couleur
 				publishProgress(3);
@@ -248,6 +311,12 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
+	/**
+	 * AsyncTask pour le compte à rebour de départ
+	 * 
+	 * @author Tommy
+	 * 
+	 */
 	private class ChronoAsyncTask extends AsyncTask<Void, Integer, Void> {
 
 		protected void onProgressUpdate(Integer... number) {

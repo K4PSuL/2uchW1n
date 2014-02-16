@@ -26,6 +26,8 @@ public class Const {
 	
 	public final static String CHRONO_GO = "Go !";
 	
+	public final static String WEBSERVICE_GETRESULTS = "127.0.0.1:1400/player/?method=getResults&id_player=";
+	
 	public static Class<?> NOTIFICATION_ACTIVITY = MainActivity.class;
 	public static Integer NOTIFICATION_ICON = R.drawable.ic_launcher;
 }

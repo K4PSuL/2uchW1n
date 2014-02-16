@@ -107,7 +107,7 @@ public class MainActivity extends Activity {
 				/* GAME */
 
 				ContentValues myValuesGame = new ContentValues();
-				myValuesGame.put(GameContract.COL_LIBELLE, "Reflexe");
+				myValuesGame.put(GameContract.COL_LIBELLE, "Couleur");
 
 				dataBase.insert(GameContract.TABLE, null, myValuesGame);
 				
