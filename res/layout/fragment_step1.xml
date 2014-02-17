@@ -2,7 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background" >
+    android:background="@drawable/fragment" >
+
+    <TextView
+        android:id="@+id/lbPage1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/lb_page1"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/lbTitleFragment"
@@ -10,32 +20,63 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="30dp"
         android:text="@string/title_fragments"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/red"
         android:typeface="monospace" />
 
     <TextView
-        android:id="@+id/lbStep1"
+        android:id="@+id/step4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/step1"
+        android:layout_alignTop="@+id/step3"
+        android:layout_marginTop="67dp"
+        android:text="@string/step4"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/green"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/step1"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbTitleFragment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:rotation="-10"
+        android:text="@string/step1"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black"
+        android:layout_marginLeft="70dp"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/step2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/step1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="78dp"
+        android:rotation="5"
+        android:text="@string/step2"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/step3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/lbTitleFragment"
-        android:layout_marginTop="46dp"
-        android:text="@string/lb_step1"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/yellow"
+        android:layout_below="@+id/step2"
+        android:layout_marginTop="68dp"
+        android:rotation="-5"
+        android:text="@string/step3"
+        android:layout_marginLeft="30dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black"
         android:typeface="monospace" />
-    
-    <TextView
-        android:id="@+id/lbPage1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:text="@string/lb_page1"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

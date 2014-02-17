@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background" >
+    android:background="@drawable/fragment" >
 
     <TextView
         android:id="@+id/lbPage2"
@@ -10,8 +10,63 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/lb_page2"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/step1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgTrue"
+        android:layout_alignLeft="@+id/imgFalse"
+        android:layout_toLeftOf="@+id/lbPage2"
+        android:text="@string/step5"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/step2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgFalse"
+        android:layout_alignRight="@+id/imgTrue"
+        android:layout_marginBottom="25dp"
+        android:text="@string/step6"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/lbTitleFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/title_game1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/red"
+        android:typeface="monospace" />
+
+    <ImageView
+        android:id="@+id/imgFalse"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_alignRight="@+id/lbPage2"
+        android:layout_below="@+id/step1"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/img_false"
+        android:contentDescription="@string/imgFalse" />
+
+    <ImageView
+        android:id="@+id/imgTrue"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lbTitleFragment"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/img_true"
+        android:contentDescription="@string/imgTrue" />
 
 </RelativeLayout>

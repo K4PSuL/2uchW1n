@@ -25,13 +25,27 @@
 	<string name="lb_help">Règles du jeu :</string>
 	<string name="btn_help">Aide</string>
 	<string name="btn_valid">Valider</string>
-	<string name="btn_back">Retour</string>
-	<string name="title_fragments">Comment jouer ?</string>
-	<string name="lb_step1">1.</string>
-	<string name="lb_page1">1 / 3</string>
-	<string name="lb_page2">2 / 3</string>
-	<string name="lb_page3">3 / 3</string>
 	
+		<!-- Fragments -->
+		<string name="btn_back">Retour</string>
+		<string name="title_fragments">Comment jouer ?</string>
+		<string name="lb_step1">1.</string>
+		<string name="lb_page1">1 / 3</string>
+		<string name="lb_page2">2 / 3</string>
+		<string name="lb_page3">3 / 3</string>
+		<string name="title_game1">Couleurs</string>
+		<string name="title_game2">Calculs</string>
+		<string name="imgTrue">True</string>
+		<string name="imgFalse">False</string>
+		<string name="step1">1. Connexion de ton ADVERSAIRE</string>
+		<string name="step2">2. Choix du JEU</string>
+		<string name="step3">3. Sélection du nombre de ROUNDS gagnants</string>
+		<string name="step4">GO !</string>
+		<string name="step5">Soit le plus rapide à cliquer lorsque l\'image jaune apparaît !</string>
+		<string name="step6">Mais attention aux images rouge...</string>
+		<string name="step7">Tape lorsque le calcul est correct</string>
+		<string name="step8">Si tu te trompes, le point ira à ton adversaire</string>
+		
 	<!-- activity_stats -->
 	<string name="title_stats">Statistiques</string>
 	<string name="lb_wins">Victoires :</string>
