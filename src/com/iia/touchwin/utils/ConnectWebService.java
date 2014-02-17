@@ -40,7 +40,7 @@ public abstract class ConnectWebService {
 		} catch (Exception e) {
 			Log.d("InputStream", e.getLocalizedMessage());
 		}
-
+		Log.d("result", result);
 		return result;
 	}
 

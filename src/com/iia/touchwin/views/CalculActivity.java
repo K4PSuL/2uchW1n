@@ -32,6 +32,7 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 	private TextView lbChrono;
 	private Button btnP1;
 	private Button btnP2;
+	private GameAsyncTask inGame;
 	private Animation animateMoreScoreP1;
 	private Animation animateMoreScoreP2;
 	private Player oPlayer1;
@@ -283,7 +284,7 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 		protected Void doInBackground(Void... arg0) {
 
 			// Si le nombre de round passé est atteint, on quitte le thread
-			while (scoreP1 + scoreP2 != nbRounds) {
+			while (scoreP1 + scoreP2 < nbRounds) {
 
 				// On génére un temp d'attente aléatoire
 				SystemClock.sleep(Utils.randomNumber(2, 10) * 1000);
@@ -378,9 +379,25 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 
 		protected void onPostExecute(Void result) {
 			// On éxecute le jeu dans un autre thread
-			GameAsyncTask inGame = new GameAsyncTask(nbRounds);
+			inGame = new GameAsyncTask(nbRounds);
 			inGame.execute();
 		}
 
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		
+		this.onStop();
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		
+		inGame.cancel(true);
 	}
 }

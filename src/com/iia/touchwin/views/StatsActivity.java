@@ -7,11 +7,13 @@ import java.util.List;
 
 
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 
 import com.iia.touchwin.R;
 import com.iia.touchwin.contracts.ResultContract;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.entities.Result;
+import com.iia.touchwin.utils.ConnectWebService;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.DateUtils;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
@@ -22,6 +24,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

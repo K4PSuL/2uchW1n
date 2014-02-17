@@ -34,6 +34,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
 	private Button btnP2;
 	private Animation animateMoreScoreP1;
 	private Animation animateMoreScoreP2;
+	private GameAsyncTask inGame;
+	private ChronoAsyncTask chrono;
 	private Player oPlayer1;
 	private Player oPlayer2;
 	private int nbRounds;
@@ -84,7 +86,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
 		btnP2.setText(oPlayer2.getLogin());
 
 		// On démarre le chronomètre
-		ChronoAsyncTask chrono = new ChronoAsyncTask(nbRounds);
+		chrono = new ChronoAsyncTask(nbRounds);
 		chrono.execute();
 
 		btnP1.setOnClickListener((OnClickListener) this);
@@ -122,6 +124,24 @@ public class GameActivity extends Activity implements View.OnClickListener {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+		
+		if (inGame != null) {
+			inGame.cancel(true);
+
+		}
+		if (chrono != null) {
+			chrono.cancel(true);
+		}
+		
+		this.finish();
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		
+		this.onStop();
 	}
 
 	/**
@@ -231,7 +251,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
 		protected Void doInBackground(Void... arg0) {
 
 			// Si le nombre de round passé est atteint, on quitte le thread
-			while (scoreP1 + scoreP2 != nbRounds) {
+			while (scoreP1 + scoreP2 < nbRounds) {
 
 				// On génére un temp d'attente aléatoire
 				SystemClock.sleep(Utils.randomNumber(2, 10) * 1000);
@@ -337,7 +357,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
 			super.onPostExecute(result);
 
 			// On éxecute le jeux dans un autre thread
-			GameAsyncTask inGame = new GameAsyncTask(nbRounds);
+			inGame = new GameAsyncTask(nbRounds);
 			inGame.execute();
 		}
 	}
