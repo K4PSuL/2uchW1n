@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -32,7 +33,8 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 	private TextView lbChrono;
 	private Button btnP1;
 	private Button btnP2;
-	private GameAsyncTask inGame;
+	private GameAsyncTask oGameAsyncTask;
+	private ChronoAsyncTask oChronoAsyncTask;
 	private Animation animateMoreScoreP1;
 	private Animation animateMoreScoreP2;
 	private Player oPlayer1;
@@ -95,6 +97,23 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 
 		btnP1.setOnClickListener((OnClickListener) this);
 		btnP2.setOnClickListener((OnClickListener) this);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+
+		if (oGameAsyncTask != null) {
+			oGameAsyncTask.cancel(true);
+		}
+		
+		if (oChronoAsyncTask != null) {
+			oChronoAsyncTask.cancel(true);
+		}
+		
+		this.finish();
+		
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -278,13 +297,12 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 			default:
 				break;
 			}
-
 		}
 
 		protected Void doInBackground(Void... arg0) {
 
 			// Si le nombre de round passé est atteint, on quitte le thread
-			while (scoreP1 + scoreP2 < nbRounds) {
+			while ((scoreP1 + scoreP2 < nbRounds) && (isCancelled() == false)) {
 
 				// On génére un temp d'attente aléatoire
 				SystemClock.sleep(Utils.randomNumber(2, 10) * 1000);
@@ -359,45 +377,38 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 		}
 
 		protected Void doInBackground(Void... arg0) {
+			boolean stop = false;
 
-			publishProgress(5);
-			SystemClock.sleep(1000);
-			publishProgress(4);
-			SystemClock.sleep(1000);
-			publishProgress(3);
-			SystemClock.sleep(1000);
-			publishProgress(2);
-			SystemClock.sleep(1000);
-			publishProgress(1);
-			SystemClock.sleep(1000);
-			publishProgress(0);
-			SystemClock.sleep(500);
-			publishProgress(-1);
+			while ((isCancelled() == false) && (stop == false)) {
+				publishProgress(5);
+				SystemClock.sleep(1000);
+				publishProgress(4);
+				SystemClock.sleep(1000);
+				publishProgress(3);
+				SystemClock.sleep(1000);
+				publishProgress(2);
+				SystemClock.sleep(1000);
+				publishProgress(1);
+				SystemClock.sleep(1000);
+				publishProgress(0);
+				SystemClock.sleep(500);
+				publishProgress(-1);
 
+				stop = true;
+
+			}
 			return null;
 		}
 
 		protected void onPostExecute(Void result) {
-			// On éxecute le jeu dans un autre thread
-			inGame = new GameAsyncTask(nbRounds);
-			inGame.execute();
+			super.onPostExecute(result);
+
+			// On éxecute le jeux dans un autre thread
+			if (isCancelled() == false) {
+				oGameAsyncTask = new GameAsyncTask(nbRounds);
+				oGameAsyncTask.execute();
+			}
 		}
 
-	}
-
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		
-		this.onStop();
-	}
-	
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		
-		inGame.cancel(true);
 	}
 }

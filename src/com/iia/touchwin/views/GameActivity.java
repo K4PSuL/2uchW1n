@@ -11,6 +11,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -34,8 +36,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
 	private Button btnP2;
 	private Animation animateMoreScoreP1;
 	private Animation animateMoreScoreP2;
-	private GameAsyncTask inGame;
-	private ChronoAsyncTask chrono;
+	private GameAsyncTask oGameAsyncTask;
+	private ChronoAsyncTask oChronoAsyncTask;
 	private Player oPlayer1;
 	private Player oPlayer2;
 	private int nbRounds;
@@ -50,15 +52,15 @@ public class GameActivity extends Activity implements View.OnClickListener {
 		setContentView(R.layout.activity_game);
 
 		lbChrono = (TextView) findViewById(R.id.txtChrono);
-		
+
 		btnP1 = (Button) findViewById(R.id.btnP1);
 		btnP2 = (Button) findViewById(R.id.btnP2);
-		
+
 		imgColor = (ImageView) findViewById(R.id.imgColor);
-		
+
 		lbScoreP1 = (TextView) findViewById(R.id.lbScoreP1);
 		lbScoreP2 = (TextView) findViewById(R.id.lbScoreP2);
-		
+
 		imgClickP1 = (ImageView) findViewById(R.id.imgClickP1);
 		imgClickP2 = (ImageView) findViewById(R.id.imgClickP2);
 
@@ -86,8 +88,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
 		btnP2.setText(oPlayer2.getLogin());
 
 		// On démarre le chronomètre
-		chrono = new ChronoAsyncTask(nbRounds);
-		chrono.execute();
+		oChronoAsyncTask = new ChronoAsyncTask(nbRounds);
+		oChronoAsyncTask.execute();
 
 		btnP1.setOnClickListener((OnClickListener) this);
 		btnP2.setOnClickListener((OnClickListener) this);
@@ -102,46 +104,41 @@ public class GameActivity extends Activity implements View.OnClickListener {
 			if (v.getId() == R.id.btnP1) {
 				// Et a bon
 				if (isTrue) {
-					clickBtn(animateMoreScoreP1, lbMoreScoreP1, lbScoreP1, imgClickP1, imgClickP2,
-							R.raw.win, R.drawable.ok);
+					clickBtn(animateMoreScoreP1, lbMoreScoreP1, lbScoreP1,
+							imgClickP1, imgClickP2, R.raw.win, R.drawable.ok);
 				} else {
-					clickBtn(animateMoreScoreP2, lbMoreScoreP2, lbScoreP2, imgClickP1, imgClickP2,
-							R.raw.loose, R.drawable.cancel);
+					clickBtn(animateMoreScoreP2, lbMoreScoreP2, lbScoreP2,
+							imgClickP1, imgClickP2, R.raw.loose,
+							R.drawable.cancel);
 				}
 			} else {
 				if (isTrue) {
-					clickBtn(animateMoreScoreP2,lbMoreScoreP2, lbScoreP2, imgClickP2, imgClickP1,
-							R.raw.win, R.drawable.ok);
+					clickBtn(animateMoreScoreP2, lbMoreScoreP2, lbScoreP2,
+							imgClickP2, imgClickP1, R.raw.win, R.drawable.ok);
 				} else {
-					clickBtn(animateMoreScoreP1,lbMoreScoreP1, lbScoreP1, imgClickP2, imgClickP1,
-							R.raw.loose, R.drawable.cancel);
+					clickBtn(animateMoreScoreP1, lbMoreScoreP1, lbScoreP1,
+							imgClickP2, imgClickP1, R.raw.loose,
+							R.drawable.cancel);
 				}
 			}
 		}
 	}
-
+	
 	@Override
-	protected void onStop() {
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		super.onStop();
 		
-		if (inGame != null) {
-			inGame.cancel(true);
-
+		if (oGameAsyncTask != null) {
+			oGameAsyncTask.cancel(true);
 		}
-		if (chrono != null) {
-			chrono.cancel(true);
+		
+		if (oChronoAsyncTask != null) {
+			oChronoAsyncTask.cancel(true);
 		}
 		
 		this.finish();
-	}
-	
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
 		
-		this.onStop();
+		return super.onKeyDown(keyCode, event);
 	}
 
 	/**
@@ -154,7 +151,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
 	 * @param resSound
 	 * @param resImg
 	 */
-	private void clickBtn(final Animation oAnimation, final TextView lbMoreWinner, TextView lbScoreWinner,
+	private void clickBtn(final Animation oAnimation,
+			final TextView lbMoreWinner, TextView lbScoreWinner,
 			ImageView imgClickSender, ImageView imgClickOther, int resSound,
 			int resImg) {
 
@@ -164,20 +162,20 @@ public class GameActivity extends Activity implements View.OnClickListener {
 				// TODO Auto-generated method stub
 				lbMoreWinner.setVisibility(View.VISIBLE);
 			}
-			
+
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				// On joue un son d'entrée
 				lbMoreWinner.setVisibility(View.INVISIBLE);
 			}
-			
+
 			@Override
 			public void onAnimationRepeat(Animation animation) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		lbMoreWinner.startAnimation(animateMoreScoreP1);
 
 		lbScoreWinner.setText(String.valueOf(Integer
@@ -251,7 +249,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
 		protected Void doInBackground(Void... arg0) {
 
 			// Si le nombre de round passé est atteint, on quitte le thread
-			while (scoreP1 + scoreP2 < nbRounds) {
+			while ((scoreP1 + scoreP2 < nbRounds) && (isCancelled() == false)) {
 
 				// On génére un temp d'attente aléatoire
 				SystemClock.sleep(Utils.randomNumber(2, 10) * 1000);
@@ -266,7 +264,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
 				// On retire la couleur
 				publishProgress(3);
 			}
-
 			return null;
 		}
 
@@ -274,9 +271,10 @@ public class GameActivity extends Activity implements View.OnClickListener {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 
-			Utils.dialogEndGame(GameActivity.this, oPlayer1, oPlayer2,
-					this.scoreP1, this.scoreP2, oGame);
-
+			if (isCancelled() == false) {
+				Utils.dialogEndGame(GameActivity.this, oPlayer1, oPlayer2,
+						this.scoreP1, this.scoreP2, oGame);
+			}
 		}
 	}
 
@@ -335,20 +333,25 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
 		@Override
 		protected Void doInBackground(Void... arg0) {
-			publishProgress(5);
-			SystemClock.sleep(1000);
-			publishProgress(4);
-			SystemClock.sleep(1000);
-			publishProgress(3);
-			SystemClock.sleep(1000);
-			publishProgress(2);
-			SystemClock.sleep(1000);
-			publishProgress(1);
-			SystemClock.sleep(1000);
-			publishProgress(0);
-			SystemClock.sleep(1000);
-			publishProgress(-1);
-
+			boolean stop = false;
+			
+			while ((isCancelled() == false) && (stop == false)) {
+				publishProgress(5);
+				SystemClock.sleep(1000);
+				publishProgress(4);
+				SystemClock.sleep(1000);
+				publishProgress(3);
+				SystemClock.sleep(1000);
+				publishProgress(2);
+				SystemClock.sleep(1000);
+				publishProgress(1);
+				SystemClock.sleep(1000);
+				publishProgress(0);
+				SystemClock.sleep(1000);
+				publishProgress(-1);
+				
+				stop = true;
+			}
 			return null;
 		}
 
@@ -357,8 +360,11 @@ public class GameActivity extends Activity implements View.OnClickListener {
 			super.onPostExecute(result);
 
 			// On éxecute le jeux dans un autre thread
-			inGame = new GameAsyncTask(nbRounds);
-			inGame.execute();
+
+			if (isCancelled() == false) {
+				oGameAsyncTask = new GameAsyncTask(nbRounds);
+				oGameAsyncTask.execute();
+			}
 		}
 	}
 }
