@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lbLogin"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:inputType="text" >
         <requestFocus />
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/lbPassword"
         android:layout_below="@+id/lbPassword"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:inputType="textPassword" />
 
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/imgLogo"
         android:layout_below="@+id/editPassword"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="45dp"
         android:text="@string/btn_connection"
         android:textColor="@color/white"
         android:typeface="monospace" />

@@ -3,11 +3,15 @@ package com.iia.touchwin.views;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.iia.touchwin.R;
 import com.iia.touchwin.contracts.ResultContract;
 import com.iia.touchwin.entities.Player;
@@ -15,19 +19,26 @@ import com.iia.touchwin.entities.Result;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.DateUtils;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
+import com.iia.touchwin.utils.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 public class StatsActivity extends Activity {
 
@@ -37,7 +48,7 @@ public class StatsActivity extends Activity {
 		private int resource;
 		private LayoutInflater monInflateur;
 		private Player oPlayer1;
-		
+
 		// On créer un adapater pour la listView
 		public MyResultAdapter(Context context, int resource,
 				List<Result> objects, Player thePlayer) {
@@ -61,28 +72,39 @@ public class StatsActivity extends Activity {
 			// On récupére le Result en fonction de l'index et on l'affiche
 			Result oResult = this.getItem(position);
 
-			lbPlayer.setText(String.valueOf(oResult.getId_player2()));
-			lbDate.setText(DateUtils.formatDateTimeToString(oResult.getPlayDate(), context));
-			
+			Player oPlayer2 = null;
 
-			if (oResult.getId_player1() == oPlayer1.getId()) {
-				if (oResult.getScoreP1() > oResult.getScoreP2()) {
-					oView.setBackgroundColor(R.color.yellow);
-				} else {
-					oView.setBackgroundColor(R.color.red);
-				}
-				
-				lbResult.setText(String.valueOf(oResult.getScoreP1()) + " - "
-						+ String.valueOf(oResult.getScoreP2()));
+			if (oPlayer1.getId() == oResult.getId_player2()) {
+				oPlayer2 = Utils.getPlayer(context, oResult.getId_player1());
 			} else {
-				if (oResult.getScoreP1() < oResult.getScoreP2()) {
-					oView.setBackgroundColor(R.color.yellow);
+				oPlayer2 = Utils.getPlayer(context, oResult.getId_player2());
+			}
+
+			if (oPlayer2 != null) {
+
+				lbPlayer.setText(String.valueOf(oPlayer2.getLogin()));
+				lbDate.setText(DateUtils.formatDateTimeToString(
+						oResult.getPlayDate(), context));
+
+				if (oResult.getId_player1() == oPlayer1.getId()) {
+					if (oResult.getScoreP1() > oResult.getScoreP2()) {
+						oView.setBackgroundColor(R.color.yellow);
+					} else {
+						oView.setBackgroundColor(R.color.red);
+					}
+
+					lbResult.setText(String.valueOf(oResult.getScoreP1())
+							+ " - " + String.valueOf(oResult.getScoreP2()));
 				} else {
-					oView.setBackgroundColor(R.color.red);
+					if (oResult.getScoreP1() < oResult.getScoreP2()) {
+						oView.setBackgroundColor(R.color.yellow);
+					} else {
+						oView.setBackgroundColor(R.color.red);
+					}
+
+					lbResult.setText(String.valueOf(oResult.getScoreP2())
+							+ " - " + String.valueOf(oResult.getScoreP1()));
 				}
-				
-				lbResult.setText(String.valueOf(oResult.getScoreP2()) + " - "
-						+ String.valueOf(oResult.getScoreP1()));
 			}
 
 			return oView;
@@ -104,7 +126,7 @@ public class StatsActivity extends Activity {
 		final ListView myResultList = (ListView) findViewById(R.id.listViewResults);
 
 		// On récupére le Player
-		final Player thePlayer = (Player) getIntent().getExtras()
+		final Player oPlayer1 = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
 
 		// Initialisation du tableau de Results
@@ -117,8 +139,8 @@ public class StatsActivity extends Activity {
 		SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
 
 		// Argument pour la condition de la requête SQL
-		String[] whereArg = { String.valueOf(thePlayer.getId()),
-				String.valueOf(thePlayer.getId()) };
+		String[] whereArg = { String.valueOf(oPlayer1.getId()),
+				String.valueOf(oPlayer1.getId()) };
 
 		// Requête sur la BDD
 		Cursor oCursor = dataBase.query(ResultContract.TABLE,
@@ -132,10 +154,12 @@ public class StatsActivity extends Activity {
 				final Result oResult = new Result();
 
 				total++;
-				
-				DateTime datePlayDate = DateUtils.formatStringToDate(oCursor.getString(oCursor
-						.getColumnIndex(ResultContract.COL_PLAYDATE)),StatsActivity.this);
-				
+
+				DateTime datePlayDate = DateUtils.formatStringToDate(oCursor
+						.getString(oCursor
+								.getColumnIndex(ResultContract.COL_PLAYDATE)),
+						StatsActivity.this);
+
 				oResult.setId((oCursor.getInt(oCursor
 						.getColumnIndex(ResultContract.COL_ID))));
 				oResult.setId_game((oCursor.getInt(oCursor
@@ -150,7 +174,7 @@ public class StatsActivity extends Activity {
 				oResult.setScoreP2((oCursor.getInt(oCursor
 						.getColumnIndex(ResultContract.COL_SCOREP2))));
 
-				if (oResult.getId_player1() == thePlayer.getId()) {
+				if (oResult.getId_player1() == oPlayer1.getId()) {
 					if (oResult.getScoreP1() > oResult.getScoreP2()) {
 						win++;
 					}
@@ -159,7 +183,7 @@ public class StatsActivity extends Activity {
 						win++;
 					}
 				}
-				
+
 				aResults.add(oResult);
 
 			} while (oCursor.moveToNext());
@@ -169,12 +193,72 @@ public class StatsActivity extends Activity {
 			}
 
 			lbTotal.setText(lbTotal.getText() + " " + String.valueOf(total));
-			lbWins.setText(lbWins.getText() + " " + String.format("%.2f", win) + "%");
+
+			lbWins.setText(lbWins.getText() + " " + String.format("%.2f", win)
+					+ "%");
 
 			MyResultAdapter oAdapter = new MyResultAdapter(this,
-					R.layout.row_score, aResults, thePlayer);
+					R.layout.row_score, aResults, oPlayer1);
 
 			myResultList.setAdapter(oAdapter);
+			
+			Toast.makeText(getApplicationContext(), Const.TOAST_STATS, 
+					   Toast.LENGTH_LONG).show();
 		}
+
+		myResultList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+
+				Result oResult = (Result) myResultList.getItemAtPosition(arg2);
+
+				String shareString = "";
+				String resultatFinal = "";
+				Player oPlayer2 = null;
+				
+
+				if (oResult.getId_player1() == oPlayer1.getId()) {
+					oPlayer2 = Utils.getPlayer(StatsActivity.this, oResult.getId_player2());
+					
+					if (oResult.getScoreP1() > oResult.getScoreP2()) {
+						shareString = Const.SHARE_WINNER + oPlayer2.getLogin();
+					} else {
+						shareString = Const.SHARE_LOOSER + oPlayer2.getLogin();
+					}
+
+					resultatFinal = Const.SHARE_RESULT + String.valueOf(oResult.getScoreP1())
+							+ " - " + String.valueOf(oResult.getScoreP2());
+				} else {
+					oPlayer2 = Utils.getPlayer(StatsActivity.this, oResult.getId_player1());
+					
+					if (oResult.getScoreP1() < oResult.getScoreP2()) {
+						shareString = Const.SHARE_WINNER + oPlayer2.getLogin();
+					} else {
+						shareString = Const.SHARE_LOOSER + oPlayer2.getLogin();
+					}
+
+					resultatFinal = Const.SHARE_RESULT + String.valueOf(oResult.getScoreP2())
+							+ " - " + String.valueOf(oResult.getScoreP1());
+				}
+				
+				shareString = shareString + resultatFinal;
+
+				Intent sendIntent = new Intent(
+						android.content.Intent.ACTION_SEND);
+
+				sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+						Const.SHARE_SUBJECT);
+				sendIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+						shareString);
+				sendIntent.setType("text/plain");
+
+				startActivity(Intent.createChooser(sendIntent,
+						Const.SHARE_TITLE));
+
+			}
+
+		});
 	}
 }

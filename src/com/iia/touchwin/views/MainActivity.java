@@ -50,8 +50,7 @@ public class MainActivity extends Activity {
 
 				// On vérifie les identifiants fournis par l'utilisateur
 				Player oPlayer1 = Utils.authentication(MainActivity.this,
-						editLogin.getText().toString(), editPassword.getText()
-								.toString());
+						editLogin, editPassword);
 
 				if (oPlayer1 != null) {
 					Bundle dataBundle = new Bundle();

@@ -10,12 +10,14 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,61 @@ public abstract class Utils {
 	}
 
 	/**
+	 * Retourne un Player par son identifiant
+	 * 
+	 * @param oActivity
+	 * @param idPlayer
+	 * @return
+	 */
+	public static Player getPlayer(Context oContext, int idPlayer) {
+
+		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
+				oContext, Const.DATABASE, null, 1);
+
+		// Récupération de la BDD
+		SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
+
+		// Argument pour la condition de la requête SQL
+		String[] whereArg = { String.valueOf(idPlayer) };
+
+		// Requête sur la BDD
+		Cursor oCursor = dataBase.query(PlayerContract.TABLE,
+				PlayerContract.COLS, PlayerContract.COL_ID + "=?", whereArg,
+				null, null, null);
+
+		// Si au moins un résultat...
+		if (oCursor.moveToFirst()) {
+
+			DateTime dateCreate = DateUtils.formatStringToDate(oCursor
+					.getString(oCursor
+							.getColumnIndex(PlayerContract.COL_DATECREATE)),
+					oContext);
+
+			DateTime dateBirth = DateUtils.formatStringToDate(oCursor
+					.getString(oCursor
+							.getColumnIndex(PlayerContract.COL_BIRTHDATE)),
+					oContext);
+
+			Player oPlayer = new Player();
+			oPlayer.setId(oCursor.getInt((oCursor
+					.getColumnIndex(PlayerContract.COL_ID))));
+			oPlayer.setLogin(oCursor.getString((oCursor
+					.getColumnIndex(PlayerContract.COL_LOGIN))));
+			oPlayer.setPassword(oCursor.getString((oCursor
+					.getColumnIndex(PlayerContract.COL_PASSWORD))));
+			oPlayer.setDateCreate(dateCreate);
+			oPlayer.setAvatar(oCursor.getString((oCursor
+					.getColumnIndex(PlayerContract.COL_AVATAR))));
+			oPlayer.setBirthdate(dateBirth);
+
+			return oPlayer;
+
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * Authentifie un utilisateur d'apres son mdp + login
 	 * 
 	 * @param oActivity
@@ -54,8 +111,8 @@ public abstract class Utils {
 	 * @param password
 	 * @return
 	 */
-	public static Player authentication(Activity oActivity, String login,
-			String password) {
+	public static Player authentication(Activity oActivity, EditText login,
+			EditText password) {
 
 		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
 				oActivity.getApplicationContext(), Const.DATABASE, null, 1);
@@ -64,7 +121,8 @@ public abstract class Utils {
 		SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
 
 		// Argument pour la condition de la requête SQL
-		String[] whereArg = { login, password };
+		String[] whereArg = { login.getText().toString(),
+				password.getText().toString() };
 
 		// Requête sur la BDD
 		Cursor oCursor = dataBase.query(PlayerContract.TABLE,
@@ -100,8 +158,8 @@ public abstract class Utils {
 			return oPlayer;
 
 		} else {
-			Toast.makeText(oActivity.getApplicationContext(),
-					Const.ERREUR_LOGIN, Toast.LENGTH_LONG).show();
+
+			password.setError("Erreur d'identifiant !");
 
 			return null;
 		}
@@ -165,12 +223,12 @@ public abstract class Utils {
 	 * @param scoreP2
 	 * @param oGame
 	 */
-	public static void dialogEndGame(Activity oActivity, Player oPlayer1,
+	public static void dialogEndGame(final Activity oActivity, Player oPlayer1,
 			Player oPlayer2, int scoreP1, int scoreP2, Game oGame) {
 
-		final Activity test = oActivity;
+		final Activity oActivity2 = oActivity;
 
-		final Dialog oDialogEndGame = new Dialog(test);
+		final Dialog oDialogEndGame = new Dialog(oActivity2);
 
 		final Player oPlayerWinner;
 
@@ -196,7 +254,7 @@ public abstract class Utils {
 
 		oDialogEndGame.show();
 
-		playSound(test, R.raw.end);
+		playSound(oActivity2, R.raw.end);
 
 		saveScore(oPlayer1, oPlayer2, scoreP1, scoreP2, oGame, oActivity);
 
@@ -205,7 +263,7 @@ public abstract class Utils {
 			@Override
 			public void onClick(View v) {
 				oDialogEndGame.dismiss();
-				test.finish();
+				oActivity2.finish();
 			}
 		});
 	}

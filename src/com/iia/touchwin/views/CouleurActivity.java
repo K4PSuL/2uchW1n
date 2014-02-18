@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class GameActivity extends Activity implements View.OnClickListener {
+public class CouleurActivity extends Activity implements View.OnClickListener {
 
 	private ImageView imgColor;
 	private ImageView imgClickP1;
@@ -67,10 +67,10 @@ public class GameActivity extends Activity implements View.OnClickListener {
 		lbMoreScoreP1 = (TextView) findViewById(R.id.lbMoreP1);
 		lbMoreScoreP2 = (TextView) findViewById(R.id.lbMoreP2);
 
-		animateMoreScoreP1 = AnimationUtils.loadAnimation(GameActivity.this,
+		animateMoreScoreP1 = AnimationUtils.loadAnimation(CouleurActivity.this,
 				R.anim.more_p1);
 
-		animateMoreScoreP2 = AnimationUtils.loadAnimation(GameActivity.this,
+		animateMoreScoreP2 = AnimationUtils.loadAnimation(CouleurActivity.this,
 				R.anim.more_p2);
 
 		oGame = (Game) getIntent().getExtras().getSerializable(
@@ -128,18 +128,21 @@ public class GameActivity extends Activity implements View.OnClickListener {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		
-		if (oGameAsyncTask != null) {
-			oGameAsyncTask.cancel(true);
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (oGameAsyncTask != null) {
+				oGameAsyncTask.cancel(true);
+			}
+			
+			if (oChronoAsyncTask != null) {
+				oChronoAsyncTask.cancel(true);
+			}
+			
+			this.finish();
 		}
-		
-		if (oChronoAsyncTask != null) {
-			oChronoAsyncTask.cancel(true);
-		}
-		
-		this.finish();
 		
 		return super.onKeyDown(keyCode, event);
 	}
+
 
 	/**
 	 * Incrémente le score du joueur ayant remporté le round
@@ -181,7 +184,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
 		lbScoreWinner.setText(String.valueOf(Integer
 				.valueOf((String) lbScoreWinner.getText()) + 1));
 
-		Utils.playSound(GameActivity.this, resSound);
+		Utils.playSound(CouleurActivity.this, resSound);
 
 		imgClickSender.setVisibility(View.VISIBLE);
 		imgClickSender.setImageResource(resImg);
@@ -272,7 +275,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
 			super.onPostExecute(result);
 
 			if (isCancelled() == false) {
-				Utils.dialogEndGame(GameActivity.this, oPlayer1, oPlayer2,
+				Utils.dialogEndGame(CouleurActivity.this, oPlayer1, oPlayer2,
 						this.scoreP1, this.scoreP2, oGame);
 			}
 		}
@@ -297,27 +300,27 @@ public class GameActivity extends Activity implements View.OnClickListener {
 			super.onProgressUpdate(number);
 
 			Animation animateChrono = AnimationUtils.loadAnimation(
-					GameActivity.this, R.anim.chrono);
+					CouleurActivity.this, R.anim.chrono);
 
 			switch (number[0]) {
 			case 5:
-				Utils.playSound(GameActivity.this, R.raw.five);
+				Utils.playSound(CouleurActivity.this, R.raw.five);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 4:
-				Utils.playSound(GameActivity.this, R.raw.four);
+				Utils.playSound(CouleurActivity.this, R.raw.four);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 3:
-				Utils.playSound(GameActivity.this, R.raw.three);
+				Utils.playSound(CouleurActivity.this, R.raw.three);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 2:
-				Utils.playSound(GameActivity.this, R.raw.two);
+				Utils.playSound(CouleurActivity.this, R.raw.two);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 1:
-				Utils.playSound(GameActivity.this, R.raw.one);
+				Utils.playSound(CouleurActivity.this, R.raw.one);
 				lbChrono.setText(String.valueOf(number[0]));
 				break;
 			case 0:

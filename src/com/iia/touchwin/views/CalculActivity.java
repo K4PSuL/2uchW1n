@@ -102,16 +102,18 @@ public class CalculActivity extends Activity implements View.OnClickListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-
-		if (oGameAsyncTask != null) {
-			oGameAsyncTask.cancel(true);
-		}
 		
-		if (oChronoAsyncTask != null) {
-			oChronoAsyncTask.cancel(true);
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (oGameAsyncTask != null) {
+				oGameAsyncTask.cancel(true);
+			}
+			
+			if (oChronoAsyncTask != null) {
+				oChronoAsyncTask.cancel(true);
+			}
+			
+			this.finish();
 		}
-		
-		this.finish();
 		
 		return super.onKeyDown(keyCode, event);
 	}

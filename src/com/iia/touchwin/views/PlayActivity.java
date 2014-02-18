@@ -41,7 +41,7 @@ public class PlayActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_play);
 
 		final EditText editPlayer1 = (EditText) findViewById(R.id.editPlayer1);
@@ -49,12 +49,12 @@ public class PlayActivity extends Activity {
 		final EditText editGame = (EditText) findViewById(R.id.editGame);
 		final RadioGroup radioGroupTime = (RadioGroup) findViewById(R.id.radioGroup);
 		final Button btnGo = (Button) findViewById(R.id.btnGo);
-		
+
 		final Bundle dataBundle = new Bundle();
-		
+
 		final Player oPlayer1 = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
-		
+
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
 
@@ -62,7 +62,7 @@ public class PlayActivity extends Activity {
 
 		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 
@@ -102,14 +102,13 @@ public class PlayActivity extends Activity {
 					public void onClick(View v) {
 
 						oPlayer2 = Utils.authentication(PlayActivity.this,
-								editLoginDialog.getText().toString(),
-								editPwdDialog.getText().toString());
+								editLoginDialog, editPwdDialog);
 
 						if (oPlayer2 != null) {
 							if (oPlayer1.getId() == oPlayer2.getId()) {
-								Toast.makeText(PlayActivity.this,
-										Const.ERREUR_PLAYER2, Toast.LENGTH_LONG)
-										.show();
+
+								editLoginDialog.setError(Const.ERREUR_PLAYER2);
+
 							} else {
 								editPlayer2.setText(oPlayer2.getLogin()
 										.toString());
@@ -130,7 +129,7 @@ public class PlayActivity extends Activity {
 
 		/* CHOIX DU JEU */
 		editGame.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 
@@ -168,7 +167,7 @@ public class PlayActivity extends Activity {
 				if (oCursor.moveToFirst()) {
 					do {
 						Game oGame = new Game();
-						
+
 						oGame.setId(oCursor.getInt(oCursor
 								.getColumnIndex(GameContract.COL_ID)));
 						oGame.setLibelle(oCursor.getString(oCursor
@@ -187,7 +186,7 @@ public class PlayActivity extends Activity {
 					@Override
 					public void onItemClick(AdapterView<?> adapter, View v,
 							int position, long arg3) {
-						
+
 						oGameSelect = (Game) adapter
 								.getItemAtPosition(position);
 
@@ -215,7 +214,6 @@ public class PlayActivity extends Activity {
 				int selectedId = radioGroupTime.getCheckedRadioButtonId();
 				final RadioButton radioBtn = (RadioButton) findViewById(selectedId);
 
-
 				dataBundle.putSerializable(Const.BUNDLE_PLAYER,
 						(Player) oPlayer1);
 				dataBundle.putSerializable(Const.BUNDLE_PLAYER2,
@@ -229,23 +227,23 @@ public class PlayActivity extends Activity {
 				if (editPlayer1.getText().length() < 1
 						|| editPlayer2.getText().length() < 1
 						|| editGame.getText().length() < 1) {
-					
+
 					Toast.makeText(PlayActivity.this, Const.ERREUR_FORMVIDE,
 							Toast.LENGTH_LONG).show();
-					
+
 				} else {
-					
+
 					Intent intentOpenGame = null;
-					
+
 					if (oGameSelect.getId() == 1) {
 						intentOpenGame = new Intent(PlayActivity.this,
-								GameActivity.class);
+								CouleurActivity.class);
 
 					} else if (oGameSelect.getId() == 2) {
 						intentOpenGame = new Intent(PlayActivity.this,
 								CalculActivity.class);
 					}
-					
+
 					intentOpenGame.putExtras(dataBundle);
 					startActivity(intentOpenGame);
 				}
@@ -261,7 +259,7 @@ public class PlayActivity extends Activity {
 
 		public MyGameAdapter(Context context, int resource,
 				java.util.List<Game> items) {
-			
+
 			super(context, resource, items);
 			this.context = context;
 			this.resource = resource;

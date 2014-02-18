@@ -53,7 +53,7 @@
         
         <!-- GameActivity -->
         <activity
-            android:name="com.iia.touchwin.views.GameActivity"
+            android:name="com.iia.touchwin.views.CouleurActivity"
             android:label="@string/app_name"  
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >

@@ -10,7 +10,7 @@ public class Const {
 	public final static String PREFERENCES_SOUND = "sound";
 
 	public final static String ERREUR_LOGIN = "Erreur, login incorrect";
-	public final static String ERREUR_PLAYER2 = "Erreur, adversaire impossible";
+	public final static String ERREUR_PLAYER2 = "Toi VS Toi ?!...";
 	public final static String ERREUR_FORMVIDE = "Veuillez remplir tous les champs";
 	
 	public final static String DATABASE = "TouchWin";
@@ -26,7 +26,15 @@ public class Const {
 	
 	public final static String CHRONO_GO = "Go !";
 	
-	public final static String WEBSERVICE_GETRESULTS = "127.0.0.1:1400/player/?method=getResults&id_player=";
+	public final static String WEBSERVICE_GETRESULTS = "http://www.tommy-calais.fr/touchwin/public/player/?method=getResults&id_player=1";
+	
+	public final static String TOAST_STATS = "Clic sur ton score pour le publier !";
+	
+	public final static String SHARE_TITLE = "Partager mon score via...";
+	public final static String SHARE_SUBJECT = "Mon score TouchWin !";
+	public final static String SHARE_WINNER = "Wouah ! J'ai gagné à TouchWin contre ";
+	public final static String SHARE_LOOSER = "Pouah ! J'ai perdu à TouchWin contre ";
+	public final static String SHARE_RESULT = "\nRésultat : ";
 	
 	public static Class<?> NOTIFICATION_ACTIVITY = MainActivity.class;
 	public static Integer NOTIFICATION_ICON = R.drawable.ic_launcher;
