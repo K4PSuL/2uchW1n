@@ -169,7 +169,7 @@ public class StatsActivity extends Activity {
 			}
 
 			lbTotal.setText(lbTotal.getText() + " " + String.valueOf(total));
-			lbWins.setText(lbWins.getText() + " " + String.valueOf(win) + "%");
+			lbWins.setText(lbWins.getText() + " " + String.format("%.2f", win) + "%");
 
 			MyResultAdapter oAdapter = new MyResultAdapter(this,
 					R.layout.row_score, aResults, thePlayer);

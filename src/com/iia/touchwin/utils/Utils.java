@@ -198,7 +198,7 @@ public abstract class Utils {
 
 		playSound(test, R.raw.end);
 
-		saveScore(oPlayer1, oPlayer2, scoreP1, scoreP1, oGame, oActivity);
+		saveScore(oPlayer1, oPlayer2, scoreP1, scoreP2, oGame, oActivity);
 
 		btnExitEndGame.setOnClickListener(new View.OnClickListener() {
 
