@@ -17,6 +17,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,16 +30,20 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PlayActivity extends Activity {
+public class PlayActivity extends Activity implements SensorEventListener{
 
 	private Player oPlayer2;
 	private Game oGameSelect;
+	private SensorManager oSensorManager;
+	private Sensor oAccelerometer;
+	private EditText editGame;
 
 	@SuppressLint("ResourceAsColor")
 	@Override
@@ -46,7 +54,7 @@ public class PlayActivity extends Activity {
 
 		final EditText editPlayer1 = (EditText) findViewById(R.id.editPlayer1);
 		final EditText editPlayer2 = (EditText) findViewById(R.id.editPlayer2);
-		final EditText editGame = (EditText) findViewById(R.id.editGame);
+		editGame = (EditText) findViewById(R.id.editGame);
 		final RadioGroup radioGroupTime = (RadioGroup) findViewById(R.id.radioGroup);
 		final Button btnGo = (Button) findViewById(R.id.btnGo);
 
@@ -59,7 +67,11 @@ public class PlayActivity extends Activity {
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
 
 		editPlayer1.setText(oPlayer1.getLogin());
+		
+		oSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
+		oAccelerometer = oSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+			
 		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
 
@@ -250,6 +262,34 @@ public class PlayActivity extends Activity {
 			}
 		});
 	}
+	
+    /* * (non-Javadoc) * 
+     * @see android.app.Activity#onPause() */
+    @Override
+    protected void onPause() {
+        // unregister the sensor (désenregistrer le capteur)
+    	oSensorManager.unregisterListener(this, oAccelerometer);
+        super.onPause();
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.app.Activity#onResume()
+     */
+    @Override
+    protected void onResume() {
+        /* Ce qu'en dit Google dans le cas de l'accéléromètre :
+         * «  Ce n'est pas nécessaire d'avoir les évènements des capteurs à un rythme trop rapide.
+         * En utilisant un rythme moins rapide (SENSOR_DELAY_UI), nous obtenons un filtre
+         * automatique de bas-niveau qui "extrait" la gravité  de l'accélération.
+         * Un autre bénéfice étant que l'on utilise moins d'énergie et de CPU. »
+         */
+    	oSensorManager.registerListener(this, oAccelerometer, SensorManager.SENSOR_DELAY_UI);
+        super.onResume();
+    }
+    
+    
 
 	private static class MyGameAdapter extends ArrayAdapter<Game> {
 
@@ -279,5 +319,48 @@ public class PlayActivity extends Activity {
 
 			return view;
 		}
+	}
+
+
+
+	@Override
+	public void onAccuracyChanged(Sensor arg0, int arg1) {
+		// TODO Auto-generated method stub
+		
+		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
+				PlayActivity.this, Const.DATABASE, null, 1);
+
+		SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
+
+		Cursor oCursor = dataBase.query(GameContract.TABLE,
+				GameContract.COLS, null, null, null, null, null);
+
+		ArrayList<Game> aGames = new ArrayList<Game>();
+
+		if (oCursor.moveToFirst()) {
+			do {
+				Game oGame = new Game();
+
+				oGame.setId(oCursor.getInt(oCursor
+						.getColumnIndex(GameContract.COL_ID)));
+				oGame.setLibelle(oCursor.getString(oCursor
+						.getColumnIndex(GameContract.COL_LIBELLE)));
+				aGames.add(oGame);
+
+			} while (oCursor.moveToNext());
+			
+			int random;
+			random = Utils.randomNumber(0, aGames.size() + 1);
+			
+			oGameSelect = (Game) aGames.get(random);
+
+			editGame.setText(oGameSelect.getLibelle());
+		}
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
