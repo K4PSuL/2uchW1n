@@ -9,7 +9,7 @@ import com.iia.touchwin.contracts.ResultContract;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.entities.Result;
 import com.iia.touchwin.request.PlayerRequest;
-import com.iia.touchwin.utils.ConnectWebService;
+//import com.iia.touchwin.utils.ConnectWebService;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.DateUtils;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
