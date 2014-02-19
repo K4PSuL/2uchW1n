@@ -192,9 +192,9 @@ public class StatsActivity extends Activity {
 				win = (win * 100) / total;
 			}
 
-			lbTotal.setText(lbTotal.getText() + " " + String.valueOf(total));
+			lbTotal.setText(lbTotal.getText() + " " + String.format("%.0f", total));
 
-			lbWins.setText(lbWins.getText() + " " + String.format("%.2f", win)
+			lbWins.setText(lbWins.getText() + " " + String.format("%.1f", win)
 					+ "%");
 
 			MyResultAdapter oAdapter = new MyResultAdapter(this,
