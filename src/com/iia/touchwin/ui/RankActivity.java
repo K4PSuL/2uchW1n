@@ -25,7 +25,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.iia.touchwin.R;
-import com.iia.touchwin.app.TouchWin;
 import com.iia.touchwin.entities.Rank;
 import com.iia.touchwin.utils.ConnectWebService;
 import com.iia.touchwin.utils.Const;
@@ -82,9 +81,7 @@ public class RankActivity extends Activity {
 		// Initialisation du tableau de Results
 		final ArrayList<Rank> aRanks = new ArrayList<Rank>();
 
-		TouchWin TouchWinApp = ((TouchWin) this.getApplication());
 
-		String WebMsg = TouchWin.getWebMsg();
 		
 //		MyRankAdapter oAdapter = new MyRankAdapter(
 //				RankActivity.this, R.layout.row_score, aRanks);

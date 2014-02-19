@@ -1,8 +1,9 @@
-package com.iia.touchwin.views;
+package com.iia.touchwin.ui;
 
 import com.iia.touchwin.R;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.request.PlayerRequest;
+import com.iia.touchwin.ui.HomeActivity;
 import com.iia.touchwin.utils.Const;
 
 import android.app.Activity;

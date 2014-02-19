@@ -14,7 +14,7 @@ import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.DateUtils;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
-import com.iia.touchwin.views.MainActivity;
+import com.iia.touchwin.ui.MainActivity;
 
 public abstract class PlayerRequest {
 
