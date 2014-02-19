@@ -22,13 +22,18 @@ public class Const {
 	
 	public final static String WINNER = " a gagné !";
 	
+	public final static int GAME_COLOR = 1;
+	public final static int GAME_CALCUL = 2;
+	
 	public final static String COLOR_RED = "#c80000";
 	
 	public final static String CHRONO_GO = "Go !";
 	
-	public final static String WEBSERVICE_GETRESULTS = "http://www.tommy-calais.fr/touchwin/public/player/?method=getResults&id_player=1";
+	public final static String WEBSERVICE_GET_ALL_PLAYERS = "http://www.tommy-calais.fr/touchwin/public/player/?method=getPlayers";
+	public final static String WEBSERVICE_GET_ALL_RESULTS = "http://www.tommy-calais.fr/touchwin/public/player/?method=getResults&id_player=";
 	
 	public final static String TOAST_STATS = "Clic sur ton score pour le publier !";
+	public final static String TOAST_PLAY = "Secoues ton téléphone pour choisir un jeu aléatoirement !";
 	
 	public final static String SHARE_TITLE = "Partager mon score via...";
 	public final static String SHARE_SUBJECT = "Mon score TouchWin !";

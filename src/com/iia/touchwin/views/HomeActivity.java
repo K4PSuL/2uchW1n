@@ -47,14 +47,10 @@ public class HomeActivity extends Activity {
 			
 			@Override
 			public void onAnimationStart(Animation animation) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void onAnimationRepeat(Animation animation) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
@@ -68,9 +64,6 @@ public class HomeActivity extends Activity {
 		
 		
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) oPlayer1);
-		//Animation animation = AnimationUtils.loadAnimation(HomeActivity.this, R.drawable.logo);
-		//oLogo.startAnimation(animation);
-		
 		
 		btnJouer.setOnClickListener(new View.OnClickListener() {
 			@Override

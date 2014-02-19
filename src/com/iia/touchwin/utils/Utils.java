@@ -1,34 +1,22 @@
 package com.iia.touchwin.utils;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import junit.framework.Test;
 
-import org.joda.time.DateTime;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.iia.touchwin.R;
-import com.iia.touchwin.contracts.GameContract;
-import com.iia.touchwin.contracts.PlayerContract;
-import com.iia.touchwin.contracts.ResultContract;
 import com.iia.touchwin.entities.Game;
 import com.iia.touchwin.entities.Player;
-import com.iia.touchwin.views.PlayActivity;
+import com.iia.touchwin.request.ResultRequest;
 
 public abstract class Utils {
 
@@ -52,157 +40,6 @@ public abstract class Utils {
 	}
 
 	/**
-	 * Retourne un Player par son identifiant
-	 * 
-	 * @param oActivity
-	 * @param idPlayer
-	 * @return
-	 */
-	public static Player getPlayer(Context oContext, int idPlayer) {
-
-		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-				oContext, Const.DATABASE, null, 1);
-
-		// Récupération de la BDD
-		SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
-
-		// Argument pour la condition de la requête SQL
-		String[] whereArg = { String.valueOf(idPlayer) };
-
-		// Requête sur la BDD
-		Cursor oCursor = dataBase.query(PlayerContract.TABLE,
-				PlayerContract.COLS, PlayerContract.COL_ID + "=?", whereArg,
-				null, null, null);
-
-		// Si au moins un résultat...
-		if (oCursor.moveToFirst()) {
-
-			DateTime dateCreate = DateUtils.formatStringToDate(oCursor
-					.getString(oCursor
-							.getColumnIndex(PlayerContract.COL_DATECREATE)),
-					oContext);
-
-			DateTime dateBirth = DateUtils.formatStringToDate(oCursor
-					.getString(oCursor
-							.getColumnIndex(PlayerContract.COL_BIRTHDATE)),
-					oContext);
-
-			Player oPlayer = new Player();
-			oPlayer.setId(oCursor.getInt((oCursor
-					.getColumnIndex(PlayerContract.COL_ID))));
-			oPlayer.setLogin(oCursor.getString((oCursor
-					.getColumnIndex(PlayerContract.COL_LOGIN))));
-			oPlayer.setPassword(oCursor.getString((oCursor
-					.getColumnIndex(PlayerContract.COL_PASSWORD))));
-			oPlayer.setDateCreate(dateCreate);
-			oPlayer.setAvatar(oCursor.getString((oCursor
-					.getColumnIndex(PlayerContract.COL_AVATAR))));
-			oPlayer.setBirthdate(dateBirth);
-
-			return oPlayer;
-
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * Authentifie un utilisateur d'apres son mdp + login
-	 * 
-	 * @param oActivity
-	 * @param login
-	 * @param password
-	 * @return
-	 */
-	public static Player authentication(Activity oActivity, EditText login,
-			EditText password) {
-
-		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-				oActivity.getApplicationContext(), Const.DATABASE, null, 1);
-
-		// Récupération de la BDD
-		SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
-
-		// Argument pour la condition de la requête SQL
-		String[] whereArg = { login.getText().toString(),
-				password.getText().toString() };
-
-		// Requête sur la BDD
-		Cursor oCursor = dataBase.query(PlayerContract.TABLE,
-				PlayerContract.COLS, PlayerContract.COL_LOGIN + "=? and "
-						+ PlayerContract.COL_PASSWORD + "=?", whereArg, null,
-				null, null);
-
-		// Si au moins un résultat...
-		if (oCursor.moveToFirst()) {
-
-			DateTime dateCreate = DateUtils.formatStringToDate(oCursor
-					.getString(oCursor
-							.getColumnIndex(PlayerContract.COL_DATECREATE)),
-					oActivity.getApplicationContext());
-
-			DateTime dateBirth = DateUtils.formatStringToDate(oCursor
-					.getString(oCursor
-							.getColumnIndex(PlayerContract.COL_BIRTHDATE)),
-					oActivity.getApplicationContext());
-
-			Player oPlayer = new Player();
-			oPlayer.setId(oCursor.getInt((oCursor
-					.getColumnIndex(PlayerContract.COL_ID))));
-			oPlayer.setLogin(oCursor.getString((oCursor
-					.getColumnIndex(PlayerContract.COL_LOGIN))));
-			oPlayer.setPassword(oCursor.getString((oCursor
-					.getColumnIndex(PlayerContract.COL_PASSWORD))));
-			oPlayer.setDateCreate(dateCreate);
-			oPlayer.setAvatar(oCursor.getString((oCursor
-					.getColumnIndex(PlayerContract.COL_AVATAR))));
-			oPlayer.setBirthdate(dateBirth);
-
-			return oPlayer;
-
-		} else {
-
-			password.setError("Erreur d'identifiant !");
-
-			return null;
-		}
-	}
-
-	/**
-	 * Retourne la liste de tous les jeux
-	 * @return
-	 */
-	public static ArrayList<Game> getAllGame(Activity oActivity) {
-		
-		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-				oActivity.getApplicationContext(), Const.DATABASE, null, 1);
-
-		SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
-
-		Cursor oCursor = dataBase.query(GameContract.TABLE,
-				GameContract.COLS, null, null, null, null, null);
-
-		ArrayList<Game> aGames = new ArrayList<Game>();
-
-		if (oCursor.moveToFirst()) {
-			do {
-				Game oGame = new Game();
-
-				oGame.setId(oCursor.getInt(oCursor
-						.getColumnIndex(GameContract.COL_ID)));
-				oGame.setLibelle(oCursor.getString(oCursor
-						.getColumnIndex(GameContract.COL_LIBELLE)));
-				aGames.add(oGame);
-
-			} while (oCursor.moveToNext());
-		}
-
-		
-		return aGames;
-
-	}
-
-	/**
 	 * Retourne un nombre aléatoire entre les deux valeurs passé en paramètres
 	 * (max exclu)
 	 * 
@@ -216,37 +53,6 @@ public abstract class Utils {
 		int timeRound = oRandom.nextInt(max - min) + min;
 
 		return timeRound;
-	}
-
-	/**
-	 * Sauvegarde le score final de la partie en BDD
-	 * 
-	 * @param oPlayer1
-	 * @param oPlayer2
-	 * @param scoreP1
-	 * @param scoreP2
-	 * @param oGame
-	 * @param oActivity
-	 */
-	public static void saveScore(Player oPlayer1, Player oPlayer2, int scoreP1,
-			int scoreP2, Game oGame, Activity oActivity) {
-
-		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-				oActivity.getApplicationContext(), Const.DATABASE, null, 1);
-
-		SQLiteDatabase dataBase = oDbHelper.getWritableDatabase();
-
-		ContentValues myValuesResult = new ContentValues();
-
-		myValuesResult.put(ResultContract.COL_PLAYDATE, DateTime.now()
-				.toString("dd/MM/YYYY"));
-		myValuesResult.put(ResultContract.COL_ID_GAME, oGame.getId());
-		myValuesResult.put(ResultContract.COL_PLAYER1, oPlayer1.getId());
-		myValuesResult.put(ResultContract.COL_PLAYER2, oPlayer2.getId());
-		myValuesResult.put(ResultContract.COL_SCOREP1, scoreP1);
-		myValuesResult.put(ResultContract.COL_SCOREP2, scoreP2);
-
-		dataBase.insert(ResultContract.TABLE, null, myValuesResult);
 	}
 
 	/**
@@ -293,7 +99,7 @@ public abstract class Utils {
 
 		playSound(oActivity2, R.raw.end);
 
-		saveScore(oPlayer1, oPlayer2, scoreP1, scoreP2, oGame, oActivity);
+		ResultRequest.saveScore(oPlayer1, oPlayer2, scoreP1, scoreP2, oGame, oActivity);
 
 		btnExitEndGame.setOnClickListener(new View.OnClickListener() {
 

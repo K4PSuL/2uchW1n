@@ -11,7 +11,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -126,13 +125,11 @@ public class CouleurActivity extends Activity implements View.OnClickListener {
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		
+
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (oGameAsyncTask != null) {
 				oGameAsyncTask.cancel(true);
 			}
-			
 			if (oChronoAsyncTask != null) {
 				oChronoAsyncTask.cancel(true);
 			}
@@ -162,20 +159,16 @@ public class CouleurActivity extends Activity implements View.OnClickListener {
 		oAnimation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
-				// TODO Auto-generated method stub
 				lbMoreWinner.setVisibility(View.VISIBLE);
 			}
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				// On joue un son d'entrée
 				lbMoreWinner.setVisibility(View.INVISIBLE);
 			}
 
 			@Override
 			public void onAnimationRepeat(Animation animation) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 

@@ -2,11 +2,11 @@ package com.iia.touchwin.views;
 
 import java.util.ArrayList;
 import com.iia.touchwin.R;
-import com.iia.touchwin.contracts.GameContract;
 import com.iia.touchwin.entities.Game;
 import com.iia.touchwin.entities.Player;
+import com.iia.touchwin.request.GameRequest;
+import com.iia.touchwin.request.PlayerRequest;
 import com.iia.touchwin.utils.Const;
-import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
 import com.iia.touchwin.utils.Utils;
 import com.iia.touchwin.utils.QustomDialogBuilder;
 import android.annotation.SuppressLint;
@@ -15,8 +15,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -30,7 +28,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -44,6 +41,7 @@ public class PlayActivity extends Activity implements SensorEventListener {
 	private SensorManager oSensorManager;
 	private Sensor oAccelerometer;
 	private EditText editGame;
+	private ArrayList<Game> aGames;
 
 	@SuppressLint("ResourceAsColor")
 	@Override
@@ -67,6 +65,8 @@ public class PlayActivity extends Activity implements SensorEventListener {
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
 
 		editPlayer1.setText(oPlayer1.getLogin());
+		
+		aGames = GameRequest.getAllGame(PlayActivity.this);
 
 		// Déclaration des sensors
 		oSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -74,6 +74,9 @@ public class PlayActivity extends Activity implements SensorEventListener {
 		oAccelerometer = oSensorManager
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+		Toast.makeText(getApplicationContext(), Const.TOAST_PLAY, 
+				   Toast.LENGTH_LONG).show();
+		
 		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
 
@@ -115,7 +118,7 @@ public class PlayActivity extends Activity implements SensorEventListener {
 					@Override
 					public void onClick(View v) {
 
-						oPlayer2 = Utils.authentication(PlayActivity.this,
+						oPlayer2 = PlayerRequest.authentication(PlayActivity.this,
 								editLoginDialog, editPwdDialog);
 
 						if (oPlayer2 != null) {
@@ -159,8 +162,6 @@ public class PlayActivity extends Activity implements SensorEventListener {
 
 				final AlertDialog oDialogGame = oDialogChoiceGame.show();
 
-				ArrayList<Game> aGames = new ArrayList<Game>();
-
 				View oDialogG = oDialogChoiceGame
 						.getViewById(R.layout.dialog_game);
 
@@ -169,8 +170,6 @@ public class PlayActivity extends Activity implements SensorEventListener {
 
 				Button btnValidGame = (Button) oDialogG
 						.findViewById(R.id.btnValid);
-
-				aGames = Utils.getAllGame(PlayActivity.this);
 
 				MyGameAdapter oAdapter = new MyGameAdapter(PlayActivity.this,
 						R.layout.row_game, aGames);
@@ -230,11 +229,11 @@ public class PlayActivity extends Activity implements SensorEventListener {
 
 					Intent intentOpenGame = null;
 
-					if (oGameSelect.getId() == 1) {
+					if (oGameSelect.getId() == Const.GAME_COLOR) {
 						intentOpenGame = new Intent(PlayActivity.this,
 								CouleurActivity.class);
 
-					} else if (oGameSelect.getId() == 2) {
+					} else if (oGameSelect.getId() == Const.GAME_CALCUL) {
 						intentOpenGame = new Intent(PlayActivity.this,
 								CalculActivity.class);
 					}
@@ -296,7 +295,7 @@ public class PlayActivity extends Activity implements SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent arg0) {
-		float x, y, z;
+		float x = 0, y = 0, z = 0;
 		
 		if (arg0.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 			x = arg0.values[0];
@@ -304,21 +303,17 @@ public class PlayActivity extends Activity implements SensorEventListener {
 			z = arg0.values[2];
 		}
 		
-		if (x != newX) {
-			ArrayList<Game> aGames = new ArrayList<Game>();
-
-			aGames = Utils.getAllGame(PlayActivity.this);
-
+		// Si un mouvement a était détécté, on choisi un jeu aléatoirement
+		if (x > 12 || y > 12 || z > 12) {
+			
 			if (aGames != null) {
 				int random;
-				random = Utils.randomNumber(0, aGames.size() + 1);
+				random = Utils.randomNumber(0, aGames.size());
 
 				oGameSelect = (Game) aGames.get(random);
 
 				editGame.setText(oGameSelect.getLibelle());
 			}
 		}
-		
-		
 	}
 }
