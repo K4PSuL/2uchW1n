@@ -37,7 +37,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PlayActivity extends Activity implements SensorEventListener{
+public class PlayActivity extends Activity implements SensorEventListener {
 
 	private Player oPlayer2;
 	private Game oGameSelect;
@@ -67,11 +67,13 @@ public class PlayActivity extends Activity implements SensorEventListener{
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
 
 		editPlayer1.setText(oPlayer1.getLogin());
-		
+
+		// Déclaration des sensors
 		oSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-		oAccelerometer = oSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-			
+		oAccelerometer = oSensorManager
+				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
 		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
 
@@ -157,6 +159,8 @@ public class PlayActivity extends Activity implements SensorEventListener{
 
 				final AlertDialog oDialogGame = oDialogChoiceGame.show();
 
+				ArrayList<Game> aGames = new ArrayList<Game>();
+
 				View oDialogG = oDialogChoiceGame
 						.getViewById(R.layout.dialog_game);
 
@@ -166,28 +170,7 @@ public class PlayActivity extends Activity implements SensorEventListener{
 				Button btnValidGame = (Button) oDialogG
 						.findViewById(R.id.btnValid);
 
-				TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-						PlayActivity.this, Const.DATABASE, null, 1);
-
-				SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
-
-				Cursor oCursor = dataBase.query(GameContract.TABLE,
-						GameContract.COLS, null, null, null, null, null);
-
-				ArrayList<Game> aGames = new ArrayList<Game>();
-
-				if (oCursor.moveToFirst()) {
-					do {
-						Game oGame = new Game();
-
-						oGame.setId(oCursor.getInt(oCursor
-								.getColumnIndex(GameContract.COL_ID)));
-						oGame.setLibelle(oCursor.getString(oCursor
-								.getColumnIndex(GameContract.COL_LIBELLE)));
-						aGames.add(oGame);
-
-					} while (oCursor.moveToNext());
-				}
+				aGames = Utils.getAllGame(PlayActivity.this);
 
 				MyGameAdapter oAdapter = new MyGameAdapter(PlayActivity.this,
 						R.layout.row_game, aGames);
@@ -262,34 +245,19 @@ public class PlayActivity extends Activity implements SensorEventListener{
 			}
 		});
 	}
-	
-    /* * (non-Javadoc) * 
-     * @see android.app.Activity#onPause() */
-    @Override
-    protected void onPause() {
-        // unregister the sensor (désenregistrer le capteur)
-    	oSensorManager.unregisterListener(this, oAccelerometer);
-        super.onPause();
-    }
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.app.Activity#onResume()
-     */
-    @Override
-    protected void onResume() {
-        /* Ce qu'en dit Google dans le cas de l'accéléromètre :
-         * «  Ce n'est pas nécessaire d'avoir les évènements des capteurs à un rythme trop rapide.
-         * En utilisant un rythme moins rapide (SENSOR_DELAY_UI), nous obtenons un filtre
-         * automatique de bas-niveau qui "extrait" la gravité  de l'accélération.
-         * Un autre bénéfice étant que l'on utilise moins d'énergie et de CPU. »
-         */
-    	oSensorManager.registerListener(this, oAccelerometer, SensorManager.SENSOR_DELAY_UI);
-        super.onResume();
-    }
-    
-    
+
+	@Override
+	protected void onPause() {
+		oSensorManager.unregisterListener(this, oAccelerometer);
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		oSensorManager.registerListener(this, oAccelerometer,
+				SensorManager.SENSOR_DELAY_UI);
+		super.onResume();
+	}
 
 	private static class MyGameAdapter extends ArrayAdapter<Game> {
 
@@ -321,46 +289,36 @@ public class PlayActivity extends Activity implements SensorEventListener{
 		}
 	}
 
-
-
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
-		// TODO Auto-generated method stub
-		
-		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-				PlayActivity.this, Const.DATABASE, null, 1);
 
-		SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
-
-		Cursor oCursor = dataBase.query(GameContract.TABLE,
-				GameContract.COLS, null, null, null, null, null);
-
-		ArrayList<Game> aGames = new ArrayList<Game>();
-
-		if (oCursor.moveToFirst()) {
-			do {
-				Game oGame = new Game();
-
-				oGame.setId(oCursor.getInt(oCursor
-						.getColumnIndex(GameContract.COL_ID)));
-				oGame.setLibelle(oCursor.getString(oCursor
-						.getColumnIndex(GameContract.COL_LIBELLE)));
-				aGames.add(oGame);
-
-			} while (oCursor.moveToNext());
-			
-			int random;
-			random = Utils.randomNumber(0, aGames.size() + 1);
-			
-			oGameSelect = (Game) aGames.get(random);
-
-			editGame.setText(oGameSelect.getLibelle());
-		}
 	}
 
 	@Override
 	public void onSensorChanged(SensorEvent arg0) {
-		// TODO Auto-generated method stub
+		float x, y, z;
+		
+		if (arg0.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+			x = arg0.values[0];
+			y = arg0.values[1];
+			z = arg0.values[2];
+		}
+		
+		if (x != newX) {
+			ArrayList<Game> aGames = new ArrayList<Game>();
+
+			aGames = Utils.getAllGame(PlayActivity.this);
+
+			if (aGames != null) {
+				int random;
+				random = Utils.randomNumber(0, aGames.size() + 1);
+
+				oGameSelect = (Game) aGames.get(random);
+
+				editGame.setText(oGameSelect.getLibelle());
+			}
+		}
+		
 		
 	}
 }

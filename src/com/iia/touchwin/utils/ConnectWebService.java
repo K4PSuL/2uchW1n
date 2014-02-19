@@ -26,14 +26,14 @@ public abstract class ConnectWebService {
 					@Override
 					public void onResponse(JSONObject response) {
 						// TODO Auto-generated method stub
-						Log.d("response", response.toString());
+						Log.e("response", response.toString());
 					}
 				}, new Response.ErrorListener() {
 
 					@Override
 					public void onErrorResponse(VolleyError error) {
 						// TODO Auto-generated method stub
-						Log.d("erreur", error.toString());
+						Log.e("erreur", error.toString());
 					}
 
 				});
