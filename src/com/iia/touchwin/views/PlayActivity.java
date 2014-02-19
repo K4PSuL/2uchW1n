@@ -2,11 +2,11 @@ package com.iia.touchwin.views;
 
 import java.util.ArrayList;
 import com.iia.touchwin.R;
-import com.iia.touchwin.contracts.GameContract;
 import com.iia.touchwin.entities.Game;
 import com.iia.touchwin.entities.Player;
+import com.iia.touchwin.request.GameRequest;
+import com.iia.touchwin.request.PlayerRequest;
 import com.iia.touchwin.utils.Const;
-import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
 import com.iia.touchwin.utils.Utils;
 import com.iia.touchwin.utils.QustomDialogBuilder;
 import android.annotation.SuppressLint;
@@ -15,8 +15,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +34,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PlayActivity extends Activity {
+public class PlayActivity extends Activity implements SensorEventListener {
 
 	private Player oPlayer2;
 	private Game oGameSelect;
+	private SensorManager oSensorManager;
+	private Sensor oAccelerometer;
+	private EditText editGame;
+	private ArrayList<Game> aGames;
 
 	@SuppressLint("ResourceAsColor")
 	@Override
@@ -46,7 +52,7 @@ public class PlayActivity extends Activity {
 
 		final EditText editPlayer1 = (EditText) findViewById(R.id.editPlayer1);
 		final EditText editPlayer2 = (EditText) findViewById(R.id.editPlayer2);
-		final EditText editGame = (EditText) findViewById(R.id.editGame);
+		editGame = (EditText) findViewById(R.id.editGame);
 		final RadioGroup radioGroupTime = (RadioGroup) findViewById(R.id.radioGroup);
 		final Button btnGo = (Button) findViewById(R.id.btnGo);
 
@@ -59,7 +65,18 @@ public class PlayActivity extends Activity {
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
 
 		editPlayer1.setText(oPlayer1.getLogin());
+		
+		aGames = GameRequest.getAllGame(PlayActivity.this);
 
+		// Déclaration des sensors
+		oSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+		oAccelerometer = oSensorManager
+				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+		Toast.makeText(getApplicationContext(), Const.TOAST_PLAY, 
+				   Toast.LENGTH_LONG).show();
+		
 		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
 
@@ -101,7 +118,7 @@ public class PlayActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 
-						oPlayer2 = Utils.authentication(PlayActivity.this,
+						oPlayer2 = PlayerRequest.authentication(PlayActivity.this,
 								editLoginDialog, editPwdDialog);
 
 						if (oPlayer2 != null) {
@@ -153,29 +170,6 @@ public class PlayActivity extends Activity {
 
 				Button btnValidGame = (Button) oDialogG
 						.findViewById(R.id.btnValid);
-
-				TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
-						PlayActivity.this, Const.DATABASE, null, 1);
-
-				SQLiteDatabase dataBase = oDbHelper.getReadableDatabase();
-
-				Cursor oCursor = dataBase.query(GameContract.TABLE,
-						GameContract.COLS, null, null, null, null, null);
-
-				ArrayList<Game> aGames = new ArrayList<Game>();
-
-				if (oCursor.moveToFirst()) {
-					do {
-						Game oGame = new Game();
-
-						oGame.setId(oCursor.getInt(oCursor
-								.getColumnIndex(GameContract.COL_ID)));
-						oGame.setLibelle(oCursor.getString(oCursor
-								.getColumnIndex(GameContract.COL_LIBELLE)));
-						aGames.add(oGame);
-
-					} while (oCursor.moveToNext());
-				}
 
 				MyGameAdapter oAdapter = new MyGameAdapter(PlayActivity.this,
 						R.layout.row_game, aGames);
@@ -235,11 +229,11 @@ public class PlayActivity extends Activity {
 
 					Intent intentOpenGame = null;
 
-					if (oGameSelect.getId() == 1) {
+					if (oGameSelect.getId() == Const.GAME_COLOR) {
 						intentOpenGame = new Intent(PlayActivity.this,
 								CouleurActivity.class);
 
-					} else if (oGameSelect.getId() == 2) {
+					} else if (oGameSelect.getId() == Const.GAME_CALCUL) {
 						intentOpenGame = new Intent(PlayActivity.this,
 								CalculActivity.class);
 					}
@@ -249,6 +243,19 @@ public class PlayActivity extends Activity {
 				}
 			}
 		});
+	}
+
+	@Override
+	protected void onPause() {
+		oSensorManager.unregisterListener(this, oAccelerometer);
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		oSensorManager.registerListener(this, oAccelerometer,
+				SensorManager.SENSOR_DELAY_UI);
+		super.onResume();
 	}
 
 	private static class MyGameAdapter extends ArrayAdapter<Game> {
@@ -278,6 +285,35 @@ public class PlayActivity extends Activity {
 			lbGame.setText(oGame.getLibelle().toString());
 
 			return view;
+		}
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor arg0, int arg1) {
+
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent arg0) {
+		float x = 0, y = 0, z = 0;
+		
+		if (arg0.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+			x = arg0.values[0];
+			y = arg0.values[1];
+			z = arg0.values[2];
+		}
+		
+		// Si un mouvement a était détécté, on choisi un jeu aléatoirement
+		if (x > 12 || y > 12 || z > 12) {
+			
+			if (aGames != null) {
+				int random;
+				random = Utils.randomNumber(0, aGames.size());
+
+				oGameSelect = (Game) aGames.get(random);
+
+				editGame.setText(oGameSelect.getLibelle());
+			}
 		}
 	}
 }

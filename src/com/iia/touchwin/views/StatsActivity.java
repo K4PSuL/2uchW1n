@@ -4,22 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.json.JSONObject;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.iia.touchwin.R;
 import com.iia.touchwin.contracts.ResultContract;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.entities.Result;
+import com.iia.touchwin.request.PlayerRequest;
+import com.iia.touchwin.utils.ConnectWebService;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.DateUtils;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
-import com.iia.touchwin.utils.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -28,13 +21,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -75,9 +66,11 @@ public class StatsActivity extends Activity {
 			Player oPlayer2 = null;
 
 			if (oPlayer1.getId() == oResult.getId_player2()) {
-				oPlayer2 = Utils.getPlayer(context, oResult.getId_player1());
+				oPlayer2 = PlayerRequest.getPlayer(context,
+						oResult.getId_player1());
 			} else {
-				oPlayer2 = Utils.getPlayer(context, oResult.getId_player2());
+				oPlayer2 = PlayerRequest.getPlayer(context,
+						oResult.getId_player2());
 			}
 
 			if (oPlayer2 != null) {
@@ -116,6 +109,8 @@ public class StatsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_stats);
+
+//		ConnectWebService.getAllWebService(this);
 
 		double total = 0;
 		double win = 0;
@@ -201,9 +196,9 @@ public class StatsActivity extends Activity {
 					R.layout.row_score, aResults, oPlayer1);
 
 			myResultList.setAdapter(oAdapter);
-			
-			Toast.makeText(getApplicationContext(), Const.TOAST_STATS, 
-					   Toast.LENGTH_LONG).show();
+
+			Toast.makeText(getApplicationContext(), Const.TOAST_STATS,
+					Toast.LENGTH_LONG).show();
 		}
 
 		myResultList.setOnItemClickListener(new OnItemClickListener() {
@@ -217,32 +212,35 @@ public class StatsActivity extends Activity {
 				String shareString = "";
 				String resultatFinal = "";
 				Player oPlayer2 = null;
-				
 
 				if (oResult.getId_player1() == oPlayer1.getId()) {
-					oPlayer2 = Utils.getPlayer(StatsActivity.this, oResult.getId_player2());
-					
+					oPlayer2 = PlayerRequest.getPlayer(StatsActivity.this,
+							oResult.getId_player2());
+
 					if (oResult.getScoreP1() > oResult.getScoreP2()) {
 						shareString = Const.SHARE_WINNER + oPlayer2.getLogin();
 					} else {
 						shareString = Const.SHARE_LOOSER + oPlayer2.getLogin();
 					}
 
-					resultatFinal = Const.SHARE_RESULT + String.valueOf(oResult.getScoreP1())
-							+ " - " + String.valueOf(oResult.getScoreP2());
+					resultatFinal = Const.SHARE_RESULT
+							+ String.valueOf(oResult.getScoreP1()) + " - "
+							+ String.valueOf(oResult.getScoreP2());
 				} else {
-					oPlayer2 = Utils.getPlayer(StatsActivity.this, oResult.getId_player1());
-					
+					oPlayer2 = PlayerRequest.getPlayer(StatsActivity.this,
+							oResult.getId_player1());
+
 					if (oResult.getScoreP1() < oResult.getScoreP2()) {
 						shareString = Const.SHARE_WINNER + oPlayer2.getLogin();
 					} else {
 						shareString = Const.SHARE_LOOSER + oPlayer2.getLogin();
 					}
 
-					resultatFinal = Const.SHARE_RESULT + String.valueOf(oResult.getScoreP2())
-							+ " - " + String.valueOf(oResult.getScoreP1());
+					resultatFinal = Const.SHARE_RESULT
+							+ String.valueOf(oResult.getScoreP2()) + " - "
+							+ String.valueOf(oResult.getScoreP1());
 				}
-				
+
 				shareString = shareString + resultatFinal;
 
 				Intent sendIntent = new Intent(

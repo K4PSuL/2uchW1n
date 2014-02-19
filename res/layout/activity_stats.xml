@@ -74,7 +74,8 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentLeft="true"
-	    android:layout_centerVertical="true"
+	    android:layout_marginTop="-20dp"
+	    android:layout_alignTop="@+id/listViewResults"
 	    android:layout_marginLeft="20dp"
 	    android:text="@string/lb_result_date"
 	    android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -84,7 +85,8 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_centerHorizontal="true"
-	    android:layout_centerVertical="true"
+	    android:layout_marginTop="-20dp"
+	    android:layout_alignTop="@+id/listViewResults"
 	    android:text="@string/lb_result_player"
 	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -92,9 +94,10 @@
 	    android:id="@+id/textView1"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	     android:layout_centerVertical="true"
 		android:layout_alignParentRight="true"
+		android:layout_alignTop="@+id/listViewResults"
 		android:layout_marginRight="20dp"
+		android:layout_marginTop="-20dp"
 	    android:text="@string/lb_result_score"
 	    android:textAppearance="?android:attr/textAppearanceMedium" />
 

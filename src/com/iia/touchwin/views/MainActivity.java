@@ -3,6 +3,7 @@ package com.iia.touchwin.views;
 import org.joda.time.DateTime;
 
 import com.iia.touchwin.R;
+import com.iia.touchwin.request.PlayerRequest;
 import com.iia.touchwin.utils.*;
 import com.iia.touchwin.entities.*;
 import com.iia.touchwin.contracts.*;
@@ -14,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 
 				// On vérifie les identifiants fournis par l'utilisateur
-				Player oPlayer1 = Utils.authentication(MainActivity.this,
+				Player oPlayer1 = PlayerRequest.authentication(MainActivity.this,
 						editLogin, editPassword);
 
 				if (oPlayer1 != null) {
@@ -154,12 +154,4 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
 }

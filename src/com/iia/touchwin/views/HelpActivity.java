@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
 
 public class HelpActivity extends FragmentActivity {
 	
@@ -23,20 +22,13 @@ public class HelpActivity extends FragmentActivity {
 	}
 	
 	private void initialisePaging() {
-		List<Fragment> fragments = new Vector<Fragment>();
-		fragments.add(Fragment.instantiate(this, FragmentStep1.class.getName()));
-		fragments.add(Fragment.instantiate(this, FragmentStep2.class.getName()));
-		fragments.add(Fragment.instantiate(this, FragmentStep3.class.getName()));
-		mPagerAdapter = new PagerAdapter(this.getSupportFragmentManager(), fragments);
+		List<Fragment> aFragments = new Vector<Fragment>();
+		aFragments.add(Fragment.instantiate(this, FragmentStep1.class.getName()));
+		aFragments.add(Fragment.instantiate(this, FragmentStep2.class.getName()));
+		aFragments.add(Fragment.instantiate(this, FragmentStep3.class.getName()));
+		mPagerAdapter = new PagerAdapter(this.getSupportFragmentManager(), aFragments);
 		
 		ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
 		pager.setAdapter(mPagerAdapter);
 	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-	
 }
