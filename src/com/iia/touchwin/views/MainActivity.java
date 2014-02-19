@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
 
 		final Button btnConnection = (Button) findViewById(R.id.btnConnection);
 		final Button btnAddData = (Button) findViewById(R.id.btnAddData);
+		final Button btnRegister = (Button) findViewById(R.id.btnRegister);
 		final EditText editLogin = (EditText) findViewById(R.id.editLogin);
 		final EditText editPassword = (EditText) findViewById(R.id.editPassword);
 		final String login;
@@ -140,6 +141,16 @@ public class MainActivity extends Activity {
 				myValuesResult2.put(ResultContract.COL_SCOREP2, 8);
 
 				dataBase.insert(ResultContract.TABLE, null, myValuesResult2);
+			}
+		});
+		
+		btnRegister.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intentOpenHome = new Intent(MainActivity.this,
+							RegisterActivity.class);
+
+				startActivity(intentOpenHome);
 			}
 		});
 	}

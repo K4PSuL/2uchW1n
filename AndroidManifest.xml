@@ -37,6 +37,13 @@
             android:screenOrientation="portrait" >
         </activity>
         
+        <!-- RegisterActivity -->
+        <activity
+            android:name="com.iia.touchwin.views.RegisterActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
         <!-- HomeActivity -->
         <activity
             android:name="com.iia.touchwin.views.HomeActivity"

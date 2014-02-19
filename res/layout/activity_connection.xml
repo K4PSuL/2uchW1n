@@ -80,4 +80,14 @@
         android:textColor="@color/white"
         android:typeface="monospace" />
 
+    <Button
+        android:id="@+id/btnRegister"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:text="@string/sinscrire" />
+
 </RelativeLayout>

@@ -16,6 +16,10 @@
 	<string name="pwd">Mot de passe :</string>
 	<string name="btn_connection">Connexion</string>
 	<string name="btn_addData">AddData</string>
+	<string name="sinscrire">S\'inscrire</string>
+	
+	<!-- activity_register -->
+    <string name="title_register">Inscription</string>
 	
 	<!-- activity_settings -->
 	<string name="title_settings">Paramètres</string>
