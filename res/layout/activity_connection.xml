@@ -6,13 +6,13 @@
 
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:contentDescription="@string/img_logo"
-        android:src="@drawable/logo" />
+        android:src="@drawable/touchwin" />
 
     <EditText
         android:id="@+id/editLogin"
@@ -46,18 +46,6 @@
         android:inputType="textPassword" />
 
     <TextView
-        android:id="@+id/lbLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editLogin"
-        android:layout_below="@+id/imgLogo"
-        android:layout_marginTop="34dp"
-        android:text="@string/login"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/white"
-        android:typeface="monospace" />
-
-    <TextView
         android:id="@+id/lbPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,10 +61,22 @@
         android:id="@+id/btnConnection"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imgLogo"
         android:layout_below="@+id/editPassword"
-        android:layout_marginTop="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp"
         android:text="@string/btn_connection"
+        android:textColor="@color/white"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/lbLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editLogin"
+        android:layout_below="@+id/imgLogo"
+        android:layout_marginTop="22dp"
+        android:text="@string/login"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"
         android:typeface="monospace" />
 
