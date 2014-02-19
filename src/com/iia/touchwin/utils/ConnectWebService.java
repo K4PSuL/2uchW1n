@@ -1,6 +1,8 @@
 package com.iia.touchwin.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,14 +13,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.iia.touchwin.app.TouchWin;
 import com.iia.touchwin.contracts.PlayerContract;
 import com.iia.touchwin.entities.Player;
+import com.iia.touchwin.entities.Rank;
 import com.iia.touchwin.entities.Result;
 
 import android.app.Activity;
 import android.util.Log;
 
 public abstract class ConnectWebService {
+
+	public final static String JSON_LOGIN = "login";
+	public final static String JSON_ID = "id";
+	public final static String JSON_WIN = "win";
+	public final static String JSON_TOTAL = "total";
 
 	public static ArrayList<Player> getAllPlayerWebService(Activity oActivity) {
 
@@ -35,9 +44,9 @@ public abstract class ConnectWebService {
 
 						for (int i = 0; i < jsonArray.length(); i++) {
 							try {
-								
+
 								Player oPlayer = new Player();
-								
+
 								JSONObject PlayerJSON = jsonArray
 										.getJSONObject(i);
 
@@ -73,40 +82,46 @@ public abstract class ConnectWebService {
 
 		return aPlayers;
 	}
-	
-	
-	public static ArrayList<Result> getAllResultsWebService(Activity oActivity, Player oPlayer) {
 
-		final ArrayList<Result> aResults = new ArrayList<Result>();
+	public static void getAllResultsWebService(Activity oActivity) {
+
+		final ArrayList<Rank> aRanks = new ArrayList<Rank>();
+		
+		TouchWin TouchWinApp = ((TouchWin)oActivity.getApplication());
 
 		RequestQueue oRequestQueue = Volley.newRequestQueue(oActivity
 				.getApplicationContext());
 
 		JsonArrayRequest getAllPlayerRequest = new JsonArrayRequest(
-				Const.WEBSERVICE_GET_ALL_RESULTS + oPlayer.getId(),
+				Const.WEBSERVICE_GET_ALL_RESULTS,
 				new Response.Listener<JSONArray>() {
 					@Override
 					public void onResponse(JSONArray jsonArray) {
 
 						for (int i = 0; i < jsonArray.length(); i++) {
 							try {
-								
-								Result oResult = new Result();
-								
-								JSONObject ResultJSON = jsonArray
+
+								Rank oRank = new Rank();
+
+								JSONObject ResultsJSON = jsonArray
 										.getJSONObject(i);
 
-								Result.setId(ResultJSON
-										.getInt(ResultContract.COL_ID));
-								Result.setLogin(ResultJSON
-										.getString(ResultContract.COL_LOGIN));
-								Result.setPassword(ResultJSON
-										.getString(ResultContract.COL_PASSWORD));
-								Result.setAvatar(ResultJSON
-										.getString(ResultContract.COL_AVATAR));
+								String login = ResultsJSON.getString(JSON_LOGIN);
 
-								aResults.add(oResult);
+								int id = ResultsJSON.getInt(JSON_ID);
 
+								int win = ResultsJSON.getInt(JSON_WIN);
+
+								int total = ResultsJSON.getInt(JSON_TOTAL);
+
+								oRank.setId(id);
+								oRank.setLogin(login);
+								oRank.setTotal(total);
+								oRank.setWin(win);
+								
+								aRanks.add(oRank);
+								
+								
 							} catch (JSONException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -126,7 +141,7 @@ public abstract class ConnectWebService {
 		// On ajoute la Request au RequestQueue pour la lancer
 		oRequestQueue.add(getAllPlayerRequest);
 
-		return aResults;
+		TouchWinApp.setRanks(aRanks);
 	}
 
 	// /**

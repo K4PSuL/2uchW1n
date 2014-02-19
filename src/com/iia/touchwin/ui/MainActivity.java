@@ -1,4 +1,4 @@
-package com.iia.touchwin.views;
+package com.iia.touchwin.ui;
 
 import org.joda.time.DateTime;
 

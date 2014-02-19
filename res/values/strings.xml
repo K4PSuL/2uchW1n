@@ -54,6 +54,7 @@
 	<string name="title_col_date">Date</string>
 	<string name="title_col_player">Joueur 2</string>
 	<string name="title_col_results">Scores</string>
+	<string name="btn_rank">Classement</string>
 	
 	<!-- activity_play -->
 	<string name="title_play">Jouer</string>
@@ -76,5 +77,10 @@
 	<string name="lb_result_date">Date</string>
 	<string name="lb_result_score">Score</string>
 	<string name="lb_round">Rounds restants</string>
+	
+	
+	
+	<!-- activity_rank -->
+	<string name="title_rank">Classement</string>
 	
 </resources>

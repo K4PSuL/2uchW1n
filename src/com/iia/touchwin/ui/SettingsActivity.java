@@ -1,4 +1,4 @@
-package com.iia.touchwin.views;
+package com.iia.touchwin.ui;
 
 import com.iia.touchwin.R;
 import com.iia.touchwin.utils.Const;

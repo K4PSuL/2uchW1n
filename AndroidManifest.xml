@@ -16,11 +16,12 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/red" >
+        android:theme="@style/red" 
+        android:name="com.iia.touchwin.app.TouchWin" >
         
         <!-- Splash screen -->
         <activity
-            android:name="com.iia.touchwin.views.SplashScreen"
+            android:name="com.iia.touchwin.ui.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
@@ -33,28 +34,28 @@
         
         <!-- MainActivity -->
         <activity
-            android:name="com.iia.touchwin.views.MainActivity"
+            android:name="com.iia.touchwin.ui.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         
         <!-- HomeActivity -->
         <activity
-            android:name="com.iia.touchwin.views.HomeActivity"
+            android:name="com.iia.touchwin.ui.HomeActivity"
             android:label="@string/app_name" 
             android:screenOrientation="portrait" >
         </activity>
         
         <!-- PlayActivity -->
         <activity
-            android:name="com.iia.touchwin.views.PlayActivity"
+            android:name="com.iia.touchwin.ui.PlayActivity"
             android:label="@string/app_name"  
             android:screenOrientation="portrait" >
         </activity>
         
         <!-- GameActivity -->
         <activity
-            android:name="com.iia.touchwin.views.CouleurActivity"
+            android:name="com.iia.touchwin.ui.CouleurActivity"
             android:label="@string/app_name"  
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
@@ -62,7 +63,7 @@
         
         <!-- CalculActivity -->
         <activity
-            android:name="com.iia.touchwin.views.CalculActivity"
+            android:name="com.iia.touchwin.ui.CalculActivity"
             android:label="@string/app_name"  
             android:screenOrientation="portrait" 
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
@@ -70,21 +71,28 @@
         
         <!-- SettingsActivity -->
         <activity
-            android:name="com.iia.touchwin.views.SettingsActivity"
+            android:name="com.iia.touchwin.ui.SettingsActivity"
             android:label="@string/app_name"  
             android:screenOrientation="portrait" >
         </activity>
         
         <!-- HelpActivity -->
         <activity
-            android:name="com.iia.touchwin.views.HelpActivity"
+            android:name="com.iia.touchwin.ui.HelpActivity"
             android:label="@string/app_name"  
             android:screenOrientation="portrait" >
         </activity>
         
         <!-- StatsActivity -->
         <activity
-            android:name="com.iia.touchwin.views.StatsActivity"
+            android:name="com.iia.touchwin.ui.StatsActivity"
+            android:label="@string/app_name"  
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <!-- RanksActivity -->
+        <activity
+            android:name="com.iia.touchwin.ui.RankActivity"
             android:label="@string/app_name"  
             android:screenOrientation="portrait" >
         </activity>

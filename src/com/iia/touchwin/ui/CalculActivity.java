@@ -1,4 +1,4 @@
-package com.iia.touchwin.views;
+package com.iia.touchwin.ui;
 
 import android.app.Activity;
 import android.os.AsyncTask;

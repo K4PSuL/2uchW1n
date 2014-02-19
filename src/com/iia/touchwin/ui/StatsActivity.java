@@ -1,4 +1,4 @@
-package com.iia.touchwin.views;
+package com.iia.touchwin.ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,6 @@ import com.iia.touchwin.contracts.ResultContract;
 import com.iia.touchwin.entities.Player;
 import com.iia.touchwin.entities.Result;
 import com.iia.touchwin.request.PlayerRequest;
-import com.iia.touchwin.utils.ConnectWebService;
 import com.iia.touchwin.utils.Const;
 import com.iia.touchwin.utils.DateUtils;
 import com.iia.touchwin.utils.TouchWinSqlLiteOpenHelper;
@@ -26,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -117,6 +117,7 @@ public class StatsActivity extends Activity {
 
 		final TextView lbTotal = (TextView) findViewById(R.id.lbTotal);
 		final TextView lbWins = (TextView) findViewById(R.id.lbWins);
+		final Button btnRank = (Button) findViewById(R.id.btnRank);
 
 		final ListView myResultList = (ListView) findViewById(R.id.listViewResults);
 
@@ -187,9 +188,9 @@ public class StatsActivity extends Activity {
 				win = (win * 100) / total;
 			}
 
-			lbTotal.setText(lbTotal.getText() + " " + String.format("%.0f", total));
+			lbTotal.setText(lbTotal.getText() + " " + String.valueOf(total));
 
-			lbWins.setText(lbWins.getText() + " " + String.format("%.1f", win)
+			lbWins.setText(lbWins.getText() + " " + String.format("%.2f", win)
 					+ "%");
 
 			MyResultAdapter oAdapter = new MyResultAdapter(this,
@@ -200,6 +201,18 @@ public class StatsActivity extends Activity {
 			Toast.makeText(getApplicationContext(), Const.TOAST_STATS,
 					Toast.LENGTH_LONG).show();
 		}
+		
+		btnRank.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				Intent intentOpenRank = new Intent(StatsActivity.this,
+						RankActivity.class);
+
+				startActivity(intentOpenRank);
+				
+			}
+		});
 
 		myResultList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -248,8 +261,10 @@ public class StatsActivity extends Activity {
 
 				sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
 						Const.SHARE_SUBJECT);
+				
 				sendIntent.putExtra(android.content.Intent.EXTRA_TEXT,
 						shareString);
+				
 				sendIntent.setType("text/plain");
 
 				startActivity(Intent.createChooser(sendIntent,
