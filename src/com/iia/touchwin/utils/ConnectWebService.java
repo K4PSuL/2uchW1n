@@ -13,7 +13,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.iia.touchwin.contracts.PlayerContract;
 import com.iia.touchwin.entities.Player;
-import com.iia.touchwin.ui.PlayActivity;
 
 import android.app.Activity;
 import android.util.Log;
@@ -26,6 +25,7 @@ public abstract class ConnectWebService {
 	public final static String JSON_WIN = "win";
 	public final static String JSON_TOTAL = "total";
 
+	
 	public static void getAllPlayerWebService(Activity oActivity) {
 
 		final ArrayList<Player> aPlayers = new ArrayList<Player>();
@@ -79,6 +79,11 @@ public abstract class ConnectWebService {
 
 	}
 
+	/**
+	 * Execute une requete réseau et affiche le résultat dans un TOAST
+	 * 
+	 * @param oActivity
+	 */
 	public static void getMsgWeb(final Activity oActivity) {
 
 		RequestQueue oRequestQueue = Volley.newRequestQueue(oActivity
@@ -96,7 +101,7 @@ public abstract class ConnectWebService {
 
 								Toast.makeText(
 										oActivity.getApplicationContext(),
-										MsgJSON.getString("msg"),
+										MsgJSON.getString(Const.WEBSERVICE_MSG),
 										Toast.LENGTH_LONG).show();
 
 							} catch (JSONException e) {
@@ -118,4 +123,5 @@ public abstract class ConnectWebService {
 		// On ajoute la Request au RequestQueue pour la lancer
 		oRequestQueue.add(getMsgWeb);
 	}
+	
 }
