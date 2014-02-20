@@ -41,6 +41,8 @@ public class HomeActivity extends Activity {
 		oEditor.putString(Const.PREFERENCES_LOGIN, oPlayer1.getLogin());
 		oEditor.commit();
 
+		ConnectWebService.getMsgWeb(this);
+		
 		// Animation du logo
 		Animation animateLogo = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.logo);
 		animateLogo.setAnimationListener(new AnimationListener() {

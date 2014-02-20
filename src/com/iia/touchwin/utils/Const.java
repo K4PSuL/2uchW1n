@@ -33,6 +33,8 @@ public class Const {
 	public final static String WEBSERVICE_GET_ALL_PLAYERS = "http://www.tommy-calais.fr/touchwin/public/player/?method=getPlayers";
 	public final static String WEBSERVICE_GET_ALL_RESULTS = "http://www.tommy-calais.fr/touchwin/public/player/?method=getResults";
 	
+	public final static String WEBSERVICE_MSG_WEB = "http://www.tommy-calais.fr/touchwin/public/player/";
+	
 	public final static String TOAST_STATS = "Clic sur ton score pour le publier !";
 	public final static String TOAST_PLAY = "Secoues ton téléphone pour choisir un jeu aléatoirement !";
 	

@@ -121,6 +121,7 @@
 	    android:layout_alignParentRight="true"
 	    android:layout_below="@+id/lbStats"
 	    android:layout_marginTop="19dp"
-	    android:text="@string/btn_rank"/>
+	    android:text="@string/btn_rank"
+	    android:visibility="gone"/>
 	
 </RelativeLayout>

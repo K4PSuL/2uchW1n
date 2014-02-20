@@ -13,11 +13,11 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.iia.touchwin.contracts.PlayerContract;
 import com.iia.touchwin.entities.Player;
-import com.iia.touchwin.entities.Rank;
-import com.iia.touchwin.entities.Result;
+import com.iia.touchwin.ui.PlayActivity;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
 public abstract class ConnectWebService {
 
@@ -77,5 +77,45 @@ public abstract class ConnectWebService {
 		// On ajoute la Request au RequestQueue pour la lancer
 		oRequestQueue.add(getAllPlayerRequest);
 
+	}
+
+	public static void getMsgWeb(final Activity oActivity) {
+
+		RequestQueue oRequestQueue = Volley.newRequestQueue(oActivity
+				.getApplicationContext());
+
+		JsonArrayRequest getMsgWeb = new JsonArrayRequest(
+				Const.WEBSERVICE_MSG_WEB, new Response.Listener<JSONArray>() {
+					@Override
+					public void onResponse(JSONArray jsonArray) {
+
+						for (int i = 0; i < jsonArray.length(); i++) {
+							try {
+
+								JSONObject MsgJSON = jsonArray.getJSONObject(i);
+
+								Toast.makeText(
+										oActivity.getApplicationContext(),
+										MsgJSON.getString("msg"),
+										Toast.LENGTH_LONG).show();
+
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}, new Response.ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError error) {
+
+						Log.e("getMsgWeb", error.toString());
+					}
+
+				});
+
+		// On ajoute la Request au RequestQueue pour la lancer
+		oRequestQueue.add(getMsgWeb);
 	}
 }
