@@ -170,7 +170,7 @@ public abstract class PlayerRequest {
 	}
 	
 	/**
-	 * Enregistre un nouveau player
+	 * Enregistre un nouveau joueur
 	 * 
 	 * @param oActivity
 	 * @param login
