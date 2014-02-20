@@ -17,8 +17,9 @@ public class FragmentStep1 extends Fragment {
 		if (container == null) {
 			return null;
 		}
-		//return super.onCreateView(inflater, container, savedInstanceState);
-		return (RelativeLayout) inflater.inflate(R.layout.fragment_step1, container, false);
+
+		return (RelativeLayout) inflater.inflate(R.layout.fragment_step1,
+				container, false);
 	}
-	
+
 }

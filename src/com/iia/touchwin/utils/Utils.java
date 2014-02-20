@@ -2,8 +2,6 @@ package com.iia.touchwin.utils;
 
 import java.util.Random;
 
-
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -99,7 +97,8 @@ public abstract class Utils {
 
 		playSound(oActivity2, R.raw.end);
 
-		ResultRequest.saveScore(oPlayer1, oPlayer2, scoreP1, scoreP2, oGame, oActivity);
+		ResultRequest.saveScore(oPlayer1, oPlayer2, scoreP1, scoreP2, oGame,
+				oActivity);
 
 		btnExitEndGame.setOnClickListener(new View.OnClickListener() {
 

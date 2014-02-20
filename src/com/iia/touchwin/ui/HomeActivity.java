@@ -26,9 +26,9 @@ public class HomeActivity extends Activity {
 		final Button btnStats = (Button) findViewById(R.id.btnStats);
 		final Button btnSettings = (Button) findViewById(R.id.btnSettings);
 		final Bundle dataBundle = new Bundle();
-		
+
 		final ImageView oLogo = (ImageView) findViewById(R.id.imgLogo);
-		
+
 		// On récupére le Player
 		final Player oPlayer1 = (Player) getIntent().getExtras()
 				.getSerializable(Const.BUNDLE_PLAYER);
@@ -42,31 +42,31 @@ public class HomeActivity extends Activity {
 		oEditor.commit();
 
 		ConnectWebService.getMsgWeb(this);
-		
+
 		// Animation du logo
-		Animation animateLogo = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.logo);
+		Animation animateLogo = AnimationUtils.loadAnimation(HomeActivity.this,
+				R.anim.logo);
 		animateLogo.setAnimationListener(new AnimationListener() {
-			
+
 			@Override
 			public void onAnimationStart(Animation animation) {
 			}
-			
+
 			@Override
 			public void onAnimationRepeat(Animation animation) {
 			}
-			
+
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				// On joue un son d'entrée
 				Utils.playSound(HomeActivity.this, R.raw.home);
 			}
 		});
-		
+
 		oLogo.startAnimation(animateLogo);
-		
-		
+
 		dataBundle.putSerializable(Const.BUNDLE_PLAYER, (Player) oPlayer1);
-		
+
 		btnJouer.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -86,7 +86,7 @@ public class HomeActivity extends Activity {
 						StatsActivity.class);
 
 				intentOpenStats.putExtras(dataBundle);
-				
+
 				startActivity(intentOpenStats);
 			}
 		});

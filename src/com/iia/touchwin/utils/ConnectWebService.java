@@ -25,7 +25,6 @@ public abstract class ConnectWebService {
 	public final static String JSON_WIN = "win";
 	public final static String JSON_TOTAL = "total";
 
-	
 	public static void getAllPlayerWebService(Activity oActivity) {
 
 		final ArrayList<Player> aPlayers = new ArrayList<Player>();
@@ -123,5 +122,5 @@ public abstract class ConnectWebService {
 		// On ajoute la Request au RequestQueue pour la lancer
 		oRequestQueue.add(getMsgWeb);
 	}
-	
+
 }

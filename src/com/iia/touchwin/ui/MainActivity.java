@@ -50,8 +50,8 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 
 				// On vérifie les identifiants fournis par l'utilisateur
-				Player oPlayer1 = PlayerRequest.authentication(MainActivity.this,
-						editLogin, editPassword);
+				Player oPlayer1 = PlayerRequest.authentication(
+						MainActivity.this, editLogin, editPassword);
 
 				if (oPlayer1 != null) {
 					Bundle dataBundle = new Bundle();
@@ -83,8 +83,8 @@ public class MainActivity extends Activity {
 				myValuesPlayer.put(PlayerContract.COL_LOGIN, "Lokoi");
 				myValuesPlayer.put(PlayerContract.COL_PASSWORD, "");
 				new DateTime();
-				myValuesPlayer.put(PlayerContract.COL_DATECREATE,
-						DateTime.now().toString("dd/MM/YYYY"));
+				myValuesPlayer.put(PlayerContract.COL_DATECREATE, DateTime
+						.now().toString("dd/MM/YYYY"));
 				myValuesPlayer.put(PlayerContract.COL_AVATAR, "/img/lokoi.png");
 				myValuesPlayer.put(PlayerContract.COL_ENABLE, true);
 				myValuesPlayer.put(PlayerContract.COL_BIRTHDATE, "17/07/1992");
@@ -95,8 +95,8 @@ public class MainActivity extends Activity {
 				myValuesPlayer2.put(PlayerContract.COL_LOGIN, "Chouk");
 				myValuesPlayer2.put(PlayerContract.COL_PASSWORD, "");
 				new DateTime();
-				myValuesPlayer2.put(PlayerContract.COL_DATECREATE,
-						DateTime.now().toString("dd/MM/YYYY"));
+				myValuesPlayer2.put(PlayerContract.COL_DATECREATE, DateTime
+						.now().toString("dd/MM/YYYY"));
 				myValuesPlayer2
 						.put(PlayerContract.COL_AVATAR, "/img/chouk.png");
 				myValuesPlayer2.put(PlayerContract.COL_ENABLE, true);
@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
 				myValuesGame.put(GameContract.COL_LIBELLE, "Couleur");
 
 				dataBase.insert(GameContract.TABLE, null, myValuesGame);
-				
+
 				ContentValues myValuesGame2 = new ContentValues();
 				myValuesGame2.put(GameContract.COL_LIBELLE, "Calcul");
 
@@ -120,8 +120,8 @@ public class MainActivity extends Activity {
 
 				ContentValues myValuesResult1 = new ContentValues();
 				new DateTime();
-				myValuesResult1.put(ResultContract.COL_PLAYDATE,
-						DateTime.now().toString("dd/MM/YYYY"));
+				myValuesResult1.put(ResultContract.COL_PLAYDATE, DateTime.now()
+						.toString("dd/MM/YYYY"));
 				myValuesResult1.put(ResultContract.COL_ID_GAME, 1);
 				myValuesResult1.put(ResultContract.COL_PLAYER1, 1);
 				myValuesResult1.put(ResultContract.COL_PLAYER2, 2);
@@ -132,8 +132,8 @@ public class MainActivity extends Activity {
 
 				ContentValues myValuesResult2 = new ContentValues();
 				new DateTime();
-				myValuesResult2.put(ResultContract.COL_PLAYDATE,
-						DateTime.now().toString("dd/MM/YYYY"));
+				myValuesResult2.put(ResultContract.COL_PLAYDATE, DateTime.now()
+						.toString("dd/MM/YYYY"));
 				myValuesResult2.put(ResultContract.COL_ID_GAME, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER1, 1);
 				myValuesResult2.put(ResultContract.COL_PLAYER2, 2);
@@ -143,12 +143,12 @@ public class MainActivity extends Activity {
 				dataBase.insert(ResultContract.TABLE, null, myValuesResult2);
 			}
 		});
-		
+
 		btnRegister.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intentOpenHome = new Intent(MainActivity.this,
-							RegisterActivity.class);
+						RegisterActivity.class);
 
 				startActivity(intentOpenHome);
 			}

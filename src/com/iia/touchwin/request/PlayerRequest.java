@@ -133,7 +133,7 @@ public abstract class PlayerRequest {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Regarde si un login existe ou non
 	 * 
@@ -155,8 +155,8 @@ public abstract class PlayerRequest {
 
 		// Requête sur la BDD
 		Cursor oCursor = dataBase.query(PlayerContract.TABLE,
-				PlayerContract.COLS, PlayerContract.COL_LOGIN + "=?", whereArg, null,
-				null, null);
+				PlayerContract.COLS, PlayerContract.COL_LOGIN + "=?", whereArg,
+				null, null, null);
 
 		// Si au moins un résultat...
 		if (oCursor.moveToFirst()) {
@@ -164,10 +164,10 @@ public abstract class PlayerRequest {
 		} else {
 			result = false;
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * Enregistre un nouveau player
 	 * 
@@ -175,7 +175,8 @@ public abstract class PlayerRequest {
 	 * @param login
 	 * @return
 	 */
-	public static void register(Activity oActivity, EditText login, EditText password) {
+	public static void register(Activity oActivity, EditText login,
+			EditText password) {
 
 		TouchWinSqlLiteOpenHelper oDbHelper = new TouchWinSqlLiteOpenHelper(
 				oActivity.getApplicationContext(), Const.DATABASE, null, 1);
@@ -184,12 +185,15 @@ public abstract class PlayerRequest {
 		SQLiteDatabase dataBase = oDbHelper.getWritableDatabase();
 
 		ContentValues myValuesPlayer = new ContentValues();
-		myValuesPlayer.put(PlayerContract.COL_LOGIN, login.getText().toString());
-		myValuesPlayer.put(PlayerContract.COL_PASSWORD, password.getText().toString());
+		myValuesPlayer
+				.put(PlayerContract.COL_LOGIN, login.getText().toString());
+		myValuesPlayer.put(PlayerContract.COL_PASSWORD, password.getText()
+				.toString());
 		new DateTime();
-		myValuesPlayer.put(PlayerContract.COL_DATECREATE,
-				DateTime.now().toString("dd/MM/YYYY"));
-		myValuesPlayer.put(PlayerContract.COL_AVATAR, "/img/"+login.getText().toString()+".png");
+		myValuesPlayer.put(PlayerContract.COL_DATECREATE, DateTime.now()
+				.toString("dd/MM/YYYY"));
+		myValuesPlayer.put(PlayerContract.COL_AVATAR, "/img/"
+				+ login.getText().toString() + ".png");
 		myValuesPlayer.put(PlayerContract.COL_ENABLE, true);
 		myValuesPlayer.put(PlayerContract.COL_BIRTHDATE, "00/00/000");
 

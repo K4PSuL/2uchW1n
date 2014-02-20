@@ -30,7 +30,8 @@ public class RankActivity extends Activity {
 		private LayoutInflater monInflateur;
 
 		// On créer un adapater pour la listView
-		public MyRankAdapter(Context context, int resource, ArrayList<Rank> objects) {
+		public MyRankAdapter(Context context, int resource,
+				ArrayList<Rank> objects) {
 			super(context, resource, objects);
 
 			this.context = context;
@@ -68,12 +69,10 @@ public class RankActivity extends Activity {
 		// Initialisation du tableau de Results
 		final ArrayList<Rank> aRanks = new ArrayList<Rank>();
 
+		MyRankAdapter oAdapter = new MyRankAdapter(RankActivity.this,
+				R.layout.row_score, aRanks);
 
-		
-//		MyRankAdapter oAdapter = new MyRankAdapter(
-//				RankActivity.this, R.layout.row_score, aRanks);
-//
-//		myRankList.setAdapter(oAdapter);
-	
+		myRankList.setAdapter(oAdapter);
+
 	}
 }

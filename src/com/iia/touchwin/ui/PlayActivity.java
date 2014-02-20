@@ -65,7 +65,7 @@ public class PlayActivity extends Activity implements SensorEventListener {
 				Const.PREFERENCES_PLAYER2, Context.MODE_PRIVATE);
 
 		editPlayer1.setText(oPlayer1.getLogin());
-		
+
 		aGames = GameRequest.getAllGame(PlayActivity.this);
 
 		// Déclaration des sensors
@@ -74,9 +74,9 @@ public class PlayActivity extends Activity implements SensorEventListener {
 		oAccelerometer = oSensorManager
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-		Toast.makeText(getApplicationContext(), Const.TOAST_PLAY, 
-				   Toast.LENGTH_LONG).show();
-		
+		Toast.makeText(getApplicationContext(), Const.TOAST_PLAY,
+				Toast.LENGTH_LONG).show();
+
 		/* CHOIX DU JOUEUR 2 */
 		editPlayer2.setOnClickListener(new View.OnClickListener() {
 
@@ -118,8 +118,9 @@ public class PlayActivity extends Activity implements SensorEventListener {
 					@Override
 					public void onClick(View v) {
 
-						oPlayer2 = PlayerRequest.authentication(PlayActivity.this,
-								editLoginDialog, editPwdDialog);
+						oPlayer2 = PlayerRequest.authentication(
+								PlayActivity.this, editLoginDialog,
+								editPwdDialog);
 
 						if (oPlayer2 != null) {
 							if (oPlayer1.getId() == oPlayer2.getId()) {
@@ -296,16 +297,16 @@ public class PlayActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent arg0) {
 		float x = 0, y = 0, z = 0;
-		
+
 		if (arg0.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 			x = arg0.values[0];
 			y = arg0.values[1];
 			z = arg0.values[2];
 		}
-		
+
 		// Si un mouvement a était détécté, on choisi un jeu aléatoirement
 		if (x > 12 || y > 12 || z > 12) {
-			
+
 			if (aGames != null) {
 				int random;
 				random = Utils.randomNumber(0, aGames.size());

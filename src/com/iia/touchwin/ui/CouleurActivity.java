@@ -122,7 +122,7 @@ public class CouleurActivity extends Activity implements View.OnClickListener {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -133,13 +133,12 @@ public class CouleurActivity extends Activity implements View.OnClickListener {
 			if (oChronoAsyncTask != null) {
 				oChronoAsyncTask.cancel(true);
 			}
-			
+
 			this.finish();
 		}
-		
+
 		return super.onKeyDown(keyCode, event);
 	}
-
 
 	/**
 	 * Incrémente le score du joueur ayant remporté le round
@@ -330,7 +329,7 @@ public class CouleurActivity extends Activity implements View.OnClickListener {
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			boolean stop = false;
-			
+
 			while ((isCancelled() == false) && (stop == false)) {
 				publishProgress(5);
 				SystemClock.sleep(1000);
@@ -345,7 +344,7 @@ public class CouleurActivity extends Activity implements View.OnClickListener {
 				publishProgress(0);
 				SystemClock.sleep(1000);
 				publishProgress(-1);
-				
+
 				stop = true;
 			}
 			return null;

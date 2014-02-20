@@ -44,5 +44,5 @@ public abstract class ResultRequest {
 
 		dataBase.insert(ResultContract.TABLE, null, myValuesResult);
 	}
-	
+
 }

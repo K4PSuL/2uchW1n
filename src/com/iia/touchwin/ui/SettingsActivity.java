@@ -21,8 +21,6 @@ public class SettingsActivity extends Activity {
 
 		final CheckBox checkBoxSound = (CheckBox) findViewById(R.id.checkBoxSound);
 		final Button btnHelp = (Button) findViewById(R.id.btnHelp);
-//		final Player thePlayer = (Player) getIntent().getExtras()
-//				.getSerializable(Const.BUNDLE_PLAYER);
 
 		final SharedPreferences oSettings = this.getSharedPreferences(
 				Const.PREFERENCES_PLAYER, Context.MODE_PRIVATE);
@@ -33,6 +31,7 @@ public class SettingsActivity extends Activity {
 		checkBoxSound.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
 				// On enregistre le nouveau parametre de son dans le
 				// SharedPreferences
 				SharedPreferences.Editor oEditor = oSettings.edit();
@@ -46,17 +45,16 @@ public class SettingsActivity extends Activity {
 				oEditor.commit();
 			}
 		});
-		
-		
+
 		btnHelp.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+
 				Intent intentOpenHelp = new Intent(SettingsActivity.this,
 						HelpActivity.class);
-				
+
 				startActivity(intentOpenHelp);
-				
+
 			}
 		});
 

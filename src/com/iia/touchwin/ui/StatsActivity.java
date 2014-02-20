@@ -110,7 +110,7 @@ public class StatsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_stats);
 
-//		ConnectWebService.getAllWebService(this);
+		// ConnectWebService.getAllWebService(this);
 
 		double total = 0;
 		double win = 0;
@@ -201,16 +201,16 @@ public class StatsActivity extends Activity {
 			Toast.makeText(getApplicationContext(), Const.TOAST_STATS,
 					Toast.LENGTH_LONG).show();
 		}
-		
+
 		btnRank.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+
 				Intent intentOpenRank = new Intent(StatsActivity.this,
 						RankActivity.class);
 
 				startActivity(intentOpenRank);
-				
+
 			}
 		});
 
@@ -261,10 +261,10 @@ public class StatsActivity extends Activity {
 
 				sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
 						Const.SHARE_SUBJECT);
-				
+
 				sendIntent.putExtra(android.content.Intent.EXTRA_TEXT,
 						shareString);
-				
+
 				sendIntent.setType("text/plain");
 
 				startActivity(Intent.createChooser(sendIntent,
